@@ -10,7 +10,7 @@ export default function HomeAdmScreen() {
         Painel do Administrador
       </Text>
 
-      <View className="w-full max-w-sm space-y-4">
+      <View className="w-full max-w-sm space-y-4 gap-4">
         <TouchableOpacity
           onPress={() => navigation.navigate("CadastroFuncionario")}
           className="bg-blue-600 py-4 rounded-xl shadow-md"

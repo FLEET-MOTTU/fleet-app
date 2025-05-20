@@ -1,16 +1,12 @@
-import axios from "axios";
+import API from "./api";
 
-const API_BASE_URL = "http://localhost:8080";
-
-interface LoginData {
-  login: string;
-  senha: string;
-}
-
-export const loginAdm = async ({ login, senha }: LoginData) => {
-  const response = await axios.post(`${API_BASE_URL}/auth/login-adm`, {
+// Faz login do administrador
+export const loginAdm = async ({ login, senha }) => {
+  const response = await API.post("/auth/login-adm", {
     login,
     senha,
   });
+
+  // Espera receber um objeto com { token: "..." }
   return response.data;
 };
