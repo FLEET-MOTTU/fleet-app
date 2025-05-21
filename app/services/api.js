@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Configure o axios com a base da sua API
 const API = axios.create({
-  baseURL: "http://localhost:8080", // ⬅️ substitua pelo IP da máquina no celular, se for necessário
+  baseURL: "http://localhost:8080",
 });
 
 // Interceptor para incluir o token no header Authorization

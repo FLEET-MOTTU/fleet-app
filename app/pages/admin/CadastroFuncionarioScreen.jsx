@@ -1,11 +1,30 @@
 import { useState } from "react";
-import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  FlatList,
+} from "react-native";
 import API from "../../services/api";
+
+const MOCK_FUNCIONARIOS = [
+  { id: "1", nome: "João Silva", telefone: "11999999999", cargo: "Reboque" },
+  {
+    id: "2",
+    nome: "Maria Souza",
+    telefone: "11988888888",
+    cargo: "Operacional",
+  },
+  { id: "3", nome: "Carlos Lima", telefone: "11977777777", cargo: "Motorista" },
+];
 
 export default function CadastroFuncionarioScreen() {
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [cargo, setCargo] = useState("");
+  const [funcionarios, setFuncionarios] = useState(MOCK_FUNCIONARIOS);
 
   const handleCadastrar = async () => {
     if (!nome || !telefone || !cargo) {
@@ -14,11 +33,14 @@ export default function CadastroFuncionarioScreen() {
     }
 
     try {
-      await API.post("/funcionarios", {
+      // Simula cadastro mockado
+      const novoFuncionario = {
+        id: (funcionarios.length + 1).toString(),
         nome,
         telefone,
         cargo,
-      });
+      };
+      setFuncionarios([...funcionarios, novoFuncionario]);
       Alert.alert("Sucesso", "Funcionário cadastrado com sucesso!");
       setNome("");
       setTelefone("");
@@ -57,12 +79,25 @@ export default function CadastroFuncionarioScreen() {
 
       <TouchableOpacity
         onPress={handleCadastrar}
-        className="bg-blue-600 py-3 rounded-xl"
+        className="bg-blue-600 py-3 rounded-xl mb-8"
       >
         <Text className="text-white text-center font-semibold text-base">
           Cadastrar
         </Text>
       </TouchableOpacity>
+
+      <Text className="text-xl font-bold text-gray-800 mb-2">Funcionários</Text>
+      <FlatList
+        data={funcionarios}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View className="border-b border-gray-200 py-3">
+            <Text className="font-semibold">{item.nome}</Text>
+            <Text className="text-gray-600">{item.telefone}</Text>
+            <Text className="text-gray-600">{item.cargo}</Text>
+          </View>
+        )}
+      />
     </View>
   );
 }
