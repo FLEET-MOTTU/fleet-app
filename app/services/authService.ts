@@ -1,4 +1,4 @@
-import API from "./api";
+import API from "./apiJava";
 
 // Faz login do administrador
 export const loginAdm = async ({ login, senha }) => {
