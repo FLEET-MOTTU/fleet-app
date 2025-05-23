@@ -6,6 +6,7 @@ import ListagemFuncionariosScreen from "../pages/admin/ListagemFuncionariosScree
 import LoginAdmScreen from "../pages/admin/LoginAdmScreen";
 import CadastroMotoScreen from "../pages/funcionarios/CadastroMotoScreen";
 import HomeFuncionarioScreen from "../pages/funcionarios/HomeFuncionarioScreen";
+import ListagemMotosScreen from "../pages/funcionarios/ListagemMotosScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ export function AppNavigator() {
       {/*Funcionarios*/}
       <Stack.Screen name="HomeFuncionario" component={HomeFuncionarioScreen} />
       <Stack.Screen name="CadastroMoto" component={CadastroMotoScreen} />
+      <Stack.Screen name="ListagemMotos" component={ListagemMotosScreen} />
     </Stack.Navigator>
   );
 }
