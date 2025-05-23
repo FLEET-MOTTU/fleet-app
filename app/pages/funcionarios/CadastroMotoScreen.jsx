@@ -9,37 +9,59 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { cadastrarMoto } from "../../services/motoService";
 
 export default function CadastroMotoScreen() {
   const navigation = useNavigation();
   const [placa, setPlaca] = useState("");
-  const [modelo, setModelo] = useState("Mottu E");
-  const [estado, setEstado] = useState("Pendência");
+  const [modelo, setModelo] = useState("ModeloSport100");
+  const [estado, setEstado] = useState("PendenteColeta");
 
-  const estadosMoto = [
-    "Pendência",
-    "Reparos Simples",
-    "Danos Estruturais Graves",
-    "Motor Defeituoso",
-    "Agendada para Manutenção",
-    "Pronta para Aluguel",
-    "Sem Placa",
-    "Minha Mottu",
+  const modelosMoto = [
+    { label: "Mottu Sport", value: "ModeloSport100" },
+    { label: "Mottu Pop", value: "ModeloUrbana125" },
+    { label: "Mottu E", value: "ModeloTrilha150" },
   ];
 
-  const modelosMoto = ["Mottu E", "Mottu Sport", "Mottu Pop"];
+  const estadosMoto = [
+    { label: "Pendência", value: "PendenteColeta" },
+    { label: "Reparos Simples", value: "EmReparosSimples" },
+    { label: "Danos Estruturais Graves", value: "EmReparosComplexos" },
+    { label: "Motor Defeituoso", value: "ManutencaoInternaEmAndamento" },
+    {
+      label: "Agendada para Manutenção",
+      value: "AgendadaParaManutencaoExterna",
+    },
+    { label: "Pronta para Aluguel", value: "ProntaParaAluguel" },
+    { label: "Sem Placa", value: "SemPlacaEmColeta" },
+    { label: "Minha Mottu", value: "MinhaMottuEmColeta" },
+  ];
 
-  const handleConcluir = () => {
-    if (!placa && estado !== "Sem Placa") {
+  const handleConcluir = async () => {
+    if (!placa && estado !== "SemPlacaEmColeta") {
       Alert.alert("Erro", "A placa é obrigatória (exceto se for 'Sem Placa')");
       return;
     }
 
-    Alert.alert("Sucesso", "Cadastro concluído. Escaneie o QR Code no posto.");
-    setPlaca("");
-    setModelo("Mottu E");
-    setEstado("Pendência");
-    navigation.navigate("HomeFuncionario");
+    try {
+      await cadastrarMoto({
+        placa,
+        modelo,
+        statusMoto: estado,
+      });
+
+      Alert.alert(
+        "Sucesso",
+        "Cadastro concluído. Escaneie o QR Code no posto."
+      );
+      setPlaca("");
+      setModelo("ModeloSport100");
+      setEstado("PendenteColeta");
+      navigation.navigate("HomeFuncionario");
+    } catch (error) {
+      console.error("Erro ao cadastrar moto:", error);
+      Alert.alert("Erro", "Não foi possível cadastrar a moto.");
+    }
   };
 
   return (
@@ -59,7 +81,7 @@ export default function CadastroMotoScreen() {
       <View className="border border-gray-300 rounded-xl mb-4 overflow-hidden">
         <Picker selectedValue={modelo} onValueChange={(val) => setModelo(val)}>
           {modelosMoto.map((item, index) => (
-            <Picker.Item key={index} label={item} value={item} />
+            <Picker.Item key={index} label={item.label} value={item.value} />
           ))}
         </Picker>
       </View>
@@ -68,7 +90,7 @@ export default function CadastroMotoScreen() {
       <View className="border border-gray-300 rounded-xl mb-6 overflow-hidden">
         <Picker selectedValue={estado} onValueChange={(val) => setEstado(val)}>
           {estadosMoto.map((item, index) => (
-            <Picker.Item key={index} label={item} value={item} />
+            <Picker.Item key={index} label={item.label} value={item.value} />
           ))}
         </Picker>
       </View>

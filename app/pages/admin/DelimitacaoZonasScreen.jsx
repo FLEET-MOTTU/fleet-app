@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import API from "../../services/api";
+import API from "../../services/apiJava";
 
 export default function DelimitacaoZonasScreen() {
   const [zonas, setZonas] = useState([]);
