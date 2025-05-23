@@ -4,13 +4,16 @@ import DelimitacaoZonasScreen from "../pages/admin/DelimitacaoZonasScreen";
 import HomeAdmScreen from "../pages/admin/HomeAdmScreen";
 import ListagemFuncionariosScreen from "../pages/admin/ListagemFuncionariosScreen";
 import LoginAdmScreen from "../pages/admin/LoginAdmScreen";
+import CadastroMotoScreen from "../pages/funcionarios/CadastroMotoScreen";
+import HomeFuncionarioScreen from "../pages/funcionarios/HomeFuncionarioScreen";
 
 const Stack = createNativeStackNavigator();
 
 export function AppNavigator() {
   return (
+    //Administrador
     <Stack.Navigator
-      initialRouteName="HomeAdm"
+      initialRouteName="HomeFuncionario"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="LoginAdm" component={LoginAdmScreen} />
@@ -27,6 +30,9 @@ export function AppNavigator() {
         name="DelimitacaoZonas"
         component={DelimitacaoZonasScreen}
       />
+      {/*Funcionarios*/}
+      <Stack.Screen name="HomeFuncionario" component={HomeFuncionarioScreen} />
+      <Stack.Screen name="CadastroMoto" component={CadastroMotoScreen} />
     </Stack.Navigator>
   );
 }
