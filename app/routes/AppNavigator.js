@@ -14,7 +14,7 @@ export function AppNavigator() {
   return (
     //Administrador
     <Stack.Navigator
-      initialRouteName="HomeFuncionario"
+      initialRouteName="HomeAdm"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="LoginAdm" component={LoginAdmScreen} />

@@ -1,13 +1,12 @@
+import { API_JAVA_URL } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-// Configure o axios com a base da sua API
-const API = axios.create({
-  baseURL: "http://localhost:8080",
+const apiJava = axios.create({
+  baseURL: API_JAVA_URL,
 });
 
-// Interceptor para incluir o token no header Authorization
-API.interceptors.request.use(
+apiJava.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem("token");
     if (token) {
@@ -18,4 +17,4 @@ API.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export default API;
+export default apiJava;
