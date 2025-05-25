@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Alert, FlatList, Text, View, ActivityIndicator } from "react-native";
+import { ActivityIndicator, Alert, FlatList, Text, View } from "react-native";
 import { listarMotos } from "../../services/motoService";
 
 export default function ListagemMotosScreen() {
@@ -50,14 +50,6 @@ export default function ListagemMotosScreen() {
                 Entrada no pátio:{" "}
                 {item.dataEntradaPatio
                   ? new Date(item.dataEntradaPatio).toLocaleDateString("pt-BR")
-                  : "-"}
-              </Text>
-              <Text className="text-gray-500 text-sm">
-                Último visto:{" "}
-                {item.ultimaVezVistoEmPatio
-                  ? new Date(item.ultimaVezVistoEmPatio).toLocaleDateString(
-                      "pt-BR"
-                    )
                   : "-"}
               </Text>
               {item.tag?.codigoUnicoTag && (

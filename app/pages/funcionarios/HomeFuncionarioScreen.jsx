@@ -11,15 +11,6 @@ export default function HomeFuncionarioScreen() {
         Olá, {nomeFuncionario}
       </Text>
 
-      <View className="items-center mb-10">
-        <Text className="text-sm text-gray-500 mb-2">
-          QR Code Entrada/Saída
-        </Text>
-        <View className="w-40 h-40 bg-gray-200 rounded items-center justify-center">
-          <Text className="text-gray-400">[QR CODE AQUI]</Text>
-        </View>
-      </View>
-
       <TouchableOpacity
         onPress={() => navigation.navigate("VisualizacaoMapa")}
         className="bg-blue-600 py-4 rounded-xl mb-4 items-center"
