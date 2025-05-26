@@ -1,7 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { loginAdm } from "../../services/authService";
 
 export default function LoginAdmScreen() {
   const navigation = useNavigation();
@@ -9,20 +9,25 @@ export default function LoginAdmScreen() {
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = async () => {
-    try {
-      await loginAdm({ login, senha });
+  const handleLoginAdm = async () => {
+    if (login === "admin@fleet.com" && senha === "AdminSenhaForte!123") {
+      await AsyncStorage.setItem("usuario_tipo", "adm");
       navigation.navigate("HomeAdm");
-    } catch (err) {
+    } else {
       setError("Login inválido. Verifique suas credenciais.");
     }
+  };
+
+  const handleEntrarComoFuncionario = async () => {
+    await AsyncStorage.setItem("usuario_tipo", "funcionario");
+    navigation.navigate("HomeFuncionario");
   };
 
   return (
     <View className="flex-1 justify-center items-center bg-gray-100 px-6">
       <View className="w-full max-w-sm bg-white p-6 rounded-2xl shadow-md">
         <Text className="text-3xl font-bold text-center text-gray-800 mb-6">
-          Login ADM
+          Login
         </Text>
 
         <TextInput
@@ -46,11 +51,20 @@ export default function LoginAdmScreen() {
         )}
 
         <TouchableOpacity
-          onPress={handleLogin}
+          onPress={handleLoginAdm}
           className="bg-blue-600 rounded-xl py-3 mb-3 active:opacity-80"
         >
           <Text className="text-white text-center font-semibold text-base">
-            Entrar
+            Entrar como ADM
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={handleEntrarComoFuncionario}
+          className="bg-gray-700 rounded-xl py-3 mb-3 active:opacity-80"
+        >
+          <Text className="text-white text-center font-semibold text-base">
+            Entrar como Funcionário
           </Text>
         </TouchableOpacity>
 

@@ -7,6 +7,7 @@ import LoginAdmScreen from "../pages/admin/LoginAdmScreen";
 import CadastroMotoScreen from "../pages/funcionarios/CadastroMotoScreen";
 import HomeFuncionarioScreen from "../pages/funcionarios/HomeFuncionarioScreen";
 import ListagemMotosScreen from "../pages/funcionarios/ListagemMotosScreen";
+import VisualizacaoMapaScreen from "../pages/funcionarios/VisualizacaoMapaScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,7 +15,7 @@ export function AppNavigator() {
   return (
     //Administrador
     <Stack.Navigator
-      initialRouteName="HomeAdm"
+      initialRouteName="LoginAdm"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="LoginAdm" component={LoginAdmScreen} />
@@ -35,6 +36,10 @@ export function AppNavigator() {
       <Stack.Screen name="HomeFuncionario" component={HomeFuncionarioScreen} />
       <Stack.Screen name="CadastroMoto" component={CadastroMotoScreen} />
       <Stack.Screen name="ListagemMotos" component={ListagemMotosScreen} />
+      <Stack.Screen
+        name="VisualizacaoMapa"
+        component={VisualizacaoMapaScreen}
+      />
     </Stack.Navigator>
   );
 }
