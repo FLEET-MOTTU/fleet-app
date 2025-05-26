@@ -2,6 +2,22 @@
 
 > Solução mobile desenvolvida em React Native com gerenciamento para administradores e funcionários. O projeto permite cadastro, listagem e visualização de motos, além da delimitação de zonas no mapa.
 
+Com o objetivo de rastrear, organizar e gerenciar a movimentação de motos nos pátios da empresa **Mottu**.
+
+---
+
+## 💡 Visão Geral da Solução
+
+O sistema _FLEET_ foi idealizado para resolver um problema real da empresa Mottu no controle de entrada, alocação e saída de motos em seus pátios. Ele utiliza como conceito base:
+
+- Mapeamento do pátio com zonas delimitadas (ex: Manutenção, Aprovadas, Vistoria)
+- Cadastro e rastreamento de motos com status atualizado em tempo real
+- Alocação automática da moto em uma zona adequada
+- Utilização de beacons e tags Bluetooth Low Energy (BLE) para rastreamento interno
+- Interface para controle visual da localização e status das motos
+
+---
+
 ---
 
 ## 👥 Integrantes
