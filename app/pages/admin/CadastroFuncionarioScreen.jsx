@@ -1,28 +1,19 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   FlatList,
-  Modal,
   Platform,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-
-const MOCK_FUNCIONARIOS = [
-  {
-    id: "1",
-    nome: "João Silva",
-    telefone: "11999999999",
-    cargo: "Reboque",
-    codigo: "FUNC-001",
-    status: "Ativo",
-    dataAdmissao: "2024-01-10T00:00:00Z",
-  },
-];
+import {
+  cadastrarFuncionario,
+  listarFuncionarios,
+} from "../../services/funcionarioService";
 
 export default function CadastroFuncionarioScreen() {
   const [nome, setNome] = useState("");
@@ -33,7 +24,7 @@ export default function CadastroFuncionarioScreen() {
   );
   const [dataAdmissao, setDataAdmissao] = useState(new Date());
   const [mostrarDatePicker, setMostrarDatePicker] = useState(false);
-  const [funcionarios, setFuncionarios] = useState(MOCK_FUNCIONARIOS);
+  const [funcionarios, setFuncionarios] = useState([]);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [funcionarioSelecionado, setFuncionarioSelecionado] = useState(null);
@@ -44,29 +35,58 @@ export default function CadastroFuncionarioScreen() {
     setDataAdmissao(currentDate);
   };
 
-  const handleCadastrar = () => {
+  const carregarFuncionarios = async () => {
+    try {
+      console.log("📡 Buscando funcionários...");
+      const response = await listarFuncionarios();
+      console.log("📥 Funcionários recebidos:", response.data);
+      setFuncionarios(response.data);
+    } catch (error) {
+      console.error(
+        "❌ Erro ao buscar funcionários:",
+        error.response?.data || error.message
+      );
+      Alert.alert("Erro", "Não foi possível carregar os funcionários.");
+    }
+  };
+
+  useEffect(() => {
+    carregarFuncionarios();
+  }, []);
+
+  const handleCadastrar = async () => {
     if (!nome || !telefone || !funcao) {
       Alert.alert("Erro", "Preencha todos os campos");
       return;
     }
 
     const novoFuncionario = {
-      id: (funcionarios.length + 1).toString(),
       nome,
       telefone,
       cargo: funcao,
-      codigo,
-      status: "Ativo",
-      dataAdmissao: dataAdmissao.toISOString(),
+      login: nome.toLowerCase().replace(/\s/g, ""),
+      senha: "12345678",
+      isAdm: false,
     };
 
-    setFuncionarios([...funcionarios, novoFuncionario]);
-    Alert.alert("Sucesso", "Funcionário cadastrado com sucesso!");
-    setNome("");
-    setTelefone("");
-    setFuncao("Operacional");
-    setCodigo("FUNC-00" + Math.floor(Math.random() * 100));
-    setDataAdmissao(new Date());
+    console.log("📤 Enviando funcionário:", novoFuncionario);
+
+    try {
+      await cadastrarFuncionario(novoFuncionario);
+      Alert.alert("Sucesso", "Funcionário cadastrado com sucesso!");
+      setNome("");
+      setTelefone("");
+      setFuncao("Operacional");
+      setCodigo("FUNC-00" + Math.floor(Math.random() * 100));
+      setDataAdmissao(new Date());
+      carregarFuncionarios();
+    } catch (error) {
+      console.error(
+        "❌ Erro ao cadastrar funcionário:",
+        error.response?.data || error.message
+      );
+      Alert.alert("Erro", "Não foi possível cadastrar o funcionário.");
+    }
   };
 
   const abrirModalEdicao = (func) => {
@@ -158,10 +178,12 @@ export default function CadastroFuncionarioScreen() {
               <Text className="text-gray-600">
                 Status: {item.status ?? "Ativo"}
               </Text>
-              <Text className="text-gray-500 text-sm">
-                Admissão:{" "}
-                {new Date(item.dataAdmissao).toLocaleDateString("pt-BR")}
-              </Text>
+              {item.ultimoLogin && (
+                <Text className="text-gray-500 text-sm">
+                  Último login:{" "}
+                  {new Date(item.ultimoLogin).toLocaleDateString("pt-BR")}
+                </Text>
+              )}
             </View>
 
             <View className="flex-row gap-2">
@@ -194,91 +216,6 @@ export default function CadastroFuncionarioScreen() {
           </View>
         )}
       />
-
-      {/* Modal de edição */}
-      <Modal visible={modalVisible} transparent animationType="slide">
-        <View className="flex-1 justify-center items-center bg-black/40 px-4">
-          <View className="bg-white rounded-xl p-6 w-full">
-            <Text className="text-xl font-bold mb-4">Editar Funcionário</Text>
-
-            <TextInput
-              placeholder="Nome"
-              value={funcionarioSelecionado?.nome}
-              onChangeText={(text) =>
-                setFuncionarioSelecionado((prev) => ({ ...prev, nome: text }))
-              }
-              className="border border-gray-300 rounded-xl px-4 py-3 mb-4"
-            />
-            <TextInput
-              placeholder="Telefone"
-              value={funcionarioSelecionado?.telefone}
-              onChangeText={(text) =>
-                setFuncionarioSelecionado((prev) => ({
-                  ...prev,
-                  telefone: text,
-                }))
-              }
-              className="border border-gray-300 rounded-xl px-4 py-3 mb-4"
-              keyboardType="phone-pad"
-            />
-
-            <Text className="mb-2 font-semibold">Função</Text>
-            <View className="border border-gray-300 rounded-xl mb-4 overflow-hidden">
-              <Picker
-                selectedValue={funcionarioSelecionado?.cargo}
-                onValueChange={(val) =>
-                  setFuncionarioSelecionado((prev) => ({
-                    ...prev,
-                    cargo: val,
-                  }))
-                }
-              >
-                <Picker.Item label="Operacional" value="Operacional" />
-                <Picker.Item label="Administrativo" value="Administrativo" />
-                <Picker.Item label="Temporário" value="Temporário" />
-              </Picker>
-            </View>
-
-            <Text className="mb-2 font-semibold">Código</Text>
-            <View className="bg-gray-100 rounded-xl px-4 py-3 mb-4">
-              <Text className="text-gray-500">
-                {funcionarioSelecionado?.codigo}
-              </Text>
-            </View>
-
-            <Text className="mb-2 font-semibold">Status</Text>
-            <View className="border border-gray-300 rounded-xl mb-6 overflow-hidden">
-              <Picker
-                selectedValue={funcionarioSelecionado?.status}
-                onValueChange={(val) =>
-                  setFuncionarioSelecionado((prev) => ({
-                    ...prev,
-                    status: val,
-                  }))
-                }
-              >
-                <Picker.Item label="Ativo" value="Ativo" />
-                <Picker.Item label="Inativo" value="Inativo" />
-              </Picker>
-            </View>
-
-            <TouchableOpacity
-              onPress={salvarEdicao}
-              className="bg-green-600 py-3 rounded-xl mb-2"
-            >
-              <Text className="text-white text-center font-semibold text-base">
-                Salvar
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text className="text-center text-gray-500 text-sm">
-                Cancelar
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
