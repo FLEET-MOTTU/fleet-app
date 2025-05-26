@@ -18,8 +18,6 @@ O sistema _FLEET_ foi idealizado para resolver um problema real da empresa Mottu
 
 ---
 
----
-
 ## 👥 Integrantes
 
 | Nome Completo                | RM       |
@@ -36,8 +34,8 @@ O sistema _FLEET_ foi idealizado para resolver um problema real da empresa Mottu
 
 - Login com autenticação local via AsyncStorage
 - Acesso separado por perfil:
-  - Administrador
-  - Funcionário
+  - **Administrador**
+  - **Funcionário**
 
 ### 👤 Administrador
 
@@ -88,3 +86,38 @@ npm install
 # Inicie o projeto
 npx expo start
 ```
+
+---
+
+## 🌐 Configuração de Ambiente (.env)
+
+Crie um arquivo chamado `.env.local` na raiz do projeto seguindo o modelo abaixo:
+
+```env
+# .env.local
+API_CSHARP_URL=http://10.0.2.2:8080/api
+```
+
+> 🧠 Isso é necessário para o funcionamento da **API em C#**, que lida com cadastro e listagem de motos.  
+> 💡 O IP `10.0.2.2` é usado como `localhost` dentro do emulador Android (Expo).
+
+### 🔗 Endpoints C# utilizados
+
+As seguintes telas utilizam a API REST da aplicação C# hospedada na porta 8080:
+
+| Tela              | Endpoint C# | Método |
+| ----------------- | ----------- | ------ |
+| Cadastro de Motos | `/motos`    | POST   |
+| Listagem de Motos | `/motos`    | GET    |
+
+---
+
+## 🧪 Observações Finais
+
+✅ Para testar a aplicação, certifique-se de:
+
+- Ter a API C# rodando localmente na porta `:8080`
+- Ter o arquivo `.env.local` configurado corretamente
+- Utilizar a **branch `fleet-18`** para acessar a versão estável da solução
+
+---
