@@ -10,24 +10,24 @@ export default function LoginAdmScreen() {
   const [error, setError] = useState("");
 
   const handleLoginAdm = async () => {
-    if (login === "admin@fleet.com" && senha === "AdminSenhaForte!123") {
-      await AsyncStorage.setItem("usuario_tipo", "adm");
-      navigation.navigate("HomeAdm");
+    if (login === "admin@fleet.com" && senha === "Admin123") {
+      await AsyncStorage.setItem("userRole", "admin");
+      navigation.navigate("AdminTabs");
     } else {
       setError("Login inválido. Verifique suas credenciais.");
     }
   };
 
-  const handleEntrarComoFuncionario = async () => {
-    await AsyncStorage.setItem("usuario_tipo", "funcionario");
-    navigation.navigate("HomeFuncionario");
+  const entrarComoFuncionario = async () => {
+    await AsyncStorage.setItem("userRole", "funcionario");
+    navigation.navigate("FuncionarioTabs");
   };
 
   return (
     <View className="flex-1 justify-center items-center bg-gray-100 px-6">
       <View className="w-full max-w-sm bg-white p-6 rounded-2xl shadow-md">
         <Text className="text-3xl font-bold text-center text-gray-800 mb-6">
-          Login
+          Login ADM
         </Text>
 
         <TextInput
@@ -60,8 +60,8 @@ export default function LoginAdmScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={handleEntrarComoFuncionario}
-          className="bg-gray-700 rounded-xl py-3 mb-3 active:opacity-80"
+          onPress={entrarComoFuncionario}
+          className="bg-green-600 rounded-xl py-3 mb-3 active:opacity-80"
         >
           <Text className="text-white text-center font-semibold text-base">
             Entrar como Funcionário
