@@ -116,7 +116,7 @@ As seguintes telas utilizam a API REST da aplicação C# hospedada na porta 8080
 
 ✅ Para testar a aplicação, certifique-se de:
 
-- Ter a API C# rodando localmente na porta `:8080`
+- Ter a API C# rodando localmente na porta `:8080` seguindo o README do repositorio de c# https://github.com/FLEET-MOTTU/C--POC
 - Ter o arquivo `.env.local` configurado corretamente
 - Utilizar a **branch `fleet-18`** para acessar a versão estável da solução
 
