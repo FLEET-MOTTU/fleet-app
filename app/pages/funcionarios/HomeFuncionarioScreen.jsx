@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import BotaoLogout from "../../components/BotaoLogout";
 
 export default function HomeFuncionarioScreen() {
   const navigation = useNavigation();
@@ -51,6 +52,8 @@ export default function HomeFuncionarioScreen() {
           Cadastrar Moto
         </Text>
       </TouchableOpacity>
+
+      <BotaoLogout />
     </View>
   );
 }

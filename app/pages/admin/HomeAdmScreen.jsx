@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { Text, TouchableOpacity, View } from "react-native";
+import BotaoLogout from "../../components/BotaoLogout";
 
 export default function HomeAdmScreen() {
   const navigation = useNavigation();
@@ -9,6 +10,10 @@ export default function HomeAdmScreen() {
       <Text className="text-2xl font-bold text-gray-800 mb-8">
         Painel do Administrador
       </Text>
+
+      <View className="w-full max-w-sm mb-6">
+        <BotaoLogout />
+      </View>
 
       <View className="w-full max-w-sm space-y-4 gap-4">
         <TouchableOpacity
