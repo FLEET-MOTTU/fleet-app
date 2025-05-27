@@ -1,4 +1,3 @@
-// 📄 app/pages/admin/DelimitacaoZonasScreen.js
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import {
@@ -11,10 +10,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Svg, { Polygon } from "react-native-svg";
+import Svg, { Polygon, Text as SvgText } from "react-native-svg";
 
 const screenWidth = Dimensions.get("window").width;
-const screenHeight = 400; // altura fixa da imagem
+const screenHeight = 400;
 
 export default function DelimitacaoZonasScreen() {
   const [nomeZona, setNomeZona] = useState("");
@@ -64,6 +63,21 @@ export default function DelimitacaoZonasScreen() {
     Alert.alert("Sucesso", "Zona delimitada com sucesso.");
   };
 
+  const handleExcluirZona = async (id) => {
+    const novaLista = zonas.filter((z) => z.id !== id);
+    setZonas(novaLista);
+    await salvarZonas(novaLista);
+  };
+
+  const calcularCentro = (pontos) => {
+    const coords = pontos.split(" ").map((pt) => pt.split(",").map(Number));
+    const xs = coords.map(([x]) => x);
+    const ys = coords.map(([, y]) => y);
+    const cx = xs.reduce((a, b) => a + b) / xs.length;
+    const cy = ys.reduce((a, b) => a + b) / ys.length;
+    return { cx, cy };
+  };
+
   return (
     <ScrollView className="flex-1 bg-white px-6 pt-10">
       <Text className="text-2xl font-bold text-gray-800 mb-4">
@@ -76,15 +90,29 @@ export default function DelimitacaoZonasScreen() {
           style={{ width: screenWidth - 48, height: screenHeight }}
         >
           <Svg height={screenHeight} width={screenWidth - 48}>
-            {zonas.map((zona) => (
-              <Polygon
-                key={zona.id}
-                points={zona.pontos}
-                fill="rgba(30, 144, 255, 0.4)"
-                stroke="blue"
-                strokeWidth="2"
-              />
-            ))}
+            {zonas.map((zona) => {
+              const { cx, cy } = calcularCentro(zona.pontos);
+              return (
+                <View key={zona.id}>
+                  <Polygon
+                    points={zona.pontos}
+                    fill="rgba(30, 144, 255, 0.4)"
+                    stroke="blue"
+                    strokeWidth="2"
+                  />
+                  <SvgText
+                    x={cx}
+                    y={cy}
+                    fill="black"
+                    fontSize="12"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    {zona.nome}
+                  </SvgText>
+                </View>
+              );
+            })}
           </Svg>
         </ImageBackground>
       </View>
@@ -115,11 +143,20 @@ export default function DelimitacaoZonasScreen() {
       <Text className="text-xl font-bold text-gray-800 mb-2">Zonas Salvas</Text>
       {zonas.map((zona) => (
         <View
-          key={zona.id}
+          key={`item-${zona.id}`}
           className="border border-gray-300 rounded-lg px-4 py-3 mb-3"
         >
           <Text className="font-semibold">{zona.nome}</Text>
           <Text className="text-gray-600">Tipo: {zona.tipo}</Text>
+
+          <TouchableOpacity
+            onPress={() => handleExcluirZona(zona.id)}
+            className="mt-2 bg-red-500 px-4 py-2 rounded"
+          >
+            <Text className="text-white text-sm text-center font-semibold">
+              Excluir Zona
+            </Text>
+          </TouchableOpacity>
         </View>
       ))}
     </ScrollView>
