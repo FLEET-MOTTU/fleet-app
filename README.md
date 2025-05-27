@@ -34,7 +34,7 @@ O sistema _FLEET_ foi idealizado para resolver um problema real da empresa Mottu
 
 - Login com autenticação local via AsyncStorage
 - Acesso separado por perfil:
-  - **Administrador**
+  - **Administrador** login:admin@fleet.com / senha:Admin123
   - **Funcionário**
 
 ### 👤 Administrador

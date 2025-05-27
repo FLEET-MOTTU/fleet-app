@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { ActivityIndicator, Alert, FlatList, Text, View } from "react-native";
 import { listarMotos } from "../../services/motoService";
 
@@ -7,6 +8,7 @@ export default function ListagemMotosScreen() {
   const [loading, setLoading] = useState(true);
 
   const carregarMotos = async () => {
+    setLoading(true);
     try {
       const response = await listarMotos();
       setMotos(response.data);
@@ -18,9 +20,11 @@ export default function ListagemMotosScreen() {
     }
   };
 
-  useEffect(() => {
-    carregarMotos();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      carregarMotos();
+    }, [])
+  );
 
   return (
     <View className="flex-1 bg-white px-6 pt-10">
