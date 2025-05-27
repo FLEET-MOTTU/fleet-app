@@ -50,12 +50,6 @@ export default function ListagemMotosScreen() {
                 Placa: {item.placa ?? "Sem Placa"}
               </Text>
               <Text className="text-gray-700">Status: {item.statusMoto}</Text>
-              <Text className="text-gray-500 text-sm">
-                Entrada no pátio:{" "}
-                {item.dataEntradaPatio
-                  ? new Date(item.dataEntradaPatio).toLocaleDateString("pt-BR")
-                  : "-"}
-              </Text>
               {item.tag?.codigoUnicoTag && (
                 <Text className="text-gray-600 text-sm">
                   Tag: {item.tag.codigoUnicoTag}
