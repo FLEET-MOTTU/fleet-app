@@ -11,10 +11,6 @@ export default function HomeAdmScreen() {
         Painel do Administrador
       </Text>
 
-      <View className="w-full max-w-sm mb-6">
-        <BotaoLogout />
-      </View>
-
       <View className="w-full max-w-sm space-y-4 gap-4">
         <TouchableOpacity
           onPress={() => navigation.navigate("CadastroFuncionario")}
@@ -42,6 +38,10 @@ export default function HomeAdmScreen() {
             Delimitação de Zona
           </Text>
         </TouchableOpacity>
+
+        <View className="w-full max-w-sm mb-6">
+          <BotaoLogout />
+        </View>
       </View>
     </View>
   );

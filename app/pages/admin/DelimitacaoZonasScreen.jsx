@@ -4,13 +4,14 @@ import {
   Alert,
   Dimensions,
   ImageBackground,
+  Pressable,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import Svg, { Polygon, Text as SvgText } from "react-native-svg";
+import Svg, { Circle, Polygon } from "react-native-svg";
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = 400;
@@ -19,6 +20,7 @@ export default function DelimitacaoZonasScreen() {
   const [nomeZona, setNomeZona] = useState("");
   const [tipoZona, setTipoZona] = useState("");
   const [zonas, setZonas] = useState([]);
+  const [pontosZonaAtual, setPontosZonaAtual] = useState([]);
 
   const carregarZonas = async () => {
     try {
@@ -42,8 +44,8 @@ export default function DelimitacaoZonasScreen() {
   }, []);
 
   const handleSalvar = async () => {
-    if (!nomeZona || !tipoZona) {
-      Alert.alert("Erro", "Preencha o nome e tipo da zona.");
+    if (!nomeZona || !tipoZona || pontosZonaAtual.length < 3) {
+      Alert.alert("Erro", "Preencha todos os campos e desenhe a zona.");
       return;
     }
 
@@ -51,7 +53,7 @@ export default function DelimitacaoZonasScreen() {
       id: Date.now().toString(),
       nome: nomeZona,
       tipo: tipoZona,
-      pontos: "50,60 100,40 120,140 80,160", // coordenadas mock
+      pontos: pontosZonaAtual.map((p) => `${p.x},${p.y}`).join(" "),
     };
 
     const novaLista = [...zonas, novaZona];
@@ -60,22 +62,20 @@ export default function DelimitacaoZonasScreen() {
 
     setNomeZona("");
     setTipoZona("");
+    setPontosZonaAtual([]);
     Alert.alert("Sucesso", "Zona delimitada com sucesso.");
   };
 
-  const handleExcluirZona = async (id) => {
-    const novaLista = zonas.filter((z) => z.id !== id);
+  const excluirZona = async (id) => {
+    const novaLista = zonas.filter((zona) => zona.id !== id);
     setZonas(novaLista);
     await salvarZonas(novaLista);
   };
 
-  const calcularCentro = (pontos) => {
-    const coords = pontos.split(" ").map((pt) => pt.split(",").map(Number));
-    const xs = coords.map(([x]) => x);
-    const ys = coords.map(([, y]) => y);
-    const cx = xs.reduce((a, b) => a + b) / xs.length;
-    const cy = ys.reduce((a, b) => a + b) / ys.length;
-    return { cx, cy };
+  const handlePressImage = (event) => {
+    const { locationX, locationY } = event.nativeEvent;
+    const novoPonto = { x: locationX, y: locationY };
+    setPontosZonaAtual((prev) => [...prev, novoPonto]);
   };
 
   return (
@@ -84,44 +84,45 @@ export default function DelimitacaoZonasScreen() {
         Delimitação de Zona
       </Text>
 
-      <View className="mb-6">
+      <Pressable onPress={handlePressImage}>
         <ImageBackground
           source={require("../../../assets/MAP.jpg")}
           style={{ width: screenWidth - 48, height: screenHeight }}
         >
           <Svg height={screenHeight} width={screenWidth - 48}>
-            {zonas.map((zona) => {
-              const { cx, cy } = calcularCentro(zona.pontos);
-              return (
-                <View key={zona.id}>
-                  <Polygon
-                    points={zona.pontos}
-                    fill="rgba(30, 144, 255, 0.4)"
-                    stroke="blue"
-                    strokeWidth="2"
-                  />
-                  <SvgText
-                    x={cx}
-                    y={cy}
-                    fill="black"
-                    fontSize="12"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                  >
-                    {zona.nome}
-                  </SvgText>
-                </View>
-              );
-            })}
+            {/* Zonas salvas */}
+            {zonas.map((zona) => (
+              <Polygon
+                key={zona.id}
+                points={zona.pontos}
+                fill="rgba(30, 144, 255, 0.4)"
+                stroke="blue"
+                strokeWidth="2"
+              />
+            ))}
+            {/* Ponto desenhado pelo usuário */}
+            {pontosZonaAtual.length > 0 && (
+              <>
+                <Polygon
+                  points={pontosZonaAtual.map((p) => `${p.x},${p.y}`).join(" ")}
+                  fill="rgba(0,255,0,0.3)"
+                  stroke="green"
+                  strokeWidth="2"
+                />
+                {pontosZonaAtual.map((p, i) => (
+                  <Circle key={i} cx={p.x} cy={p.y} r="4" fill="green" />
+                ))}
+              </>
+            )}
           </Svg>
         </ImageBackground>
-      </View>
+      </Pressable>
 
       <TextInput
         placeholder="Nome da Zona"
         value={nomeZona}
         onChangeText={setNomeZona}
-        className="border border-gray-300 rounded-xl px-4 py-3 mb-4"
+        className="border border-gray-300 rounded-xl px-4 py-3 mt-6 mb-4"
       />
 
       <TextInput
@@ -143,19 +144,26 @@ export default function DelimitacaoZonasScreen() {
       <Text className="text-xl font-bold text-gray-800 mb-2">Zonas Salvas</Text>
       {zonas.map((zona) => (
         <View
-          key={`item-${zona.id}`}
+          key={zona.id}
           className="border border-gray-300 rounded-lg px-4 py-3 mb-3"
         >
           <Text className="font-semibold">{zona.nome}</Text>
           <Text className="text-gray-600">Tipo: {zona.tipo}</Text>
 
           <TouchableOpacity
-            onPress={() => handleExcluirZona(zona.id)}
-            className="mt-2 bg-red-500 px-4 py-2 rounded"
+            onPress={() =>
+              Alert.alert("Excluir", "Deseja remover essa zona?", [
+                { text: "Cancelar", style: "cancel" },
+                {
+                  text: "Excluir",
+                  style: "destructive",
+                  onPress: () => excluirZona(zona.id),
+                },
+              ])
+            }
+            className="mt-2 bg-red-500 py-2 px-4 rounded-xl"
           >
-            <Text className="text-white text-sm text-center font-semibold">
-              Excluir Zona
-            </Text>
+            <Text className="text-white text-center font-medium">Excluir</Text>
           </TouchableOpacity>
         </View>
       ))}
