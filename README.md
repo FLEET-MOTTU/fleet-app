@@ -117,16 +117,6 @@ As seguintes **telas do app** consomem a API construída em ASP.NET C#:
 
 ---
 
-## 📦 Branch Relevante
-
-> Para acessar a versão final e estável da aplicação, utilize a branch:
-
-```bash
-fleet-18
-```
-
----
-
 ## ✅ Considerações Finais
 
 - A aplicação **não depende de backend** para login e zonas — essas funcionalidades são mockadas com **AsyncStorage**.
