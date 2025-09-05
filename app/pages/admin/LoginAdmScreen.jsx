@@ -15,7 +15,7 @@ export default function LoginAdmScreen() {
       navigation.navigate("AdminTabs");
     } else {
       setError("Login inválido. Verifique suas credenciais.");
-    }
+    }f
   };
 
   const entrarComoFuncionario = async () => {
