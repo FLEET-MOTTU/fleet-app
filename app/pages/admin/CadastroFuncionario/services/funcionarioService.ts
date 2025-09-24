@@ -1,4 +1,4 @@
-import apiJava from "./apiJava";
+import apiJava from "../../../../services/apiJava";
 
 export type FuncionarioPayload = {
   nome: string;
@@ -11,6 +11,8 @@ export type FuncionarioResponse = {
   nome: string;
   telefone: string;
   magicLinkUrl?: string; // só vem no POST
+  cargo: "OPERACIONAL" | "ADMINISTRATIVO" | "TEMPORARIO";
+  status?: "ATIVO" | "SUSPENSO" | "REMOVIDO"; // só vem no GET
 };
 
 export async function cadastrarFuncionario(
