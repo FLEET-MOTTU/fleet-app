@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import CadastroFuncionarioScreen from "../pages/admin/CadastroFuncionarioScreen";
+import CadastroFuncionarioScreen from "../pages/admin/CadastroFuncionario/Index";
 import DelimitacaoZonasScreen from "../pages/admin/DelimitacaoZonasScreen";
 import HomeAdmScreen from "../pages/admin/HomeAdmScreen";
 import ListagemFuncionariosScreen from "../pages/admin/ListagemFuncionariosScreen";
@@ -57,6 +57,7 @@ export default function BottomTabsAdm() {
       />
       <Tab.Screen
         name="ListagemFuncionarios"
+        s
         component={ListagemFuncionariosScreen}
         options={{ title: "Funcionários" }}
       />
