@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginAdmScreen from "../pages/admin/LoginAdmScreen";
+import LoginAdmScreen from "../pages/admin/Login";
 import BottomTabsAdm from "./BottomTabsAdm";
 import BottomTabsFuncionario from "./BottomTabsFuncionario";
 import LoginFuncionarioScreen from "../pages/funcionarios/LoginMagicLink";

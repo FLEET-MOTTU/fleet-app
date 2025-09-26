@@ -6,7 +6,16 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        manrope: ["Manrope"],
+      },
+      colors: {
+        background: "#F4F4FA",
+        white: "#FFFFFF",
+        darkBlue: "#130F26",
+      },
+    },
   },
   plugins: [],
 };
