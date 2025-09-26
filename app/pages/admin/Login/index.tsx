@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
-  ImageBackground,
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
 
@@ -18,18 +17,20 @@ export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = async () => {
+  const handleLoginAdm = async () => {
     if (login === "admin@fleet.com" && senha === "Admin123") {
       await AsyncStorage.setItem("userRole", "admin");
       navigation.navigate("AdminTabs");
     } else {
       setError("Login inválido. Verifique suas credenciais.");
+      // Limpar a mensagem de erro após 2 segundos
+      setTimeout(() => setError(""), 3000);
     }
   };
 
   const entrarComoFuncionario = async () => {
     await AsyncStorage.setItem("userRole", "funcionario");
-    router.replace("/(tabs)");
+    navigation.navigate("FuncionarioTabs");
   };
 
   return (
@@ -79,9 +80,9 @@ export default function LoginScreen() {
                 className="p-2"
               >
                 {showPassword ? (
-                  <Eye size={20} color="#9CA3AF" />
+                  <Eye size={20} color="#2D2D2D" />
                 ) : (
-                  <EyeOff size={20} color="#9CA3AF" />
+                  <EyeOff size={20} color="#2D2D2D" />
                 )}
               </TouchableOpacity>
             </View>
@@ -105,7 +106,7 @@ export default function LoginScreen() {
 
           {/* Botão Login */}
           <TouchableOpacity
-            onPress={handleLogin}
+            onPress={handleLoginAdm}
             className="bg-darkBlue rounded-2xl py-5 mb-8 shadow-lg active:opacity-90"
           >
             <Text className="text-white text-center font-semibold text-xl">
