@@ -15,7 +15,14 @@
     "forceConsistentCasingInFileNames": true,
     "types": ["react", "react-native"]
   },
-  "include": ["src", "**/*.ts", "**/*.tsx", "nativewind-env.d.ts"],
+  "include": [
+    "src",
+    "**/*.ts",
+    "**/*.tsx",
+    "nativewind-env.d.ts",
+    "app/services/apiJava.jsx",
+    "app/services/apiJava.js"
+  ],
   "exclude": ["node_modules"],
   "extends": "expo/tsconfig.base"
 }

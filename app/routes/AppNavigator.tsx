@@ -6,15 +6,14 @@ import BottomTabsAdm from "./BottomTabsAdm";
 import BottomTabsFuncionario from "./BottomTabsFuncionario";
 import LoginFuncionarioScreen from "../pages/funcionarios/LoginMagicLink";
 import HomeFuncionarioScreen from "../pages/funcionarios/HomeFuncionarioScreen";
+import { useMagicLink } from "../hooks/useMagicLink";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function AppNavigator() {
+  useMagicLink();
   return (
-    <Stack.Navigator
-      initialRouteName="LoginAdm"
-      screenOptions={{ headerShown: false }}
-    >
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="LoginAdm" component={LoginAdmScreen} />
       <Stack.Screen name="AdminTabs" component={BottomTabsAdm} />
       <Stack.Screen name="FuncionarioTabs" component={BottomTabsFuncionario} />

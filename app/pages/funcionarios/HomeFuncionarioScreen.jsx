@@ -12,7 +12,8 @@ export default function HomeFuncionarioScreen() {
   useEffect(() => {
     const buscarNome = async () => {
       const nome = await AsyncStorage.getItem("nomeFuncionario");
-      if (nome) setNomeFuncionario(nome);
+      console.log("Nome salvo:", nome);
+      setNomeFuncionario(nome || "Funcionário");
     };
     buscarNome();
   }, []);

@@ -17,7 +17,12 @@ const linking = {
   prefixes: ["exp://192.168.15.16:8081", "fleetapp://"],
   config: {
     screens: {
-      HomeFuncioario: "login-success",
+      HomeFuncionario: {
+        path: "login-success",
+        parse: {
+          token: (token: string) => token,
+        },
+      },
     },
   },
 };
