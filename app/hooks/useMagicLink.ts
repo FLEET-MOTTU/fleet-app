@@ -13,17 +13,21 @@ export function useMagicLink() {
       const { queryParams } = Linking.parse(url);
 
       if (queryParams?.token) {
+        // Salva token
         await AsyncStorage.setItem("token", queryParams.token as string);
 
+        // Vai direto para HomeFuncionario
         navigation.reset({
           index: 0,
-          routes: [{ name: "HomeFuncionario" as keyof RootStackParamList }],
+          routes: [{ name: "HomeFuncionario" }],
         });
       }
     };
 
+    // Quando app já está aberto
     const subscription = Linking.addEventListener("url", handleDeepLink);
 
+    // Quando app é aberto diretamente pelo link
     Linking.getInitialURL().then((url) => {
       if (url) handleDeepLink({ url });
     });
