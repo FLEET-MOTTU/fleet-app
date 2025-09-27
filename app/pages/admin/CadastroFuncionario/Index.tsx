@@ -77,7 +77,6 @@ export default function CadastroFuncionarioScreen() {
 
       const novoFuncionario = await cadastrarFuncionario(payload);
 
-      // 🔑 Transformar link http://... em fleetapp://...
       const appMagicLink = novoFuncionario.magicLinkUrl
         ? novoFuncionario.magicLinkUrl.replace(
             "http://localhost:8080/auth/validar-token?valor=",

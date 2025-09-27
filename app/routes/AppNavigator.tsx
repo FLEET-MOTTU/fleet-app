@@ -1,14 +1,16 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import type { RootStackParamList } from "./navigation";
+
 import LoginAdmScreen from "../pages/admin/Login";
 import BottomTabsAdm from "./BottomTabsAdm";
 import BottomTabsFuncionario from "./BottomTabsFuncionario";
 import LoginFuncionarioScreen from "../pages/funcionarios/LoginMagicLink";
+import HomeFuncionarioScreen from "../pages/funcionarios/HomeFuncionarioScreen";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function AppNavigator() {
   return (
-    //Administrador
     <Stack.Navigator
       initialRouteName="LoginAdm"
       screenOptions={{ headerShown: false }}
@@ -20,6 +22,8 @@ export function AppNavigator() {
         name="LoginFuncionario"
         component={LoginFuncionarioScreen}
       />
+      {/* se já tiver HomeFuncionario, pode adicionar também */}
+      <Stack.Screen name="HomeFuncionario" component={HomeFuncionarioScreen} />
     </Stack.Navigator>
   );
 }

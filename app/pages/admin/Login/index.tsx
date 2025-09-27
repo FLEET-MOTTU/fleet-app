@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import {
   Text,
@@ -9,22 +10,56 @@ import {
   SafeAreaView,
 } from "react-native";
 import { Eye, EyeOff } from "lucide-react-native";
+import LoginService from "./services/loginService";
+import AppButton from "../../../components/Button";
+import Button from "../../../components/Button";
+type RootStackParamList = {
+  AdminTabs: undefined;
+  FuncionarioTabs: undefined;
+};
 
-export default function LoginScreen() {
-  const navigation = useNavigation();
+export default function LoginAdmScreen() {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLoginAdm = async () => {
-    if (login === "admin@fleet.com" && senha === "Admin123") {
-      await AsyncStorage.setItem("userRole", "admin");
-      navigation.navigate("AdminTabs");
-    } else {
-      setError("Login inválido. Verifique suas credenciais.");
-      // Limpar a mensagem de erro após 2 segundos
+    try {
+      setLoading(true);
+      setError("");
+
+      //garante que não vai mandar token expirado no login
+      await AsyncStorage.removeItem("token");
+
+      // chamada de login na API
+      const data = await LoginService.loginAdm({
+        email: login.trim(),
+        senha: senha.trim(),
+      });
+
+      if (data?.token) {
+        // salva o novo token e o papel do usuário
+        await AsyncStorage.setItem("token", data.token);
+        await AsyncStorage.setItem("userRole", "admin");
+
+        // navega para as tabs do administrador
+        navigation.navigate("AdminTabs");
+      } else {
+        throw new Error("Resposta inválida do servidor.");
+      }
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        setError("Credenciais inválidas. Verifique seu email e senha.");
+      } else {
+        setError("Erro ao autenticar administrador.");
+      }
       setTimeout(() => setError(""), 3000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,12 +70,10 @@ export default function LoginScreen() {
 
   return (
     <View className="flex-1 bg-background">
-      {/* Header com padrão curvo */}
+      {/* Header */}
       <View className="flex h-56 bg-darkBlue overflow-hidden">
         <SafeAreaView className="flex-1">
           <View className="flex-1 justify-center items-center px-6">
-            {/* Padrão de linhas curvadas simulado */}
-
             <Text className="text-white text-4xl font-bold text-center relative z-10">
               Bem-vindo de volta!
             </Text>
@@ -50,8 +83,8 @@ export default function LoginScreen() {
 
       {/* Formulário */}
       <View className="flex-1 px-6">
-        <View className=" px-6 py-8 shadow-2xl elevation-8">
-          {/* Campo Email */}
+        <View className="px-6 py-8 shadow-2xl elevation-8">
+          {/* Email */}
           <View className="mb-6">
             <TextInput
               placeholder="Email"
@@ -64,11 +97,11 @@ export default function LoginScreen() {
             />
           </View>
 
-          {/* Campo Password */}
+          {/* Senha */}
           <View className="mb-8">
             <View className="flex-row items-center bg-gray-50 rounded-2xl px-4">
               <TextInput
-                placeholder="Password"
+                placeholder="Senha"
                 value={senha}
                 onChangeText={setSenha}
                 secureTextEntry={!showPassword}
@@ -105,25 +138,18 @@ export default function LoginScreen() {
           )}
 
           {/* Botão Login */}
-          <TouchableOpacity
+          <Button
+            label="Login"
             onPress={handleLoginAdm}
-            className="bg-darkBlue rounded-2xl py-5 mb-8 shadow-lg active:opacity-90"
-          >
-            <Text className="text-white text-center font-semibold text-xl">
-              Login
-            </Text>
-          </TouchableOpacity>
+            disabled={loading}
+            loading={loading}
+          />
 
-          {/* Botão Entrar como Funcionário (mantido conforme solicitado) */}
-          <TouchableOpacity
+          {/* Botão Funcionário */}
+          <Button
+            label="Entrar como Funcionário"
             onPress={entrarComoFuncionario}
-            className="bg-darkBlue rounded-2xl py-4 mb-6 shadow-lg active:opacity-90"
-          >
-            <Text className="text-white text-center font-semibold text-xl">
-              Entrar como Funcionário
-            </Text>
-          </TouchableOpacity>
-
+          />
           {/* Don't have an account */}
           <View className="flex-row justify-center items-center">
             <Text className="text-gray-500 text-lg">Não tem uma conta? </Text>
