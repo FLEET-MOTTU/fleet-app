@@ -151,15 +151,6 @@ export default function CadastroFuncionarioScreen() {
               </Picker>
             </View>
 
-            <Text className="mb-2 font-semibold">Data de Admissão</Text>
-            <TouchableOpacity
-              onPress={() => setMostrarDatePicker(true)}
-              className="border border-gray-300 rounded-xl px-4 py-3 mb-4 bg-gray-50"
-            >
-              <Text className="text-gray-700">
-                {dataAdmissao.toLocaleDateString("pt-BR")}
-              </Text>
-            </TouchableOpacity>
             {mostrarDatePicker && (
               <DateTimePicker
                 value={dataAdmissao}
@@ -168,11 +159,6 @@ export default function CadastroFuncionarioScreen() {
                 onChange={onChangeDate}
               />
             )}
-
-            <Text className="mb-2 font-semibold">Código do Funcionário</Text>
-            <View className="border border-gray-300 rounded-xl px-4 py-3 mb-6 bg-gray-100">
-              <Text className="text-gray-600">{codigo}</Text>
-            </View>
 
             <TouchableOpacity
               onPress={handleCadastrar}

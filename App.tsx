@@ -14,7 +14,7 @@ import {
 import { StatusBar } from "expo-status-bar";
 
 const linking = {
-  prefixes: ["exp://192.168.15.16:8081", "fleetapp://"],
+  prefixes: ["exp://192.168.15.19:8081", "fleetapp://"],
   config: {
     screens: {
       HomeFuncionario: {
