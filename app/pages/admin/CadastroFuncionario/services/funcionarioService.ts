@@ -4,6 +4,7 @@ export type FuncionarioPayload = {
   nome: string;
   telefone: string;
   cargo: "OPERACIONAL" | "ADMINISTRATIVO" | "TEMPORARIO";
+  status?: "ATIVO" | "SUSPENSO" | "REMOVIDO";
 };
 
 export type FuncionarioResponse = {

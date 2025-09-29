@@ -27,7 +27,12 @@ export default function FuncionarioForm({
       return;
     }
 
-    const payload: FuncionarioPayload = { nome, telefone, cargo: funcao };
+    const payload: FuncionarioPayload = {
+      nome,
+      telefone,
+      cargo: funcao,
+      status: "ATIVO",
+    };
 
     try {
       if (funcionario) {

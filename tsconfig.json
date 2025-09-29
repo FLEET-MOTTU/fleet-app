@@ -8,7 +8,7 @@
     "noEmit": true,
     "isolatedModules": true,
     "strict": true,
-    "moduleResolution": "bundler", // 🔥 use bundler (recomendado) ou node16
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
@@ -23,6 +23,7 @@
     "app/services/apiJava.jsx",
     "app/services/apiJava.js"
   ],
+
   "exclude": ["node_modules"],
   "extends": "expo/tsconfig.base"
 }

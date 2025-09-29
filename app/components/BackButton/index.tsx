@@ -10,7 +10,7 @@ export default function BackButton({ onPress }: { onPress?: () => void }) {
 
   return (
     <TouchableOpacity onPress={onPress ? onPress : () => navigation.goBack()}>
-      <View className="bg-gray-200 dark:bg-gray-700 rounded-xl p-2 mr-3">
+      <View className="bg-gray-200 dark:bg-gray-700 rounded-xl p-2 mr-2">
         <Ionicons
           name="chevron-back"
           size={22}
