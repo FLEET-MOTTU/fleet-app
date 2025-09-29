@@ -17,8 +17,7 @@ import FuncionarioForm from "./components/FuncionarioFrom";
 import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
 import { useNavigation } from "@react-navigation/native";
 import AppHeader from "../../../components/AppHeader";
-import Operadores from "../../admin/assets/img_operadores.svg";
-import { Image } from "react-native-svg";
+import Operadores from "../assets/img_operadores.svg";
 
 export default function ListagemFuncionarios() {
   const [funcionarios, setFuncionarios] = useState<FuncionarioResponse[]>([]);
@@ -89,7 +88,7 @@ export default function ListagemFuncionarios() {
 
       {funcionarios.length === 0 ? (
         <View className="flex-1 justify-center items-center p-6">
-          <Image s />
+          <Operadores />
           <Text className="text-xl font-bold mb-2 dark:text-white">Vazio</Text>
           <Text className="text-gray-500 text-center mb-6 dark:text-gray-300">
             Você ainda não adicionou nenhum operador no pátio.
@@ -123,6 +122,7 @@ export default function ListagemFuncionarios() {
       <Modal visible={modalVisible} animationType="slide">
         <FuncionarioForm
           funcionario={selectedFuncionario}
+          funcionariosExistentes={funcionarios}
           onClose={() => {
             setModalVisible(false);
             carregarFuncionarios();

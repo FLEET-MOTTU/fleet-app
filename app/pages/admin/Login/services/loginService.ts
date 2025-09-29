@@ -12,8 +12,7 @@ export interface LoginResponse {
 const LoginService = {
   loginAdm: async (payload: LoginRequest): Promise<LoginResponse> => {
     const response = await apiJava.post<LoginResponse>("/auth/login", payload);
-    console.log("Tentando login em:", apiJava.defaults.baseURL + "/auth/login");
-    console.log("Payload:", payload);
+
     return response.data;
   },
 };

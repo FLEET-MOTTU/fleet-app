@@ -21,7 +21,8 @@
     "**/*.tsx",
     "nativewind-env.d.ts",
     "app/services/apiJava.jsx",
-    "app/services/apiJava.js"
+    "app/services/apiJava.js",
+    "types/assets.d.ts"
   ],
 
   "exclude": ["node_modules"],

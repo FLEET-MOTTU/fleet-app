@@ -11,9 +11,9 @@ export type FuncionarioResponse = {
   id: string;
   nome: string;
   telefone: string;
-  magicLinkUrl?: string; // só vem no POST
-  cargo: "OPERACIONAL" | "ADMINISTRATIVO" | "TEMPORARIO";
-  status?: "ATIVO" | "SUSPENSO" | "REMOVIDO"; // só vem no GET
+  cargo?: "OPERACIONAL" | "ADMINISTRATIVO" | "TEMPORARIO"; // pode não vir no POST
+  status?: "ATIVO" | "SUSPENSO" | "REMOVIDO"; // só aparece no GET
+  magicLinkUrl?: string; // só aparece no POST
 };
 
 export async function listarFuncionarios(): Promise<FuncionarioResponse[]> {
@@ -21,7 +21,9 @@ export async function listarFuncionarios(): Promise<FuncionarioResponse[]> {
   return data;
 }
 
-export async function cadastrarFuncionario(payload: FuncionarioPayload) {
+export async function cadastrarFuncionario(
+  payload: FuncionarioPayload
+): Promise<FuncionarioResponse> {
   const { data } = await apiJava.post("/funcionarios", payload);
   return data;
 }
@@ -29,11 +31,14 @@ export async function cadastrarFuncionario(payload: FuncionarioPayload) {
 export async function atualizarFuncionario(
   id: string,
   payload: FuncionarioPayload
-) {
+): Promise<FuncionarioResponse> {
+  if (!payload.status) {
+    payload.status = "ATIVO"; // fallback seguro
+  }
   const { data } = await apiJava.put(`/funcionarios/${id}`, payload);
   return data;
 }
 
-export async function deletarFuncionario(id: string) {
+export async function deletarFuncionario(id: string): Promise<void> {
   await apiJava.delete(`/funcionarios/${id}`);
 }
