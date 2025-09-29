@@ -14,22 +14,9 @@ export default function AppHeader({
   const { colorScheme, setColorScheme } = useColorScheme();
 
   return (
-    <View className="flex-row justify-between items-center px-4 py-3 gap-24">
+    <View className="flex-row justify-between items-center px-4 py-3">
       {showBack ? <BackButton /> : <View style={{ width: 44 }} />}
       <Text className="text-xl font-bold dark:text-white">{title}</Text>
-      <View className="ml-auto">
-        <TouchableOpacity
-          onPress={() =>
-            setColorScheme(colorScheme === "dark" ? "light" : "dark")
-          }
-        >
-          <Ionicons
-            name={colorScheme === "dark" ? "sunny-outline" : "moon-outline"}
-            size={22}
-            color={colorScheme === "dark" ? "#FFD700" : "#000"}
-          />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
