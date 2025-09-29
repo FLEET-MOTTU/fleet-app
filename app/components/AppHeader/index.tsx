@@ -15,7 +15,9 @@ export default function AppHeader({
 
       {/* Centro */}
       <View className="flex-1 items-center">
-        <Text className="text-xl font-bold dark:text-white">{title}</Text>
+        <Text className="text-3xl font-bold text-gray dark:text-white">
+          {title}
+        </Text>
       </View>
 
       {/* Direita - espaço para balancear */}

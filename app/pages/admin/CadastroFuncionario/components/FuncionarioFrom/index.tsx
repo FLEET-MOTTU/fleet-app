@@ -7,6 +7,7 @@ import {
   FuncionarioPayload,
   FuncionarioResponse,
 } from "../../services/funcionarioService";
+import SafeAreaWrapper from "../../../../../utils/safeAreaWrapper"; // 🔥 importa o wrapper
 
 export default function FuncionarioForm({
   funcionario,
@@ -23,13 +24,10 @@ export default function FuncionarioForm({
     "OPERACIONAL" | "ADMINISTRATIVO" | "TEMPORARIO"
   >((funcionario?.cargo as any) || "OPERACIONAL");
 
-  //Função para formatar celular com DDD
+  // 🔥 Função para formatar celular (11 dígitos)
   function formatarTelefone(text: string) {
-    const numeros = text.replace(/\D/g, ""); // só números
-    let formatado = numeros;
-
-    // Sempre celular (11 dígitos) -> (11) 98888-7777
-    formatado = numeros.replace(
+    const numeros = text.replace(/\D/g, "");
+    let formatado = numeros.replace(
       /(\d{0,2})(\d{0,5})(\d{0,4})/,
       (_, ddd, parte1, parte2) => {
         let result = "";
@@ -40,7 +38,6 @@ export default function FuncionarioForm({
         return result;
       }
     );
-
     setTelefone(formatado);
   }
 
@@ -51,7 +48,6 @@ export default function FuncionarioForm({
     }
 
     const telefoneNormalizado = telefone.replace(/\D/g, "");
-
     if (telefoneNormalizado.length !== 11) {
       Alert.alert("Erro", "O celular deve ter 11 dígitos com DDD.");
       return;
@@ -95,52 +91,54 @@ export default function FuncionarioForm({
   }
 
   return (
-    <View className="flex-1 bg-white dark:bg-darkBlue p-6">
-      <Text className="text-2xl font-bold mb-6 dark:text-white">
-        {funcionario ? "Editar Funcionário" : "Novo Funcionário"}
-      </Text>
+    <SafeAreaWrapper>
+      <View className="flex-1  p-6">
+        <Text className="text-2xl font-bold mb-6 dark:text-white">
+          {funcionario ? "Editar Funcionário" : "Novo Funcionário"}
+        </Text>
 
-      <TextInput
-        placeholder="Nome"
-        value={nome}
-        onChangeText={setNome}
-        className="border border-gray-300 rounded-xl px-4 py-3 mb-4 dark:bg-gray-800 dark:text-white"
-      />
-      <TextInput
-        placeholder="Celular"
-        value={telefone}
-        onChangeText={formatarTelefone}
-        keyboardType="phone-pad"
-        maxLength={15} // (11) 99999-9999
-        className="border border-gray-300 rounded-xl px-4 py-3 mb-4 dark:bg-gray-800 dark:text-white"
-      />
+        <TextInput
+          placeholder="Nome"
+          value={nome}
+          onChangeText={setNome}
+          className="border border-gray-300 rounded-xl px-4 py-3 mb-4 dark:bg-gray-800 dark:text-white"
+        />
+        <TextInput
+          placeholder="Celular"
+          value={telefone}
+          onChangeText={formatarTelefone}
+          keyboardType="phone-pad"
+          maxLength={15}
+          className="border border-gray-300 rounded-xl px-4 py-3 mb-4 dark:bg-gray-800 dark:text-white"
+        />
 
-      <Text className="mb-2 font-semibold dark:text-white">Função</Text>
-      <View className="border border-gray-300 rounded-xl mb-6 dark:border-gray-600">
-        <Picker
-          selectedValue={funcao}
-          onValueChange={(itemValue) => setFuncao(itemValue)}
+        <Text className="mb-2 font-semibold dark:text-white">Função</Text>
+        <View className="border border-gray-300 rounded-xl mb-6 dark:border-gray-600">
+          <Picker
+            selectedValue={funcao}
+            onValueChange={(itemValue) => setFuncao(itemValue)}
+          >
+            <Picker.Item label="Operacional" value="OPERACIONAL" />
+            <Picker.Item label="Administrativo" value="ADMINISTRATIVO" />
+            <Picker.Item label="Temporário" value="TEMPORARIO" />
+          </Picker>
+        </View>
+
+        <TouchableOpacity
+          onPress={handleSave}
+          className="bg-darkBlue py-3 rounded-xl"
         >
-          <Picker.Item label="Operacional" value="OPERACIONAL" />
-          <Picker.Item label="Administrativo" value="ADMINISTRATIVO" />
-          <Picker.Item label="Temporário" value="TEMPORARIO" />
-        </Picker>
+          <Text className="text-white text-center font-semibold text-base">
+            {funcionario ? "Salvar Alterações" : "Cadastrar"}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={onClose} className="mt-4">
+          <Text className="text-center text-gray-500 dark:text-gray-300">
+            Cancelar
+          </Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        onPress={handleSave}
-        className="bg-darkBlue py-3 rounded-xl"
-      >
-        <Text className="text-white text-center font-semibold text-base">
-          {funcionario ? "Salvar Alterações" : "Cadastrar"}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={onClose} className="mt-4">
-        <Text className="text-center text-gray-500 dark:text-gray-300">
-          Cancelar
-        </Text>
-      </TouchableOpacity>
-    </View>
+    </SafeAreaWrapper>
   );
 }

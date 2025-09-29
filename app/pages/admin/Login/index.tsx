@@ -82,7 +82,7 @@ export default function LoginAdmScreen() {
               placeholder="Email"
               value={login}
               onChangeText={setLogin}
-              className="w-full px-4 py-5 rounded-2xl bg-gray-50 text-gray-900 text-lg"
+              className="w-full px-4 py-5 rounded-2xl bg-white text-gray-900 text-lg"
               placeholderTextColor="#9CA3AF"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -91,7 +91,7 @@ export default function LoginAdmScreen() {
 
           {/* Senha */}
           <View className="mb-8">
-            <View className="flex-row items-center bg-gray-50 rounded-2xl px-4">
+            <View className="flex-row items-center bg-white rounded-2xl px-4">
               <TextInput
                 placeholder="Senha"
                 value={senha}

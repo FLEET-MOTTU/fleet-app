@@ -56,18 +56,20 @@ export default function ListagemFuncionarios() {
 
   function renderFuncionario({ item }: { item: FuncionarioResponse }) {
     return (
-      <View className="flex-row justify-between items-center px-6 py-10 border-b border-gray-200 dark:border-gray-700">
+      <View className="flex-row justify-between items-center px-6 py-10  ">
         <View>
-          <Text className="text-base font-semibold dark:text-white">
+          <Text className="text-xl font-bold text-gray dark:text-lightGray">
             {item.nome}
           </Text>
-          <Text className="text-gray-500 dark:text-gray-300">
+          <Text className="text-lg text-gray-500 dark:text-lightGray">
             {item.telefone}
           </Text>
         </View>
         <View className="flex-row space-x-5">
           <TouchableOpacity onPress={() => handleDelete(item.id)}>
-            <Ionicons name="trash-outline" size={22} color="#000" />
+            <Text className="text-black dark:text-white">
+              <Ionicons name="trash-outline" size={22} />
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -75,7 +77,9 @@ export default function ListagemFuncionarios() {
               setModalVisible(true);
             }}
           >
-            <Ionicons name="pencil-outline" size={22} color="#000" />
+            <Text className="text-black dark:text-white">
+              <Ionicons name="pencil-outline" size={22} />
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
