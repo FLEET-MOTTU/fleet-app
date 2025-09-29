@@ -1,7 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useColorScheme } from "nativewind";
+import { View, Text } from "react-native";
 import BackButton from "../BackButton";
 
 export default function AppHeader({
@@ -11,12 +9,17 @@ export default function AppHeader({
   title: string;
   showBack?: boolean;
 }) {
-  const { colorScheme, setColorScheme } = useColorScheme();
-
   return (
-    <View className="flex-row justify-between items-center px-4 py-3">
-      {showBack ? <BackButton /> : <View style={{ width: 44 }} />}
-      <Text className="text-xl font-bold dark:text-white">{title}</Text>
+    <View className="flex-row items-center justify-between px-4 py-3">
+      <View style={{ width: 44 }}>{showBack ? <BackButton /> : null}</View>
+
+      {/* Centro */}
+      <View className="flex-1 items-center">
+        <Text className="text-xl font-bold dark:text-white">{title}</Text>
+      </View>
+
+      {/* Direita - espaço para balancear */}
+      <View style={{ width: 44 }} />
     </View>
   );
 }

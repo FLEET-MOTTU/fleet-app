@@ -84,13 +84,8 @@ export default function ListagemFuncionarios() {
   return (
     <SafeAreaWrapper>
       {/* Header */}
-      <View className="flex-row items-center px-4 py-3">
-        <View className="flex-1 items-center">
-          <AppHeader title="Operadores" showBack />
-        </View>
-        {/* Espaço para alinhar o título ao centro */}
-        <View style={{ width: 44, marginLeft: 3 }} />
-      </View>
+
+      <AppHeader title="Operadores" showBack />
 
       {funcionarios.length === 0 ? (
         // Tela vazia

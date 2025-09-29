@@ -8,7 +8,7 @@ export default function SafeAreaWrapper({
 }) {
   return (
     <SafeAreaView
-      className="flex-1 bg-white dark:bg-backgroundDark"
+      className="flex-1 bg-white dark:bg-darkBlue px-4 py-3"
       edges={["top", "left", "right", "bottom"]}
     >
       {children}
