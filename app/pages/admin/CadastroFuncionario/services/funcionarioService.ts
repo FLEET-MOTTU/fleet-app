@@ -15,14 +15,24 @@ export type FuncionarioResponse = {
   status?: "ATIVO" | "SUSPENSO" | "REMOVIDO"; // só vem no GET
 };
 
-export async function cadastrarFuncionario(
-  data: FuncionarioPayload
-): Promise<FuncionarioResponse> {
-  const res = await apiJava.post<FuncionarioResponse>("/funcionarios", data);
-  return res.data;
+export async function listarFuncionarios(): Promise<FuncionarioResponse[]> {
+  const { data } = await apiJava.get("/funcionarios");
+  return data;
 }
 
-export async function listarFuncionarios(): Promise<FuncionarioResponse[]> {
-  const res = await apiJava.get<FuncionarioResponse[]>("/funcionarios");
-  return res.data;
+export async function cadastrarFuncionario(payload: FuncionarioPayload) {
+  const { data } = await apiJava.post("/funcionarios", payload);
+  return data;
+}
+
+export async function atualizarFuncionario(
+  id: string,
+  payload: FuncionarioPayload
+) {
+  const { data } = await apiJava.put(`/funcionarios/${id}`, payload);
+  return data;
+}
+
+export async function deletarFuncionario(id: string) {
+  await apiJava.delete(`/funcionarios/${id}`);
 }

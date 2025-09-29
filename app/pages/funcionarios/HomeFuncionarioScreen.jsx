@@ -53,8 +53,6 @@ export default function HomeFuncionarioScreen() {
           Cadastrar Moto
         </Text>
       </TouchableOpacity>
-
-      <BotaoLogout />
     </View>
   );
 }

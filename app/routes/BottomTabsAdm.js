@@ -1,10 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import CadastroFuncionarioScreen from "../pages/admin/CadastroFuncionario/Index";
 import DelimitacaoZonasScreen from "../pages/admin/DelimitacaoZonasScreen";
 import HomeAdmScreen from "../pages/admin/HomeAdmScreen";
 import ListagemFuncionariosScreen from "../pages/admin/ListagemFuncionariosScreen";
+import ListagemFuncionarios from "../pages/admin/CadastroFuncionario/pages/ListagemFuncionario";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,9 +28,6 @@ export default function BottomTabsAdm() {
             case "HomeAdm":
               iconName = "home-outline";
               break;
-            case "CadastroFuncionario":
-              iconName = "person-add-outline";
-              break;
             case "ListagemFuncionarios":
               iconName = "people-outline";
               break;
@@ -51,14 +48,8 @@ export default function BottomTabsAdm() {
         options={{ title: "Início" }}
       />
       <Tab.Screen
-        name="CadastroFuncionario"
-        component={CadastroFuncionarioScreen}
-        options={{ title: "Cadastrar Funcionário" }}
-      />
-      <Tab.Screen
         name="ListagemFuncionarios"
-        s
-        component={ListagemFuncionariosScreen}
+        component={ListagemFuncionarios}
         options={{ title: "Funcionários" }}
       />
       <Tab.Screen

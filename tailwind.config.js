@@ -1,4 +1,5 @@
 module.exports = {
+  darkMode: "class",
   content: [
     "./App.{js,jsx,ts,tsx}",
     "./app/**/*.{js,jsx,ts,tsx}",
@@ -12,6 +13,7 @@ module.exports = {
       },
       colors: {
         background: "#F4F4FA",
+        backgroundDark: "#151515",
         white: "#FFFFFF",
         darkBlue: "#130F26",
       },
