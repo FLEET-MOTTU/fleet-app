@@ -56,7 +56,7 @@ export default function ListagemFuncionarios() {
 
   function renderFuncionario({ item }: { item: FuncionarioResponse }) {
     return (
-      <View className="flex-row justify-between items-center px-6 py-10  ">
+      <View className="flex-row justify-between items-center px-6 py-10 ">
         <View>
           <Text className="text-xl font-bold text-gray dark:text-lightGray">
             {item.nome}

@@ -7,7 +7,8 @@ import {
   FuncionarioPayload,
   FuncionarioResponse,
 } from "../../services/funcionarioService";
-import SafeAreaWrapper from "../../../../../utils/safeAreaWrapper"; // 🔥 importa o wrapper
+import SafeAreaWrapper from "../../../../../utils/safeAreaWrapper";
+import { useColorScheme } from "react-native";
 
 export default function FuncionarioForm({
   funcionario,
@@ -18,13 +19,13 @@ export default function FuncionarioForm({
   onClose: () => void;
   funcionariosExistentes?: FuncionarioResponse[];
 }) {
+  const colorScheme = useColorScheme();
   const [nome, setNome] = useState(funcionario?.nome || "");
   const [telefone, setTelefone] = useState(funcionario?.telefone || "");
   const [funcao, setFuncao] = useState<
     "OPERACIONAL" | "ADMINISTRATIVO" | "TEMPORARIO"
   >((funcionario?.cargo as any) || "OPERACIONAL");
 
-  // 🔥 Função para formatar celular (11 dígitos)
   function formatarTelefone(text: string) {
     const numeros = text.replace(/\D/g, "");
     let formatado = numeros.replace(
@@ -79,44 +80,54 @@ export default function FuncionarioForm({
       }
       onClose();
     } catch (error: any) {
-      if (error.response?.data?.message?.includes("Duplicate entry")) {
-        Alert.alert("Erro", "Já existe um funcionário com esse telefone.");
-      } else {
-        Alert.alert(
-          "Erro",
-          error.response?.data?.message || "Falha ao salvar funcionário."
-        );
-      }
+      Alert.alert(
+        "Erro",
+        error.response?.data?.message || "Falha ao salvar funcionário."
+      );
     }
   }
 
   return (
     <SafeAreaWrapper>
-      <View className="flex-1  p-6">
-        <Text className="text-2xl font-bold mb-6 dark:text-white">
+      <View className="flex-1 p-6">
+        {/* Título */}
+        <Text className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
           {funcionario ? "Editar Funcionário" : "Novo Funcionário"}
         </Text>
 
+        {/* Campo Nome */}
         <TextInput
           placeholder="Nome"
+          placeholderTextColor="#9CA3AF"
           value={nome}
           onChangeText={setNome}
-          className="border border-gray-300 rounded-xl px-4 py-3 mb-4 dark:bg-gray-800 dark:text-white"
+          className="border border-gray-300 dark:border-[#333] rounded-xl px-4 py-3 mb-4 bg-white dark:bg-[#1E1E1E] text-gray-900 dark:text-white"
         />
+
+        {/* Campo Celular */}
         <TextInput
           placeholder="Celular"
+          placeholderTextColor="#9CA3AF"
           value={telefone}
           onChangeText={formatarTelefone}
           keyboardType="phone-pad"
           maxLength={15}
-          className="border border-gray-300 rounded-xl px-4 py-3 mb-4 dark:bg-gray-800 dark:text-white"
+          className="border border-gray-300 dark:border-[#333] rounded-xl px-4 py-3 mb-4 bg-white dark:bg-[#1E1E1E] text-gray-900 dark:text-white"
         />
 
-        <Text className="mb-2 font-semibold dark:text-white">Função</Text>
-        <View className="border border-gray-300 rounded-xl mb-6 dark:border-gray-600">
+        {/* Função */}
+        <Text className="mb-2 font-semibold text-gray-700 dark:text-white">
+          Função
+        </Text>
+        <View className="border border-gray-300 dark:border-[#333] rounded-xl mb-6 bg-white dark:bg-[#1E1E1E]">
           <Picker
             selectedValue={funcao}
+            dropdownIconColor={colorScheme === "dark" ? "#9CA3AF" : "#374151"}
             onValueChange={(itemValue) => setFuncao(itemValue)}
+            style={{
+              color: colorScheme === "dark" ? "#F9FAFB" : "#111827",
+              backgroundColor: colorScheme === "dark" ? "#1E1E1E" : "#FFFFFF",
+            }}
           >
             <Picker.Item label="Operacional" value="OPERACIONAL" />
             <Picker.Item label="Administrativo" value="ADMINISTRATIVO" />
@@ -124,17 +135,19 @@ export default function FuncionarioForm({
           </Picker>
         </View>
 
+        {/* Botão principal */}
         <TouchableOpacity
           onPress={handleSave}
-          className="bg-darkBlue py-3 rounded-xl"
+          className="py-3 rounded-xl bg-darkBlue active:opacity-90"
         >
           <Text className="text-white text-center font-semibold text-base">
             {funcionario ? "Salvar Alterações" : "Cadastrar"}
           </Text>
         </TouchableOpacity>
 
+        {/* Cancelar */}
         <TouchableOpacity onPress={onClose} className="mt-4">
-          <Text className="text-center text-gray-500 dark:text-gray-300">
+          <Text className="text-center text-gray-500 dark:text-red-400">
             Cancelar
           </Text>
         </TouchableOpacity>
