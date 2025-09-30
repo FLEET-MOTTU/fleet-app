@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import HomeAdmScreen from "../pages/admin/HomeAdmScreen";
 import ListagemFuncionariosScreen from "../pages/admin/ListagemFuncionariosScreen";
-import DelimitacaoZonasScreen from "../pages/admin/DelimitacaoZonasScreen";
+import DelimitacaoZonasScreen from "../pages/admin/Zonas/DelimitacaoZonasScreen";
 import ListagemFuncionarios from "../pages/admin/CadastroFuncionario";
 
 const Tab = createBottomTabNavigator();
