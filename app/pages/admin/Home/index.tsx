@@ -53,7 +53,9 @@ export default function HomeAdmScreen() {
     <SafeAreaWrapper>
       <View className="flex-row justify-between items-center px-4 py-3">
         <View className="space-y-1 gap-4">
-          <Text className="text-2xl font-bold dark:text-white">FLEET</Text>
+          <Text className="text-3xl font-bold text-darkBlue dark:text-white">
+            FLEET
+          </Text>
           <Text className="text-lg font-semibold dark:text-white">
             Gerencie o pateo
           </Text>
