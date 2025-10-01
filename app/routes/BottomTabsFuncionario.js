@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import CadastroMotoScreen from "../pages/funcionarios/CadastroMotoScreen";
-import HomeFuncionarioScreen from "../pages/funcionarios/HomeFuncionarioScreen";
+import HomeFuncionarioScreen from "../pages/funcionarios/Home";
 import ListagemMotosScreen from "../pages/funcionarios/ListagemMotosScreen";
 import VisualizacaoMapaScreen from "../pages/funcionarios/VisualizacaoMapaScreen";
 

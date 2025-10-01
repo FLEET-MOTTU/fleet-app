@@ -62,7 +62,7 @@ export function useMagicLink() {
 
         navigation.reset({
           index: 0,
-          routes: [{ name: "HomeFuncionario" }],
+          routes: [{ name: "FuncionarioTabs" }],
         });
       }
     };

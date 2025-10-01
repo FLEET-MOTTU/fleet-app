@@ -5,7 +5,7 @@ import LoginAdmScreen from "../pages/admin/Login";
 import BottomTabsAdm from "./BottomTabsAdm";
 import BottomTabsFuncionario from "./BottomTabsFuncionario";
 import LoginFuncionarioScreen from "../pages/funcionarios/LoginMagicLink";
-import HomeFuncionarioScreen from "../pages/funcionarios/HomeFuncionarioScreen";
+import HomeFuncionarioScreen from "../pages/funcionarios/Home";
 import { useMagicLink } from "../hooks/useMagicLink";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
