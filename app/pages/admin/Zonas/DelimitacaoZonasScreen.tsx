@@ -58,7 +58,6 @@ export default function DelimitacaoZonasScreen() {
   const [pontos, setPontos] = useState<{ x: number; y: number }[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // modal de edição
   const [editandoZona, setEditandoZona] = useState<
     (ZonaResponse & { cor?: string }) | null
   >(null);
@@ -77,7 +76,6 @@ export default function DelimitacaoZonasScreen() {
       setLoading(true);
       const data = await getPateoDetalhes();
       setPateo(data);
-      // adiciona cor default azul para todas as zonas vindas do back
       setZonas(data.zonas.map((z) => ({ ...z, cor: "#1E90FF" })));
     } catch (err) {
       console.error("Erro carregando pátio:", err);

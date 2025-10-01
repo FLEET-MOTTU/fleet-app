@@ -7,13 +7,12 @@ export type ZonaResponse = { id: string; nome: string; coordenadasWKT: string };
 export type PateoDetailResponse = {
   id: string;
   nome: string;
-  plantaBaixaUrl: string; // ex: "/images/plantas/planta-pateo-teste.png"
-  plantaLargura: number; // em px da imagem original no backend
-  plantaAltura: number; // em px da imagem original no backend
+  plantaBaixaUrl: string;
+  plantaLargura: number;
+  plantaAltura: number;
   zonas: ZonaResponse[];
 };
 
-/** Monta URL absoluta removendo "/api" do baseURL (asset estático não pede auth) */
 export function buildAssetUrl(path: string) {
   let base = apiJava.defaults.baseURL || "";
   base = base.replace(/\/$/, "").replace(/\/api$/, "");
