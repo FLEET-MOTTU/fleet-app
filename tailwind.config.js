@@ -19,7 +19,6 @@ module.exports = {
         gray: "#2D2D2D",
         lightGray: "#D2D2D2",
         bleuInputDark: "#1f222a",
-        lilac: "#DDD9F0",
       },
     },
   },
