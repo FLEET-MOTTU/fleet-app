@@ -158,7 +158,7 @@ export default function DelimitacaoZonasScreen() {
   return (
     <SafeAreaWrapper>
       <ScrollView className="flex-1 px-6 pt-10">
-        <Text className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+        <Text className="text-3xl font-bold text-gray dark:text-white mb-4">
           Delimitação de Zona
         </Text>
 
@@ -215,9 +215,10 @@ export default function DelimitacaoZonasScreen() {
 
         <TextInput
           placeholder="Nome da Zona"
+          placeholderTextColor="#9CA3AF"
           value={nomeZona}
           onChangeText={setNomeZona}
-          className="border border-gray-300 rounded-xl px-4 py-3 mt-6 mb-2 bg-white"
+          className="border border-gray-300 rounded-xl px-4 py-3 mt-6 mb-2 bg-white dark:bg-[#1E1E1E] text-gray-900"
         />
 
         <Text className="mb-2 font-semibold text-gray-700 dark:text-white">
@@ -245,16 +246,16 @@ export default function DelimitacaoZonasScreen() {
           </Text>
         </TouchableOpacity>
 
-        <Text className="text-xl font-bold text-gray-800 dark:text-white mb-2">
+        <Text className="text-xl font-bold text-gray-800 dark:text-white mb-2 ">
           Zonas Cadastradas
         </Text>
         {zonas.map((z) => (
           <View
             key={z.id}
-            className="border border-gray-300 rounded-lg px-4 py-3 mb-3 bg-white"
+            className="border border-gray-300 rounded-lg px-4 py-3 mb-3 bg-white dark:bg-[#1E1E1E]"
           >
-            <Text className="font-semibold">{z.nome}</Text>
-            <View className="flex-row mt-2">
+            <Text className="font-semibold dark:text-white">{z.nome}</Text>
+            <View className="flex-row mt-2 ">
               <TouchableOpacity
                 onPress={() => abrirEdicao(z)}
                 className="bg-yellow-500 py-2 px-4 rounded-xl mr-2"
