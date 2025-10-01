@@ -7,15 +7,15 @@ import {
   View,
 } from "react-native";
 import Svg, { Polygon } from "react-native-svg";
-import SafeAreaWrapper from "../../utils/safeAreaWrapper";
-import HeaderMenu from "../../components/common/HeaderMenu";
+import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
+import HeaderMenu from "../../../components/common/HeaderMenu";
 import {
   getPateoDetalhes,
   PateoDetailResponse,
   ZonaResponse,
-} from "./Zonas/services/zonaService";
+} from "../Zonas/services/zonaService";
 
-import planta from "./Zonas/assets/mapa.jpeg";
+import planta from "../Zonas/assets/mapa.jpeg";
 
 const screenWidth = Dimensions.get("window").width;
 const CANVAS_MARGIN = 48;

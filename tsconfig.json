@@ -23,7 +23,7 @@
     "app/services/apiJava.jsx",
     "app/services/apiJava.js",
     "types/assets.d.ts",
-    "app/pages/admin/HomeAdmScreen.tsx"
+    "app/pages/admin/Home/index.tsx"
   ],
 
   "exclude": ["node_modules"],
