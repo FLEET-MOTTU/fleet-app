@@ -1,28 +1,39 @@
 import apiJava from "../../../../services/apiJava";
 
-// Buscar detalhes do pátio (já retorna planta baixa + zonas)
-export async function buscarPateoDetalhes(pateoId: string) {
-  const res = await apiJava.get(`/pateos/${pateoId}`);
-  return res.data;
+const PATEO_ID = "ef0cddcb-7d83-4dd4-bf3d-b73d68af2b37";
+
+export type ZonaRequest = { nome: string; coordenadasWKT: string };
+export type ZonaResponse = { id: string; nome: string; coordenadasWKT: string };
+export type PateoDetailResponse = {
+  id: string;
+  nome: string;
+  plantaBaixaUrl: string;
+  plantaLargura: number;
+  plantaAltura: number;
+  zonas: ZonaResponse[];
+};
+
+export function buildAssetUrl(path: string) {
+  let base = apiJava.defaults.baseURL || "";
+
+  // remove barra no final
+  base = base.replace(/\/$/, "");
+  // remove "/api" se existir
+  base = base.replace(/\/api$/, "");
+
+  return `${base}${path}`;
 }
 
-// Criar nova zona
-export async function criarZona(pateoId: string, payload: any) {
-  const res = await apiJava.post(`/pateos/${pateoId}/zonas`, payload);
-  return res.data;
+export async function getPateoDetalhes(): Promise<PateoDetailResponse> {
+  const { data } = await apiJava.get(`/pateos/${PATEO_ID}`);
+  return data;
 }
 
-// Atualizar zona existente
-export async function atualizarZona(
-  pateoId: string,
-  zonaId: string,
-  payload: any
-) {
-  const res = await apiJava.put(`/pateos/${pateoId}/zonas/${zonaId}`, payload);
-  return res.data;
+export async function criarZona(payload: ZonaRequest): Promise<ZonaResponse> {
+  const { data } = await apiJava.post(`/pateos/${PATEO_ID}/zonas`, payload);
+  return data;
 }
 
-// Deletar zona
-export async function deletarZona(pateoId: string, zonaId: string) {
-  await apiJava.delete(`/pateos/${pateoId}/zonas/${zonaId}`);
+export async function deletarZona(zonaId: string): Promise<void> {
+  await apiJava.delete(`/pateos/${PATEO_ID}/zonas/${zonaId}`);
 }
