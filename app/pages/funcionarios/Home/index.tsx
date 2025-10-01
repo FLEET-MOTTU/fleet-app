@@ -12,7 +12,7 @@ import {
 import HeaderMenu from "../../../components/common/HeaderMenu";
 
 const screenWidth = Dimensions.get("window").width;
-const CANVAS_MARGIN = 20;
+const CANVAS_MARGIN = 30;
 
 export default function HomeFuncionarioScreen() {
   const [nomeFuncionario, setNomeFuncionario] = useState("Funcionário");
@@ -98,6 +98,43 @@ export default function HomeFuncionarioScreen() {
             ))}
           </Svg>
         </ImageBackground>
+        <View className="mb-8 py-12">
+          <Text className="text-xl font-semibold text-darkBlue dark:text-white mb-4">
+            Resumo do Pátio
+          </Text>
+
+          <View className="flex-row justify-between">
+            <View className="flex-1 bg-blue-100 dark:bg-blue-900 rounded-xl p-4 mr-2">
+              <Ionicons name="map-outline" size={24} color="#2563EB" />
+              <Text className="text-lg font-bold text-darkBlue dark:text-white mt-2">
+                {zonas.length}
+              </Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">
+                Zonas Ativas
+              </Text>
+            </View>
+
+            <View className="flex-1 bg-green-100 dark:bg-green-900 rounded-xl p-4 mx-2">
+              <Ionicons name="bicycle-outline" size={24} color="#059669" />
+              <Text className="text-lg font-bold text-darkBlue dark:text-white mt-2">
+                12
+              </Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">
+                Motos no Pátio
+              </Text>
+            </View>
+
+            <View className="flex-1 bg-yellow-100 dark:bg-yellow-900 rounded-xl p-4 ml-2">
+              <Ionicons name="time-outline" size={24} color="#D97706" />
+              <Text className="text-lg font-bold text-darkBlue dark:text-white mt-2">
+                08:45
+              </Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-300">
+                Última Atualização
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
     </SafeAreaWrapper>
   );

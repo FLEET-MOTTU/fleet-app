@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CadastroMotoScreen from "../pages/funcionarios/CadastroMotoScreen";
 import HomeFuncionarioScreen from "../pages/funcionarios/Home";
 import ListagemMotosScreen from "../pages/funcionarios/ListagemMotosScreen";
-import VisualizacaoMapaScreen from "../pages/funcionarios/VisualizacaoMapaScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,9 +33,6 @@ export default function BottomTabsFuncionario() {
             case "ListagemMotos":
               iconName = "list-outline";
               break;
-            case "VisualizacaoMapa":
-              iconName = "map-outline";
-              break;
             default:
               iconName = "ellipse-outline";
           }
@@ -59,11 +55,6 @@ export default function BottomTabsFuncionario() {
         name="ListagemMotos"
         component={ListagemMotosScreen}
         options={{ title: "Minhas Motos" }}
-      />
-      <Tab.Screen
-        name="VisualizacaoMapa"
-        component={VisualizacaoMapaScreen}
-        options={{ title: "Mapa" }}
       />
     </Tab.Navigator>
   );
