@@ -22,7 +22,8 @@
     "nativewind-env.d.ts",
     "app/services/apiJava.jsx",
     "app/services/apiJava.js",
-    "types/assets.d.ts"
+    "types/assets.d.ts",
+    "app/pages/admin/HomeAdmScreen.tsx"
   ],
 
   "exclude": ["node_modules"],
