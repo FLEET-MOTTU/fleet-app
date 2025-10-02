@@ -132,6 +132,13 @@ ADMIN_TOKEN=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUEFURU9fQURNSU4iLCJub21lIjoiQWRtaW4
 
 ---
 
+## 🌐 Projeto JAVA
+
+> A API precisa estar rodando em `http://localhost:8080`.
+> Veja mais no repositório da API: [fleet-JAVA](https://github.com/FLEET-MOTTU/JAVA-MAINAPP)
+
+---
+
 ## 🌐 Configuração de arquivo link magico
 
 Em `App.tsx` troque o prefixo abaixo pela porta que está rodando o app:
@@ -141,13 +148,11 @@ prefixes: ["exp://192.168.15.15:8081", "fleetapp://"],
 
 ```
 
-- `10.0.2.2` é o equivalente a `localhost` em emuladores Android.
-
 ---
 
 ## 🌐 Como abrir o link magico?
 
-No proprio google do emulador, você deve colocar um link como no exemplo abaixo, prestando atenção para alterar a porta correta e token. Ao criar um operador na dasboard feito em java será possivel pegar o token do operador criado.
+No proprio google do emulador, você deve colocar um link como no exemplo abaixo, prestando atenção para alterar a porta correta e token. Ao criar um operador na dasboard feito em java será possivel pegar o token do operador criado. Você terá acesso a essa dashboard ao ler a documentação do projeto de JAVA
 
 ```
 exp://192.168.15.15:8081/--/login-success?token=ce51efd1-6f8e-4c9d-b7a5-ba9271a5f8c9
