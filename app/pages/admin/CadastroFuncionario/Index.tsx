@@ -88,7 +88,9 @@ export default function ListagemFuncionarios() {
 
   return (
     <SafeAreaWrapper>
-      <AppHeader title="Operadores" showBack />
+      <Text className="text-3xl font-bold text-gray dark:text-white mb-4 py-4">
+        Operadores
+      </Text>
 
       {funcionarios.length === 0 ? (
         <View className="flex-1 justify-center items-center p-6">
