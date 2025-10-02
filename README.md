@@ -1,7 +1,7 @@
 # 🚀 Fleet - Sistema de Gestão de Frotas (Mottu)
 
 > Aplicativo mobile desenvolvido em **React Native + Expo**, com perfis diferenciados de **Administrador** e **Funcionário**, para auxiliar na **gestão de frotas de motos** nos pátios da Mottu.  
-> A solução foi criada como parte da **Sprint 3** do curso de Análise e Desenvolvimento de Sistemas.
+> A solução foi criada como parte da **Sprint 3** do curso de Análise e Desenvolvimento de Sistemas e está disponivel na branch **fleet-sprint3**
 
 ---
 
