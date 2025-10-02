@@ -101,7 +101,7 @@ fleet-app/
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/fleet-app.git
+git clone https://github.com/FLEET-MOTTU/fleet-app.git
 
 # Acesse a pasta
 cd fleet-app
@@ -111,6 +111,9 @@ npm install
 
 # Inicie a aplicação
 npx expo start
+
+# Acesse a branch correta
+git checkout fleet-sprint3
 ```
 
 ---
