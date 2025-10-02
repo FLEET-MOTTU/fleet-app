@@ -56,12 +56,15 @@ O **Fleet** tem como objetivo otimizar o **controle, alocação e manutenção d
 ```
 fleet-app/
 ├── assets/               # Imagens, ícones e mockups
-├── components/           # Componentes reutilizáveis (AppHeader, HeaderMenu, etc.)
+├── components/           # Componentes reutilizáveis (AppHeader, BackButton, Button, etc.)
+│   └── common/           # Componentes genéricos compartilhados
+├── contexts/             # Contextos globais (ex: ThemeContext)
+├── hooks/                # Hooks customizados (ex: useMagicLink)
 ├── pages/                # Telas principais divididas por perfil
 │   ├── admin/            # Telas do administrador
 │   │   ├── Login.tsx
-│   │   ├── Zonas/
-│   │   └── Funcionarios/
+│   │   ├── Zonas/        # Delimitação e gestão de zonas
+│   │   └── Funcionarios/ # Cadastro e listagem de funcionários
 │   └── funcionarios/     # Telas do funcionário
 │       ├── Home.tsx
 │       ├── Scanner.tsx
@@ -69,10 +72,19 @@ fleet-app/
 │       ├── ResumoCadastro.tsx
 │       └── ListagemMotosScreen.tsx
 ├── routes/               # Navegação (BottomTabs, Stack Navigators)
-├── services/             # Integração com API Java
-├── utils/                # Helpers (SafeAreaWrapper, hooks, etc.)
-├── App.tsx               # Entrada principal
-└── README.md             # Este documento
+│   ├── AppNavigator.tsx
+│   ├── BottomTabsAdm.js
+│   ├── BottomTabsFuncionario.js
+│   ├── CadastroMotoStack.tsx
+│   └── navigation.ts
+├── services/             # Integração com APIs (Java e C#)
+│   ├── apiJava.tsx
+│   └── motoService.ts
+├── types/                # Definições TypeScript (ex: assets.d.ts)
+├── utils/                # Helpers (SafeAreaWrapper, jwtUtils, etc.)
+├── App.tsx               # Entrada principal do aplicativo
+└── README.md             # Documentação do projeto
+
 ```
 
 ---
