@@ -4,7 +4,7 @@ import { View, Text, ActivityIndicator, Image } from "react-native";
 export default function Scanner({ navigation }: any) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace("RegistroMoto");
+      navigation.navigate("RegistroMoto");
     }, 3000);
 
     return () => clearTimeout(timer);

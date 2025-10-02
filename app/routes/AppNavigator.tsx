@@ -20,6 +20,7 @@ export function AppNavigator() {
         name="LoginFuncionario"
         component={LoginFuncionarioScreen}
       />
+      {/* Telas do funcionário */}
     </Stack.Navigator>
   );
 }

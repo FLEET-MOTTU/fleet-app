@@ -1,25 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 
 import HomeFuncionarioScreen from "../pages/funcionarios/Home";
-import ListagemMotosScreen from "../pages/funcionarios/ListagemMotosScreen";
-import Scanner from "../pages/funcionarios/Scanner";
-import RegistroMoto from "../pages/funcionarios/Registro";
-import ResumoCadastro from "../pages/funcionarios/ResumoCadastro";
+import CadastroMotoStack from "./CadastroMotoStack"; // importa o stack
 
 const Tab = createBottomTabNavigator();
-const CadastroStack = createNativeStackNavigator();
-
-function CadastroMotoStack() {
-  return (
-    <CadastroStack.Navigator screenOptions={{ headerShown: false }}>
-      <CadastroStack.Screen name="Scanner" component={Scanner} />
-      <CadastroStack.Screen name="RegistroMoto" component={RegistroMoto} />
-      <CadastroStack.Screen name="ResumoCadastro" component={ResumoCadastro} />
-    </CadastroStack.Navigator>
-  );
-}
 
 export default function BottomTabsFuncionario() {
   return (
@@ -56,13 +41,8 @@ export default function BottomTabsFuncionario() {
       />
       <Tab.Screen
         name="CadastroMoto"
-        component={Scanner}
+        component={CadastroMotoStack}
         options={{ title: "Cadastrar Moto" }}
-      />
-      <Tab.Screen
-        name="ListagemMotos"
-        component={ListagemMotosScreen}
-        options={{ title: "Minhas Motos" }}
       />
     </Tab.Navigator>
   );
