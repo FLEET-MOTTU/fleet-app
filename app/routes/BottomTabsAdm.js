@@ -4,7 +4,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColorScheme } from "react-native";
 
 import HomeAdmScreen from "../pages/admin/Home";
-import ListagemFuncionariosScreen from "../pages/admin/ListagemFuncionariosScreen";
 import DelimitacaoZonasScreen from "../pages/admin/Zonas/DelimitacaoZonasScreen";
 import ListagemFuncionarios from "../pages/admin/CadastroFuncionario";
 
