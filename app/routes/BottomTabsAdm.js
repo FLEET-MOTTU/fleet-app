@@ -5,7 +5,7 @@ import { useColorScheme } from "react-native";
 
 import HomeAdmScreen from "../pages/admin/Home";
 import DelimitacaoZonasScreen from "../pages/admin/Zonas/DelimitacaoZonasScreen";
-import ListagemFuncionarios from "../pages/admin/CadastroFuncionario/Index";
+import ListagemFuncionarios from "../pages//admin/CadastroFuncionario";
 
 const Tab = createBottomTabNavigator();
 
