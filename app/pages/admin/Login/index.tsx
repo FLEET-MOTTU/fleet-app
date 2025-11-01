@@ -58,10 +58,10 @@ export default function LoginAdmScreen() {
     }
   };
 
-  // const entrarComoFuncionario = async () => {
-  //   await AsyncStorage.setItem("userRole", "funcionario");
-  //   navigation.navigate("FuncionarioTabs");
-  // };
+  const entrarComoFuncionario = async () => {
+    await AsyncStorage.setItem("userRole", "funcionario");
+    navigation.navigate("FuncionarioTabs");
+  };
 
   return (
     <View className="flex-1 bg-background">
@@ -89,7 +89,6 @@ export default function LoginAdmScreen() {
             />
           </View>
 
-          {/* Senha */}
           <View className="mb-8">
             <View className="flex-row items-center bg-white rounded-2xl px-4">
               <TextInput
@@ -135,10 +134,10 @@ export default function LoginAdmScreen() {
             loading={loading}
           />
 
-          {/* <Button
+          <Button
             label="Entrar como Funcionário"
             onPress={entrarComoFuncionario}
-          /> */}
+          />
 
           <View className="flex-row justify-center items-center">
             <Text className="text-gray-500 text-lg">Não tem uma conta? </Text>
