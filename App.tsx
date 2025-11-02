@@ -11,17 +11,16 @@ import {
   Manrope_700Bold,
   Manrope_800ExtraBold,
 } from "@expo-google-fonts/manrope";
+
 import { StatusBar } from "expo-status-bar";
 
 const linking = {
-  prefixes: ["exp://192.168.15.21:8081", "fleetapp://"],
+  prefixes: ["fleetapp://", "exp://192.168.15.21:8081/--/"],
   config: {
     screens: {
-      HomeFuncionario: {
+      LoginFuncionario: {
         path: "login-success",
-        parse: {
-          token: (token: string) => token,
-        },
+        parse: { code: (code: string) => code },
       },
     },
   },

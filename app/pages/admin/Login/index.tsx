@@ -127,17 +127,19 @@ export default function LoginAdmScreen() {
             </Text>
           )}
 
-          <Button
-            label="Login"
-            onPress={handleLoginAdm}
-            disabled={loading}
-            loading={loading}
-          />
+          <View className="flex gap-2">
+            <Button
+              label="Login"
+              onPress={handleLoginAdm}
+              disabled={loading}
+              loading={loading}
+            />
 
-          <Button
-            label="Entrar como Funcionário"
-            onPress={entrarComoFuncionario}
-          />
+            <Button
+              label="Entrar como Funcionário"
+              onPress={entrarComoFuncionario}
+            />
+          </View>
 
           <View className="flex-row justify-center items-center">
             <Text className="text-gray-500 text-lg">Não tem uma conta? </Text>

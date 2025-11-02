@@ -38,7 +38,7 @@ export default function HeaderMenu() {
 
   return (
     <View>
-      <TouchableOpacity onPress={() => setVisible(true)}>
+      <TouchableOpacity onPress={() => navigation.navigate("Configuration")}>
         <Ionicons
           name="ellipsis-vertical"
           size={24}

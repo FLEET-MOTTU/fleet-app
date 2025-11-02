@@ -7,5 +7,6 @@ export type RootStackParamList = {
   Scanner: undefined;
   RegistroMoto: undefined;
   ResumoCadastro: undefined;
+  Configuration: undefined;
   // adicione outras telas aqui conforme for criando
 };

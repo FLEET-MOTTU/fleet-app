@@ -9,16 +9,18 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        manrope: ["Manrope"],
+        manrope: [" Manrope", "sans-serif"],
       },
       colors: {
-        background: "#F4F4FA",
-        backgroundDark: "#151515",
+        background: "#FFFFFF",
+        backgroundDark: "#0D0D0D",
         white: "#FFFFFF",
         darkBlue: "#130F26",
         gray: "#2D2D2D",
         lightGray: "#D2D2D2",
         bleuInputDark: "#1f222a",
+        inputDark: "#121212",
+        lightText: "#6B7280",
       },
     },
   },

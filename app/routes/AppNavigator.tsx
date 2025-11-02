@@ -5,12 +5,11 @@ import LoginAdmScreen from "../pages/admin/Login";
 import BottomTabsAdm from "./BottomTabsAdm";
 import BottomTabsFuncionario from "./BottomTabsFuncionario";
 import LoginFuncionarioScreen from "../pages/funcionarios/LoginMagicLink";
-import { useMagicLink } from "../hooks/useMagicLink";
+import Configuracoes from "../pages/Common/Configuration";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function AppNavigator() {
-  useMagicLink();
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="LoginAdm" component={LoginAdmScreen} />
@@ -20,7 +19,7 @@ export function AppNavigator() {
         name="LoginFuncionario"
         component={LoginFuncionarioScreen}
       />
-      {/* Telas do funcionário */}
+      <Stack.Screen name="Configuration" component={Configuracoes} />
     </Stack.Navigator>
   );
 }

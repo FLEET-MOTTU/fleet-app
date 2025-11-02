@@ -1,77 +1,61 @@
 import * as Linking from "expo-linking";
 import { useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import apiJava from "../services/apiJava";
 import { RootStackParamList } from "../routes/navigation";
-import { jwtDecode } from "jwt-decode";
-
-type FuncionarioTokenPayload = {
-  idFuncionario: string;
-  nome: string;
-  pateoId: string;
-  exp: number;
-};
 
 export function useMagicLink() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
+    console.log("👂 Hook useMagicLink ativo, aguardando deep links...");
+
     const handleDeepLink = async (event: Linking.EventType) => {
-      const url = event.url;
-      const { queryParams } = Linking.parse(url);
+      try {
+        const url = event.url;
+        const { queryParams } = Linking.parse(url);
+        const code = queryParams?.code as string | undefined;
 
-      if (queryParams?.token) {
-        let token = queryParams.token as string;
+        console.log("🔗 URL recebida:", url);
+        console.log("🧩 Código capturado:", code);
 
-        // Limpa caso venha no formato "valor=xxx"
-        if (token.includes("valor=")) {
-          token = token.split("valor=")[1];
+        if (!code) return;
+
+        // troca o code pelos tokens válidos
+        const { data } = await apiJava.post("/auth/exchange-token", { code });
+        const { accessToken, refreshToken } = data;
+
+        if (!accessToken || !refreshToken) {
+          console.warn("⚠️ Resposta inválida: tokens ausentes.");
+          return;
         }
 
-        console.log("URL recebida:", url);
-        console.log("Query Params:", queryParams);
-        console.log("Token bruto:", queryParams.token);
-        console.log("Token limpo:", token);
+        await SecureStore.setItemAsync("accessToken", accessToken);
+        await SecureStore.setItemAsync("refreshToken", refreshToken);
 
-        await AsyncStorage.setItem("token", token);
-
-        // 🔹 Se o token tiver os 3 pedaços (JWT), tenta decodificar
-        if (token.split(".").length === 3) {
-          try {
-            const payload = jwtDecode<FuncionarioTokenPayload>(token);
-            console.log("Payload decodificado:", payload);
-
-            if (payload?.nome) {
-              await AsyncStorage.setItem("nomeFuncionario", payload.nome);
-            }
-            if (payload?.idFuncionario) {
-              await AsyncStorage.setItem(
-                "idFuncionario",
-                payload.idFuncionario
-              );
-            }
-            if (payload?.pateoId) {
-              await AsyncStorage.setItem("pateoId", payload.pateoId);
-            }
-          } catch (err) {
-            console.error("Erro ao decodificar JWT:", err);
-          }
-        } else {
-          console.warn("Token não é JWT, parece um UUID:", token);
-        }
+        console.log("✅ Tokens salvos, login automático feito.");
 
         navigation.reset({
           index: 0,
           routes: [{ name: "FuncionarioTabs" }],
         });
+      } catch (err: any) {
+        console.log(
+          "❌ Erro no fluxo do Magic Link:",
+          err.response?.data || err.message
+        );
       }
     };
 
-    const subscription = Linking.addEventListener("url", handleDeepLink);
+    // escutar deep links com app aberto
+    const sub = Linking.addEventListener("url", handleDeepLink);
+
+    // capturar caso o app tenha sido aberto diretamente pelo link
     Linking.getInitialURL().then((url) => {
       if (url) handleDeepLink({ url });
     });
 
-    return () => subscription.remove();
-  }, []);
+    return () => sub.remove();
+  }, [navigation]);
 }
