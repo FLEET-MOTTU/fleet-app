@@ -1,0 +1,20 @@
+{
+  "title": "Configuraciones",
+  "photo": "Toque para cambiar la foto",
+  "name": "Nombre completo",
+  "name_placeholder": "Tu nombre completo",
+  "email": "Correo electrónico",
+  "email_placeholder": "ejemplo@correo.com",
+  "password": "Contraseña",
+  "password_placeholder": "********",
+  "change_password": "Cambiar contraseña",
+  "language": "Idioma",
+  "language_placeholder": "Español",
+  "preferences": "Preferencias",
+  "dark_mode": "Modo oscuro",
+  "about_app": "Acerca de la aplicación",
+  "logout": "Cerrar sesión",
+  "save_changes": "Guardar cambios",
+  "cancel": "Cancelar",
+  "success_message": "¡Cambios guardados exitosamente!"
+}

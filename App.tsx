@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AppNavigator } from "./app/routes/AppNavigator";
 import "./global.css";
 import { useFonts } from "expo-font";
+import "./app/locales/i18n";
 import {
   Manrope_200ExtraLight,
   Manrope_300Light,
