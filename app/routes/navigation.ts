@@ -8,5 +8,5 @@ export type RootStackParamList = {
   RegistroMoto: undefined;
   ResumoCadastro: undefined;
   Configuration: undefined;
-  // adicione outras telas aqui conforme for criando
+  ChangePassword: undefined;
 };

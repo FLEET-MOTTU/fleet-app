@@ -1,6 +1,7 @@
 import React from "react";
 import { View, TextInput, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useColorScheme } from "nativewind";
 
 interface InputFieldProps {
   label: string;
@@ -11,7 +12,8 @@ interface InputFieldProps {
   secureTextEntry?: boolean;
   onIconPress?: () => void;
   editable?: boolean;
-  children?: React.ReactNode; // <–– novo!
+  children?: React.ReactNode;
+  rightIcon?: string;
 }
 
 export default function InputField({
@@ -23,8 +25,10 @@ export default function InputField({
   secureTextEntry = false,
   onIconPress,
   editable = true,
+  rightIcon,
   children,
 }: InputFieldProps) {
+  const { colorScheme } = useColorScheme();
   return (
     <View className="w-full mb-4">
       <Text className="text-black dark:text-white font-medium mb-1">
@@ -41,9 +45,11 @@ export default function InputField({
             />
           )}
           <TextInput
-            className="flex-1 text-gray-900 text-[15px]"
+            className="flex-1 text-black dark:text-white text-[15px]"
             placeholder={placeholder}
-            placeholderTextColor="#6B7280"
+            placeholderTextColor={
+              colorScheme === "dark" ? "#FFFFFF" : "#000000"
+            }
             value={value}
             editable={editable}
             onChangeText={onChangeText}
@@ -51,11 +57,10 @@ export default function InputField({
           />
         </View>
         {/* renderiza children (ex: Switch ou ícone) */}
-        {children && children}
         {!children && onIconPress && (
-          <TouchableOpacity onPress={onIconPress}>
+          <TouchableOpacity onPress={onIconPress} className="p-2">
             <Ionicons
-              name="chevron-forward-outline"
+              name={(rightIcon ?? "chevron-forward-outline") as any}
               size={18}
               color="#9CA3AF"
             />

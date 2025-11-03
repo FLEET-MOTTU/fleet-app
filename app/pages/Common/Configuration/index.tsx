@@ -20,6 +20,7 @@ import Button from "../../../components/Button";
 import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
 import AppHeader from "../../../components/AppHeader";
 import InputField from "../../../components/Input";
+import { getAdminFromToken } from "../../../services/auth/session";
 
 export default function Configuracoes() {
   const { t, i18n } = useTranslation("config");
@@ -35,13 +36,13 @@ export default function Configuracoes() {
   const navigation = useNavigation<any>();
 
   useEffect(() => {
-    const loadUser = async () => {
-      const nomeSalvo = await AsyncStorage.getItem("userNome");
-      const emailSalvo = await AsyncStorage.getItem("userEmail");
-      if (nomeSalvo) setNome(nomeSalvo);
-      if (emailSalvo) setEmail(emailSalvo);
-    };
-    loadUser();
+    (async () => {
+      const admin = await getAdminFromToken();
+      if (admin) {
+        setNome(admin.nome ?? "");
+        setEmail(admin.email ?? "");
+      }
+    })();
   }, []);
 
   const escolherFoto = async () => {
@@ -92,7 +93,6 @@ export default function Configuracoes() {
       <AppHeader title={t("title")} showBack={true} />
 
       <ScrollView className="px-4">
-        {/* Foto */}
         <View className="items-center mt-6 mb-8">
           <TouchableOpacity onPress={escolherFoto}>
             {foto ? (
@@ -112,13 +112,13 @@ export default function Configuracoes() {
           </Text>
         </View>
 
-        {/* Campos */}
         <InputField
           label={t("name")}
           placeholder={t("name_placeholder")}
           value={nome}
           onChangeText={setNome}
           icon="person"
+          editable={false}
         />
 
         <InputField
@@ -127,6 +127,7 @@ export default function Configuracoes() {
           value={email}
           onChangeText={setEmail}
           icon="mail"
+          editable={false}
         />
 
         <InputField
@@ -134,9 +135,10 @@ export default function Configuracoes() {
           placeholder={t("password_placeholder")}
           value={senha}
           onChangeText={setSenha}
-          icon="eye"
+          icon="lock-closed-outline"
+          editable={false}
         />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("ChangePassword")}>
           <Text className="text-[#2563EB] font-medium mb-5">
             {t("change_password")}
           </Text>
@@ -241,22 +243,6 @@ export default function Configuracoes() {
           <Ionicons name="log-out-outline" size={20} color="white" />
           <Text className="text-white font-semibold">{t("logout")}</Text>
         </TouchableOpacity>
-
-        <View className="mt-10 flex-row justify-between pb-10">
-          <Button
-            label={t("cancel")}
-            onPress={() => navigation.goBack()}
-            bgColor="bg-[#F3F4F6]"
-            textColor="text-gray-800"
-            className="w-[45%]"
-          />
-          <Button
-            label={t("save_changes")}
-            onPress={handleSalvar}
-            textColor="text-white"
-            className="w-[45%]"
-          />
-        </View>
       </ScrollView>
     </SafeAreaWrapper>
   );

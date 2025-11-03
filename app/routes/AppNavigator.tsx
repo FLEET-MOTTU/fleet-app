@@ -6,6 +6,7 @@ import BottomTabsAdm from "./BottomTabsAdm";
 import BottomTabsFuncionario from "./BottomTabsFuncionario";
 import LoginFuncionarioScreen from "../pages/funcionarios/LoginMagicLink";
 import Configuracoes from "../pages/Common/Configuration";
+import ChangePassword from "../pages/admin/ChangePassword";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -20,6 +21,7 @@ export function AppNavigator() {
         component={LoginFuncionarioScreen}
       />
       <Stack.Screen name="Configuration" component={Configuracoes} />
+      <Stack.Screen name="ChangePassword" component={ChangePassword} />
     </Stack.Navigator>
   );
 }
