@@ -9,7 +9,7 @@ export function useMagicLink() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
-    console.log("👂 Hook useMagicLink ativo, aguardando deep links...");
+    console.log("Hook useMagicLink ativo, aguardando deep links...");
 
     const handleDeepLink = async (event: Linking.EventType) => {
       try {
@@ -17,8 +17,8 @@ export function useMagicLink() {
         const { queryParams } = Linking.parse(url);
         const code = queryParams?.code as string | undefined;
 
-        console.log("🔗 URL recebida:", url);
-        console.log("🧩 Código capturado:", code);
+        console.log("URL recebida:", url);
+        console.log("Código capturado:", code);
 
         if (!code) return;
 
@@ -27,14 +27,14 @@ export function useMagicLink() {
         const { accessToken, refreshToken } = data;
 
         if (!accessToken || !refreshToken) {
-          console.warn("⚠️ Resposta inválida: tokens ausentes.");
+          console.warn("Resposta inválida: tokens ausentes.");
           return;
         }
 
         await SecureStore.setItemAsync("accessToken", accessToken);
         await SecureStore.setItemAsync("refreshToken", refreshToken);
 
-        console.log("✅ Tokens salvos, login automático feito.");
+        console.log("Tokens salvos, login automático feito.");
 
         navigation.reset({
           index: 0,
@@ -42,7 +42,7 @@ export function useMagicLink() {
         });
       } catch (err: any) {
         console.log(
-          "❌ Erro no fluxo do Magic Link:",
+          "Erro no fluxo do Magic Link:",
           err.response?.data || err.message
         );
       }
