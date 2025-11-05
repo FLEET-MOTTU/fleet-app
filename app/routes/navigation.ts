@@ -12,4 +12,5 @@ export type RootStackParamList = {
   Warning: undefined;
   // ForgotPassword: undefined;
   FuncionarioConfig: undefined;
+  CadastrarFuncionario: undefined;
 };

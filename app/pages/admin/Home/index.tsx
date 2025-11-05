@@ -1,137 +1,189 @@
-import { useEffect, useMemo, useState } from "react";
-import {
-  ActivityIndicator,
-  Dimensions,
-  ImageBackground,
-  Text,
-  View,
-} from "react-native";
-import Svg, { Polygon } from "react-native-svg";
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
-import HeaderMenu from "../../../components/common/HeaderMenu";
-import {
-  getPateoDetalhes,
-  PateoDetailResponse,
-  ZonaResponse,
-} from "../Zonas/services/zonaService";
-
-import planta from "../Zonas/assets/mapa.jpeg";
-
-const screenWidth = Dimensions.get("window").width;
-const CANVAS_MARGIN = 48;
+import { getAdminFromToken } from "../../../services/auth/session";
+import { useNavigation } from "@react-navigation/native";
+import QuickActionCard from "../../../components/QuickCard";
 
 export default function HomeAdmScreen() {
-  const [pateo, setPateo] = useState<PateoDetailResponse | null>(null);
-  const [zonas, setZonas] = useState<ZonaResponse[]>([]);
+  const navigation = useNavigation<any>();
+
+  const [adminName, setAdminName] = useState("Administrador");
   const [loading, setLoading] = useState(true);
 
-  const viewWidth = useMemo(() => screenWidth - CANVAS_MARGIN, []);
-  const viewHeight = useMemo(() => {
-    if (!pateo) return 300;
-    const ratio = pateo.plantaAltura / pateo.plantaLargura;
-    return Math.round(viewWidth * ratio);
-  }, [pateo, viewWidth]);
-
-  async function carregar() {
-    try {
-      setLoading(true);
-      const data = await getPateoDetalhes();
-      setPateo(data);
-      setZonas(data.zonas || []);
-    } catch (err) {
-      console.error("Erro carregando pátio:", err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    carregar();
+    (async () => {
+      const admin = await getAdminFromToken();
+      if (admin?.nome) setAdminName(admin.nome);
+      setLoading(false);
+    })();
   }, []);
 
   return (
     <SafeAreaWrapper>
-      <View className="flex-row justify-between items-center px-4 py-3">
-        <View className="space-y-1 gap-4">
-          <Text className="text-3xl font-bold text-darkBlue dark:text-white">
-            FLEET
-          </Text>
-          <Text className="text-lg font-semibold dark:text-white">
-            Gerencie o pateo
-          </Text>
-        </View>
-
-        <HeaderMenu />
-      </View>
-
-      <View className="flex-1 items-center">
-        {loading ? (
-          <View className="h-72 justify-center items-center">
-            <ActivityIndicator size="large" color="#130F26" />
-            <Text className="text-gray-500 dark:text-gray-300 mt-3">
-              Carregando pátio...
+      <ScrollView
+        className="flex-1 px-4 pt-6 "
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header */}
+        <View className="flex-row justify-between items-center mb-6">
+          <View>
+            <Text className="text-gray-500 dark:text-gray-300 text-xl">
+              Olá,
+            </Text>
+            <Text className="text-2xl font-bold dark:text-white">
+              {adminName}
             </Text>
           </View>
-        ) : (
-          <ImageBackground
-            source={planta}
-            style={{ width: viewWidth, height: viewHeight }}
-            resizeMode="contain"
-            className="rounded-xl overflow-hidden"
-          >
-            <Svg height={viewHeight} width={viewWidth}>
-              {zonas.map((zona, i) => (
-                <Polygon
-                  key={zona.id}
-                  points={zona.coordenadasWKT
-                    .replace("POLYGON ((", "")
-                    .replace("))", "")
-                    .split(", ")
-                    .map((pair: string) => {
-                      const [nx, ny]: number[] = pair.split(" ").map(Number);
-                      return `${nx * viewWidth},${ny * viewHeight}`;
-                    })
-                    .join(" ")}
-                  fill={
-                    [
-                      "rgba(255,0,0,0.4)",
-                      "rgba(0,0,255,0.4)",
-                      "rgba(0,255,0,0.4)",
-                    ][i % 3]
-                  }
-                  stroke="white"
-                  strokeWidth="2"
-                />
-              ))}
-            </Svg>
-          </ImageBackground>
-        )}
-
-        <View className="mt-6 w-full bg-black/10 dark:bg-white/10 rounded-xl p-4">
-          <Text className="text-base font-semibold dark:text-white">
-            Motos em movimento
-          </Text>
-          <Text className="text-sm text-gray-600 dark:text-lightGray">
-            Última atualização há 5 minutos
-          </Text>
+          <View className="flex-row items-center gap-3">
+            <TouchableOpacity className="bg-gray-200 dark:bg-darkBlue p-2 rounded-full">
+              <Ionicons name="notifications-outline" size={22} color="#555" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="bg-gray-200 dark:bg-darkBlue p-2 rounded-full"
+              onPress={() => {
+                navigation.navigate("Configuration");
+              }}
+            >
+              <Ionicons name="settings-outline" size={22} color="#555" />
+            </TouchableOpacity>
+            <Image
+              source={{
+                uri: "https://i.pravatar.cc/100",
+              }}
+              className="w-10 h-10 rounded-full"
+            />
+          </View>
         </View>
 
-        <View className="mt-3 w-full bg-green-500/20 dark:bg-green-700/40 rounded-xl p-4">
-          <Text className="text-base font-semibold text-green-700 dark:text-green-200">
-            Total de motos: 90
-          </Text>
+        {/* Métricas principais */}
+        <View className="flex-row justify-between mb-8">
+          <MetricCard
+            icon="bicycle"
+            title="Coletadas Hoje"
+            value="24"
+            color="#10B981"
+          />
+          <MetricCard
+            icon="build-outline"
+            title="Em Manutenção"
+            value="12"
+            color="#3B82F6"
+          />
+          <MetricCard
+            icon="checkmark-circle-outline"
+            title="Finalizadas"
+            value="8"
+            color="#22C55E"
+          />
         </View>
-        <View className="mt-3 w-full bg-yellow-500/20 dark:bg-yellow-700/40 rounded-xl p-4">
-          <Text className="text-base font-semibold text-yellow-700 dark:text-yellow-200">
-            Motos paradas: 30
-          </Text>
+
+        {/* Ações rápidas */}
+        <Text className="text-lg font-bold mb-3 dark:text-white">
+          Ações Rápidas
+        </Text>
+        <View className="flex-row justify-between mb-8">
+          <QuickActionCard
+            icon="person"
+            title="Funcionários"
+            subtitle="Cadastrar novos"
+            onPress={() => navigation.navigate("CadastrarFuncionario")}
+            variant="filled" // primeiro card azul preenchido
+          />
+
+          <QuickActionCard
+            icon="map"
+            title="Ver Pátio"
+            subtitle="Localizar motos"
+            onPress={() => navigation.navigate("Zonas")}
+            variant="outlined" // segundo card com borda azul
+          />
         </View>
-        <View className="mt-3 w-full bg-red-500/20 dark:bg-red-700/40 rounded-xl p-4">
-          <Text className="text-base font-semibold text-red-700 dark:text-red-200">
-            Motos com problema: 5
-          </Text>
+
+        {/* Atividades recentes */}
+        <View className="mb-8">
+          <View className="flex-row justify-between items-center mb-2">
+            <Text className="text-lg font-bold dark:text-white">
+              Atividades Recentes
+            </Text>
+            <Text className="text-sm text-blue-600 dark:text-blue-400">
+              Ver todas
+            </Text>
+          </View>
+
+          <ActivityItem
+            icon="add-circle-outline"
+            plate="ABC-1234"
+            desc="Cadastrada • Motor defeituoso"
+            time="2min"
+            color="#22C55E"
+          />
+          <ActivityItem
+            icon="arrow-forward-outline"
+            plate="XYZ-5678"
+            desc="Movida • Zona Manutenção"
+            time="8min"
+            color="#3B82F6"
+          />
+          <ActivityItem
+            icon="checkmark-circle-outline"
+            plate="DEF-9012"
+            desc="Finalizada • Pronta para rua"
+            time="15min"
+            color="#22C55E"
+          />
         </View>
-      </View>
+
+        {/* Estatísticas */}
+        <View className="mb-16">
+          <Text className="text-lg font-bold mb-3 dark:text-white">
+            Estatísticas do Dia
+          </Text>
+          <View className="bg-darkBlue rounded-2xl p-5">
+            <Text className="text-white text-lg mb-2 font-semibold">
+              Eficiência do Pátio
+            </Text>
+            <View className="flex-row justify-between mb-2">
+              <Text className="text-white">Motos prontas</Text>
+              <Text className="text-white font-bold">74</Text>
+            </View>
+            <View className="flex-row justify-between mb-4">
+              <Text className="text-white">Motos no pátio</Text>
+              <Text className="text-white font-bold">80</Text>
+            </View>
+            <View className="w-full bg-white/20 h-2 rounded-full">
+              <View
+                className="bg-green-400 h-2 rounded-full"
+                style={{ width: "90%" }}
+              />
+            </View>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaWrapper>
   );
 }
+
+const MetricCard = ({ icon, title, value, color }: any) => (
+  <View className="bg-white dark:bg-[#1E1E1E] rounded-2xl flex-1 items-center justify-center py-3 mx-1 shadow-sm">
+    <Ionicons name={icon} size={24} color={color} />
+    <Text className="text-lg font-bold mt-2 dark:text-white">{value}</Text>
+    <Text className="text-xs text-gray-500 dark:text-gray-300">{title}</Text>
+  </View>
+);
+
+const ActivityItem = ({ icon, plate, desc, time, color }: any) => (
+  <View className="flex-row justify-between items-center bg-white dark:bg-[#1E1E1E] rounded-xl p-4 mb-3 shadow-sm">
+    <View className="flex-row items-center gap-3">
+      <Ionicons name={icon} size={22} color={color} />
+      <View>
+        <Text className="text-sm font-semibold dark:text-white">{plate}</Text>
+        <Text className="text-xs text-gray-500 dark:text-lightText">
+          {desc}
+        </Text>
+      </View>
+    </View>
+    <Text className="text-xs text-gray-400 dark:text-lightText">{time}</Text>
+  </View>
+);

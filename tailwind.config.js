@@ -19,6 +19,7 @@ module.exports = {
         inputDark: "#121212",
         lightText: "#6B7280",
         black50: "#000000C5",
+        borderIcon: "#FFFFFF36",
       },
     },
   },

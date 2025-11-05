@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import LoginService from "./services/loginService";
@@ -11,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import Wave from "../../../../assets/iconWave.svg";
 import Logo from "../../../../assets/LogoFleet.svg";
 import LogoWhite from "../../../../assets/LogoWhite.svg";
-import { useTheme } from "../../../contexts/ThemeContext";
 import { useColorScheme } from "nativewind";
 
 type RootStackParamList = {
