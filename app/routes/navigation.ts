@@ -9,5 +9,7 @@ export type RootStackParamList = {
   ResumoCadastro: undefined;
   Configuration: undefined;
   ChangePassword: undefined;
+  Warning: undefined;
+  // ForgotPassword: undefined;
   FuncionarioConfig: undefined;
 };

@@ -9,6 +9,8 @@
   "forgot_password": "¿Olvidaste tu contraseña?",
   "no_account": "¿No tienes una cuenta?",
   "welcome": "¡Hola, bienvenido!",
-  "contact_support": "Contáctanos",
-  "remember_me": "Recuérdame"
+  "contact_support": "Contáctanos si necesitas ayuda.",
+  "remember_me": "Recuérdame",
+  "support_password": "¡Vamos a cambiar tu contraseña!",
+  "menu_back": "Volver al inicio de sesión"
 }

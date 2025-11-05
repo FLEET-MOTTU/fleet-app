@@ -18,7 +18,7 @@ module.exports = {
         bleuInputDark: "#1f222a",
         inputDark: "#121212",
         lightText: "#6B7280",
-        black50: "#00000080",
+        black50: "#000000C5",
       },
     },
   },

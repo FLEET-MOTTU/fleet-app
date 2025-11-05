@@ -108,9 +108,7 @@ export default function LoginAdmScreen() {
               {/* <Text className="text-lg dark:text-white">
                 {t("remember_me")}
               </Text> */}
-              <TouchableOpacity
-                onPress={() => navigation.navigate("ForgotPassword")}
-              >
+              <TouchableOpacity onPress={() => navigation.navigate("Warning")}>
                 <Text className="text-lg dark:text-white">
                   {t("forgot_password")}
                 </Text>
@@ -138,7 +136,7 @@ export default function LoginAdmScreen() {
               />
             </View>
 
-            <View className="flex-row justify-center items-center mt-20 gap-2">
+            <View className="flex-row flex-wrap justify-center items-center mt-20 gap-1">
               <Text className="text-black50 text-lg dark:text-white">
                 {t("no_account")}
               </Text>

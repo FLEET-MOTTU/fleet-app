@@ -8,5 +8,7 @@
   "no_account": "Não tem uma conta? ",
   "welcome": "Olá, bem-vindo!",
   "contact_support": "Contate o suporte",
-  "remember_me": "Manter-me conectado"
+  "remember_me": "Manter-me conectado",
+  "support_password": "Vamos alterar a senha para você!",
+  "menu_back": "Voltar para o login"
 }
