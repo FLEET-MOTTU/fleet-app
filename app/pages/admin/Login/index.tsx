@@ -22,8 +22,8 @@ type RootStackParamList = {
 export default function LoginAdmScreen() {
   const { t } = useTranslation("login");
 
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<any>();
+
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -108,9 +108,13 @@ export default function LoginAdmScreen() {
               {/* <Text className="text-lg dark:text-white">
                 {t("remember_me")}
               </Text> */}
-              <Text className="text-lg dark:text-white">
-                {t("forgot_password")}
-              </Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ForgotPassword")}
+              >
+                <Text className="text-lg dark:text-white">
+                  {t("forgot_password")}
+                </Text>
+              </TouchableOpacity>
             </View>
 
             {error !== "" && (
