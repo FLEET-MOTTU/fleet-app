@@ -47,9 +47,7 @@ export default function Button({
           {icon && iconPosition === "left" && (
             <Ionicons name={icon} size={20} color="#fff" />
           )}
-          <Text className={`${textColor} font-semibold text-[16px]`}>
-            {label}
-          </Text>
+          <Text className={`${textColor} font-semibold text-xl`}>{label}</Text>
           {icon && iconPosition === "right" && (
             <Ionicons name={icon} size={20} color="#fff" />
           )}

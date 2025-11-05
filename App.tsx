@@ -1,19 +1,21 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { AppNavigator } from "./app/routes/AppNavigator";
 import "./global.css";
-import { useFonts } from "expo-font";
+
 import "./app/locales/i18n";
+
 import {
-  Manrope_200ExtraLight,
-  Manrope_300Light,
-  Manrope_400Regular,
-  Manrope_500Medium,
-  Manrope_600SemiBold,
-  Manrope_700Bold,
-  Manrope_800ExtraBold,
-} from "@expo-google-fonts/manrope";
+  useFonts,
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+} from "@expo-google-fonts/inter";
 
 import { StatusBar } from "expo-status-bar";
+import { View, Text } from "react-native";
 
 const linking = {
   prefixes: ["fleetapp://", "exp://192.168.15.21:8081/--/"],
@@ -28,18 +30,21 @@ const linking = {
 };
 
 export default function App() {
-  let [fontsLoaded] = useFonts({
-    Manrope_200ExtraLight,
-    Manrope_300Light,
-    Manrope_400Regular,
-    Manrope_500Medium,
-    Manrope_600SemiBold,
-    Manrope_700Bold,
-    Manrope_800ExtraBold,
+  const [fontsLoaded] = useFonts({
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
   });
 
   if (!fontsLoaded) {
-    return null; // ou um componente de loading
+    return (
+      <View className="flex-1 items-center justify-center bg-white">
+        <Text>Carregando fontes...</Text>
+      </View>
+    );
   }
 
   return (

@@ -31,10 +31,8 @@ export default function InputField({
   const { colorScheme } = useColorScheme();
   return (
     <View className="w-full mb-4">
-      <Text className="text-black dark:text-white font-medium mb-1">
-        {label}
-      </Text>
-      <View className="flex-row items-center justify-between border border-[#E5E7EB] dark:border-zinc-500 rounded-lg bg-white dark:bg-inputDark px-3 h-[48px]">
+      <Text className="text-black dark:text-white text-lg mb-1">{label}</Text>
+      <View className="flex-row items-center justify-between border border-[#E5E7EB] dark:border-zinc-500 rounded-xl bg-white dark:bg-inputDark px-3 h-[62px]">
         <View className="flex-row items-center flex-1">
           {icon && (
             <Ionicons
@@ -45,10 +43,10 @@ export default function InputField({
             />
           )}
           <TextInput
-            className="flex-1 text-black dark:text-white text-[15px]"
+            className="flex-1 text-black dark:text-white text-xl"
             placeholder={placeholder}
             placeholderTextColor={
-              colorScheme === "dark" ? "#FFFFFF" : "#000000"
+              colorScheme === "dark" ? "#FFFFFF" : "#00000080"
             }
             value={value}
             editable={editable}

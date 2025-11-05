@@ -1,0 +1,14 @@
+{
+  "name": "Nombre",
+  "name_placeholder": "Introduce tu nombre",
+  "email": "Correo electrónico",
+  "email_placeholder": "Introduce tu correo electrónico",
+  "password": "Contraseña",
+  "password_placeholder": "Introduce tu contraseña",
+  "login_button": "Iniciar sesión",
+  "forgot_password": "¿Olvidaste tu contraseña?",
+  "no_account": "¿No tienes una cuenta?",
+  "welcome": "¡Hola, bienvenido!",
+  "contact_support": "Contáctanos",
+  "remember_me": "Recuérdame"
+}

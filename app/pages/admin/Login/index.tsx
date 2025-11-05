@@ -2,22 +2,26 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
-import {
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  SafeAreaView,
-} from "react-native";
-import { Eye, EyeOff } from "lucide-react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import LoginService from "./services/loginService";
 import Button from "../../../components/Button";
+import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
+import InputField from "../../../components/Input";
+import { useTranslation } from "react-i18next";
+import Wave from "../../../../assets/iconWave.svg";
+import Logo from "../../../../assets/LogoFleet.svg";
+import LogoWhite from "../../../../assets/LogoWhite.svg";
+import { useTheme } from "../../../contexts/ThemeContext";
+import { useColorScheme } from "nativewind";
+
 type RootStackParamList = {
   AdminTabs: undefined;
   FuncionarioTabs: undefined;
 };
 
 export default function LoginAdmScreen() {
+  const { t } = useTranslation("login");
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [login, setLogin] = useState("");
@@ -25,6 +29,8 @@ export default function LoginAdmScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { colorScheme } = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
 
   const handleLoginAdm = async () => {
     try {
@@ -64,93 +70,83 @@ export default function LoginAdmScreen() {
   };
 
   return (
-    <View className="flex-1 bg-background">
-      <View className="flex h-56 bg-darkBlue overflow-hidden">
-        <SafeAreaView className="flex-1">
-          <View className="flex-1 justify-center items-center px-6">
-            <Text className="text-white text-4xl font-bold text-center relative z-10">
-              Bem-vindo de volta!
-            </Text>
-          </View>
-        </SafeAreaView>
-      </View>
+    <SafeAreaWrapper>
+      <View className="flex-1">
+        <View className="flex-1">
+          <View className="px-6 py-8 shadow-2xl elevation-8">
+            <View className="flex items-center mb-14">
+              {isDarkMode ? <LogoWhite /> : <Logo />}
+            </View>
+            <View className="flex-row items-center mb-11">
+              <Text className="text-4xl text-darkBlue dark:text-white text-extrabold">
+                {t("welcome")}
+              </Text>
+              <Wave style={{ marginLeft: 24 }} />
+            </View>
+            <View className="mb-2 ">
+              <InputField
+                label={t("email")}
+                placeholder={t("email_placeholder")}
+                value={login}
+                onChangeText={setLogin}
+              />
+            </View>
 
-      <View className="flex-1 px-6">
-        <View className="px-6 py-8 shadow-2xl elevation-8">
-          <View className="mb-6">
-            <TextInput
-              placeholder="Email"
-              value={login}
-              onChangeText={setLogin}
-              className="w-full px-4 py-5 rounded-2xl bg-white text-gray-900 text-lg"
-              placeholderTextColor="#9CA3AF"
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
-
-          <View className="mb-8">
-            <View className="flex-row items-center bg-white rounded-2xl px-4">
-              <TextInput
-                placeholder="Senha"
+            <View className="flex-row items-center rounded-2xl">
+              <InputField
+                label={t("password")}
+                placeholder={t("password_placeholder")}
                 value={senha}
                 onChangeText={setSenha}
                 secureTextEntry={!showPassword}
-                className="flex-1 px-4 py-5 rounded-2xl bg-gray-50 text-gray-900 text-lg"
-                placeholderTextColor="#9CA3AF"
+                rightIcon={showPassword ? "eye-outline" : "eye-off-outline"}
+                onIconPress={() => setShowPassword(!showPassword)}
               />
-              <TouchableOpacity
-                onPress={() => setShowPassword(!showPassword)}
-                className="p-2"
-              >
-                {showPassword ? (
-                  <Eye size={20} color="#2D2D2D" />
-                ) : (
-                  <EyeOff size={20} color="#2D2D2D" />
-                )}
+            </View>
+
+            <View className="flex-row justify-end items-center gap-12 mb-12 text-black ">
+              {/* <Text className="text-lg dark:text-white">
+                {t("remember_me")}
+              </Text> */}
+              <Text className="text-lg dark:text-white">
+                {t("forgot_password")}
+              </Text>
+            </View>
+
+            {error !== "" && (
+              <Text className="text-red-500 text-sm mb-4 text-center">
+                {error}
+              </Text>
+            )}
+
+            <View className="flex gap-2">
+              <Button
+                label={t("login_button")}
+                onPress={handleLoginAdm}
+                disabled={loading}
+                loading={loading}
+                size={"lg"}
+              />
+
+              <Button
+                label="Entrar como Funcionário"
+                onPress={entrarComoFuncionario}
+              />
+            </View>
+
+            <View className="flex-row justify-center items-center mt-20 gap-2">
+              <Text className="text-black50 text-lg dark:text-white">
+                {t("no_account")}
+              </Text>
+              <TouchableOpacity>
+                <Text className="text-black font-semibold text-lg dark:text-white">
+                  {t("contact_support")}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
-
-          <View className="flex-row justify-center items-center mb-12">
-            <Text className="text-gray-500 text-lg">Esqueceu a senha? </Text>
-            <TouchableOpacity>
-              <Text className="text-red-500 font-semibold text-base">
-                Recuperar
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          {error !== "" && (
-            <Text className="text-red-500 text-sm mb-4 text-center">
-              {error}
-            </Text>
-          )}
-
-          <View className="flex gap-2">
-            <Button
-              label="Login"
-              onPress={handleLoginAdm}
-              disabled={loading}
-              loading={loading}
-            />
-
-            <Button
-              label="Entrar como Funcionário"
-              onPress={entrarComoFuncionario}
-            />
-          </View>
-
-          <View className="flex-row justify-center items-center">
-            <Text className="text-gray-500 text-lg">Não tem uma conta? </Text>
-            <TouchableOpacity>
-              <Text className="text-red-500 font-semibold text-base">
-                Contate o suporte
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
-    </View>
+    </SafeAreaWrapper>
   );
 }

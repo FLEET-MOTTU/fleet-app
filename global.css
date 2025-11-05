@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global font setup */
+* {
+  font-family: Inter_400Regular;
+}
+
+.text-medium {
+  font-family: Inter_500Medium;
+}
+
+.text-semibold {
+  font-family: Inter_600SemiBold;
+}
+
+.text-bold {
+  font-family: Inter_700Bold;
+}
+
+.text-extrabold {
+  font-family: Inter_800ExtraBold;
+}
+
+.text-light {
+  font-family: Inter_300Light;
+}

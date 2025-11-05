@@ -8,9 +8,6 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
-      fontFamily: {
-        manrope: [" Manrope", "sans-serif"],
-      },
       colors: {
         background: "#FFFFFF",
         backgroundDark: "#0D0D0D",
@@ -21,6 +18,7 @@ module.exports = {
         bleuInputDark: "#1f222a",
         inputDark: "#121212",
         lightText: "#6B7280",
+        black50: "#00000080",
       },
     },
   },

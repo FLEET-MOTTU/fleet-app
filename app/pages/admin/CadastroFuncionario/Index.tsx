@@ -16,7 +16,6 @@ import {
 import FuncionarioForm from "./components/FuncionarioFrom";
 import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
 import { useNavigation } from "@react-navigation/native";
-import AppHeader from "../../../components/AppHeader";
 import Operadores from "../assets/img_operadores.svg";
 
 export default function ListagemFuncionarios() {

@@ -1,0 +1,12 @@
+{
+  "email": "Email",
+  "email_placeholder": "Digite seu email",
+  "password": "Senha",
+  "password_placeholder": "Digite sua senha",
+  "login_button": "Entrar",
+  "forgot_password": "Esqueceu sua senha?",
+  "no_account": "Não tem uma conta? ",
+  "welcome": "Olá, bem-vindo!",
+  "contact_support": "Contate o suporte",
+  "remember_me": "Manter-me conectado"
+}
