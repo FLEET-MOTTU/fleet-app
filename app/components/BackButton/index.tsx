@@ -1,11 +1,12 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useColorScheme } from "nativewind";
+import { RootStackParamList } from "../../routes/navigation";
 
 export default function BackButton({ onPress }: { onPress?: () => void }) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { colorScheme } = useColorScheme();
 
   return (

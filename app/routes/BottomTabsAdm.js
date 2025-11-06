@@ -6,6 +6,7 @@ import { useColorScheme } from "react-native";
 import HomeAdmScreen from "../pages/admin/Home";
 import DelimitacaoZonasScreen from "../pages/admin/Zonas/DelimitacaoZonasScreen";
 import ListagemFuncionarios from "../pages//admin/CadastroFuncionario";
+import MapaPateo from "../pages/admin/Pateo";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +35,9 @@ export default function BottomTabsAdm() {
             case "HomeAdm":
               iconName = "home-outline";
               break;
+            case "MapaPateo":
+              iconName = "location-outline";
+              break;
             case "ListagemFuncionarios":
               iconName = "people-outline";
               break;
@@ -53,14 +57,19 @@ export default function BottomTabsAdm() {
         options={{ title: "Início" }}
       />
       <Tab.Screen
-        name="ListagemFuncionarios"
-        component={ListagemFuncionarios}
-        options={{ title: "Funcionários" }}
+        name="MapaPateo"
+        component={MapaPateo}
+        options={{ title: "Mapa do Pátio" }}
       />
       <Tab.Screen
         name="DelimitacaoZonas"
         component={DelimitacaoZonasScreen}
         options={{ title: "Zonas" }}
+      />
+      <Tab.Screen
+        name="ListagemFuncionarios"
+        component={ListagemFuncionarios}
+        options={{ title: "Funcionários" }}
       />
     </Tab.Navigator>
   );

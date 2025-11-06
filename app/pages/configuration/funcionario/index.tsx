@@ -100,9 +100,6 @@ export default function ConfiguracoesFuncionario() {
               </View>
             )}
           </TouchableOpacity>
-          <Text className="mt-2 text-sm text-black dark:text-white">
-            {t("photo")}
-          </Text>
         </View>
 
         <InputField

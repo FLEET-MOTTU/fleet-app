@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import QuickActionCard from "../../../components/QuickCard";
 import { useTranslation } from "react-i18next";
 import { useColorScheme } from "nativewind";
+import ActivityItem from "../../../components/ActiveItem";
 
 export default function HomeAdmScreen() {
   const navigation = useNavigation<any>();
@@ -183,20 +184,5 @@ const MetricCard = ({ icon, title, value, color }: any) => (
     <Ionicons name={icon} size={24} color={color} />
     <Text className="text-lg font-bold mt-2 dark:text-white">{value}</Text>
     <Text className="text-xs text-gray-500 dark:text-white">{title}</Text>
-  </View>
-);
-
-const ActivityItem = ({ icon, plate, desc, time, color }: any) => (
-  <View className="flex-row justify-between items-center bg-white dark:bg-lightBlack rounded-xl p-4 mb-3 shadow-sm">
-    <View className="flex-row items-center gap-3">
-      <Ionicons name={icon} size={22} color={color} />
-      <View>
-        <Text className="text-sm font-semibold dark:text-white">{plate}</Text>
-        <Text className="text-xs text-gray-500 dark:text-lightText">
-          {desc}
-        </Text>
-      </View>
-    </View>
-    <Text className="text-xs text-gray-400 dark:text-lightText">{time}</Text>
   </View>
 );

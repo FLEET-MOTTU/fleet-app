@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import Svg, { Polygon } from "react-native-svg";
 import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
-import HeaderMenu from "../../../components/common/HeaderMenu";
 import {
   getPateoDetalhes,
   PateoDetailResponse,
@@ -20,12 +19,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 import AppHeader from "../../../components/AppHeader";
 import { getAdminFromToken } from "../../../services/auth/session";
+import ActivityItem from "../../../components/ActiveItem";
+import { useTranslation } from "react-i18next";
 
 const screenWidth = Dimensions.get("window").width;
 const CANVAS_MARGIN = 32;
 
 export default function MapaPateo() {
+  const { t } = useTranslation("pateo");
+
   const { colorScheme } = useColorScheme();
+  const isDark = colorScheme === "dark";
+
   const [pateo, setPateo] = useState<PateoDetailResponse | null>(null);
   const [zonas, setZonas] = useState<ZonaResponse[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,7 +50,7 @@ export default function MapaPateo() {
       const admin = await getAdminFromToken();
 
       if (!admin?.pateoId) {
-        console.warn("⚠️ Nenhum pateoId encontrado no token do admin");
+        console.warn("Nenhum pateoId encontrado no token do admin");
         setLoading(false);
         return;
       }
@@ -71,29 +76,9 @@ export default function MapaPateo() {
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
-        <AppHeader title="Mapa do Pátio" showBack={true} />
+        <AppHeader title={t("title")} showBack />
 
-        {/* Campo de busca */}
-        <View
-          className={`flex-row items-center rounded-xl mb-4 px-4 py-8 ${
-            colorScheme === "dark" ? "bg-[#130F26]" : "bg-gray-100"
-          }`}
-        >
-          <Ionicons
-            name="search-outline"
-            size={20}
-            color={colorScheme === "dark" ? "#fff" : "#555"}
-          />
-          <TextInput
-            placeholder="Buscar Moto"
-            placeholderTextColor={colorScheme === "dark" ? "#ccc" : "#888"}
-            value={search}
-            onChangeText={setSearch}
-            className={`flex-1 py-3 ml-2 ${
-              colorScheme === "dark" ? "text-white" : "text-black"
-            }`}
-          />
-        </View>
+        <View></View>
 
         {/* Mapa */}
         <View className="items-center mb-6">
@@ -110,7 +95,7 @@ export default function MapaPateo() {
               style={{ width: viewWidth, height: viewHeight }}
               resizeMode="contain"
               className={`rounded-2xl p-2 ${
-                colorScheme === "dark" ? "bg-[#0D0D0D]" : "bg-white"
+                isDark ? "bg-[#0D0D0D]" : "bg-white"
               } shadow-md`}
             >
               <Svg height={viewHeight} width={viewWidth}>
@@ -144,14 +129,12 @@ export default function MapaPateo() {
         </View>
 
         {/* Legenda */}
-        <View className="rounded-2xl mb-4 p-4 shadow-sm dark:bg-[#130F26] bg-white">
+        <View className="rounded-2xl mb-8 p-4 shadow-sm bg-darkBlue">
           <View className="flex-row justify-between items-center mb-3">
-            <Text className="text-base font-semibold dark:text-white">
+            <Text className="text-base font-semibold text-white">
               Zonas do Pátio
             </Text>
-            <Text className="text-xs text-gray-400 dark:text-gray-300">
-              Ocultar
-            </Text>
+            <Text className="text-xs text-white">Ocultar</Text>
           </View>
 
           <View className="flex-row justify-around">
@@ -163,26 +146,50 @@ export default function MapaPateo() {
         </View>
 
         {/* Estatísticas */}
-        <View
-          className={`rounded-2xl p-5 mb-4 ${
-            colorScheme === "dark" ? "bg-[#1E1E1E]" : "bg-white"
-          }`}
-        >
-          <Text className="text-base font-semibold text-[#F97316] dark:text-[#F97316] mb-3">
-            📊 Estatísticas do Pátio
+        <View>
+          <Text
+            className={`text-lg font-bold mb-3 ${
+              isDark ? "text-white" : "text-[#130F26]"
+            }`}
+          >
+            {t("statistics")}
           </Text>
-          <View className="flex-row justify-around">
-            <StatItem cor="#F97316" titulo="Total de Motos" valor="12" />
-            <StatItem cor="#22C55E" titulo="Finalizadas" valor="4" />
-            <StatItem cor="#EF4444" titulo="Em Manutenção" valor="3" />
-            <StatItem cor="#EAB308" titulo="Aguardando" valor="2" />
-          </View>
+        </View>
+        <View className="flex-row justify-between mb-8">
+          <MetricCard
+            icon="bicycle"
+            title="Total de Motos"
+            value="24"
+            color="#10B981"
+          />
+          <MetricCard
+            icon="build-outline"
+            title="Em Manutenção"
+            value="12"
+            color="#3B82F6"
+          />
+          <MetricCard
+            icon="checkmark-circle-outline"
+            title="Aguardando"
+            value="8"
+            color="#22C55E"
+          />
+          <MetricCard
+            icon="time-outline"
+            title="Em Inspeção"
+            value="4"
+            color="#F59E0B"
+          />
         </View>
 
         {/* Atividades recentes */}
         <View className="mb-8">
           <View className="flex-row justify-between items-center mb-2">
-            <Text className="text-lg font-bold dark:text-white">
+            <Text
+              className={`text-lg font-bold ${
+                isDark ? "text-white" : "text-[#130F26]"
+              }`}
+            >
               Atividades Recentes
             </Text>
             <Text className="text-sm text-blue-600 dark:text-blue-400">
@@ -217,11 +224,13 @@ export default function MapaPateo() {
   );
 }
 
+/* ——— Subcomponentes ——— */
+
 function LegendaItem({ cor, texto }: any) {
   return (
     <View className="flex-row items-center gap-2">
       <View style={{ backgroundColor: cor }} className="w-3 h-3 rounded-full" />
-      <Text className="text-xs text-black dark:text-white">{texto}</Text>
+      <Text className="text-xs text-white">{texto}</Text>
     </View>
   );
 }
@@ -237,17 +246,10 @@ function StatItem({ cor, titulo, valor }: any) {
   );
 }
 
-const ActivityItem = ({ icon, plate, desc, time, color }: any) => (
-  <View className="flex-row justify-between items-center bg-white dark:bg-lightBlack rounded-xl p-4 mb-3 shadow-sm">
-    <View className="flex-row items-center gap-3">
-      <Ionicons name={icon} size={22} color={color} />
-      <View>
-        <Text className="text-sm font-semibold dark:text-white">{plate}</Text>
-        <Text className="text-xs text-gray-500 dark:text-lightText">
-          {desc}
-        </Text>
-      </View>
-    </View>
-    <Text className="text-xs text-gray-400 dark:text-lightText">{time}</Text>
+const MetricCard = ({ icon, title, value, color }: any) => (
+  <View className="bg-white dark:bg-lightBlack rounded-2xl flex-1 items-center justify-center py-3 mx-1 shadow-md">
+    <Ionicons name={icon} size={24} color={color} />
+    <Text className="text-lg font-bold mt-2 dark:text-white">{value}</Text>
+    <Text className="text-xs text-gray-500 dark:text-white">{title}</Text>
   </View>
 );
