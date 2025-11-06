@@ -1,7 +1,5 @@
 import apiJava from "../../../../services/apiJava";
 
-const PATEO_ID = "ef0cddcb-7d83-4dd4-bf3d-b73d68af2b37";
-
 export type ZonaRequest = { nome: string; coordenadasWKT: string };
 export type ZonaResponse = { id: string; nome: string; coordenadasWKT: string };
 export type PateoDetailResponse = {
@@ -13,33 +11,28 @@ export type PateoDetailResponse = {
   zonas: ZonaResponse[];
 };
 
-export function buildAssetUrl(path: string) {
-  let base = apiJava.defaults.baseURL || "";
-  base = base.replace(/\/$/, "").replace(/\/api$/, "");
-  return `${base}${path}`;
-}
-
-export async function getPateoDetalhes(): Promise<PateoDetailResponse> {
-  const { data } = await apiJava.get(`/pateos/${PATEO_ID}`);
+export async function getPateoDetalhes(pateoId: string) {
+  const { data } = await apiJava.get(`/pateos/${pateoId}`);
   return data;
 }
 
-export async function criarZona(payload: ZonaRequest): Promise<ZonaResponse> {
-  const { data } = await apiJava.post(`/pateos/${PATEO_ID}/zonas`, payload);
+export async function criarZona(pateoId: string, payload: ZonaRequest) {
+  const { data } = await apiJava.post(`/pateos/${pateoId}/zonas`, payload);
   return data;
 }
 
 export async function atualizarZona(
+  pateoId: string,
   zonaId: string,
   payload: ZonaRequest
-): Promise<ZonaResponse> {
+) {
   const { data } = await apiJava.put(
-    `/pateos/${PATEO_ID}/zonas/${zonaId}`,
+    `/pateos/${pateoId}/zonas/${zonaId}`,
     payload
   );
   return data;
 }
 
-export async function deletarZona(zonaId: string): Promise<void> {
-  await apiJava.delete(`/pateos/${PATEO_ID}/zonas/${zonaId}`);
+export async function deletarZona(pateoId: string, zonaId: string) {
+  await apiJava.delete(`/pateos/${pateoId}/zonas/${zonaId}`);
 }

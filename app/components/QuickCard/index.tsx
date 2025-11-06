@@ -23,7 +23,7 @@ export default function QuickActionCard({
 
   const bgColor = isFilled
     ? isDark
-      ? "#1E1E2D"
+      ? "#130F26"
       : "#130F26"
     : isDark
     ? "transparent"

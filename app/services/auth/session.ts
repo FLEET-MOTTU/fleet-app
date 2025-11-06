@@ -23,6 +23,8 @@ export async function getAdminFromToken() {
   try {
     const payload = jwtDecode<AdminTokenPayload>(token);
 
+    console.log("🔍 Token decodificado (payload):", payload);
+
     const email = payload.email ?? payload.sub ?? "";
     const nome = payload.nome ?? "";
 

@@ -20,6 +20,7 @@ module.exports = {
         lightText: "#6B7280",
         black50: "#000000C5",
         borderIcon: "#FFFFFF36",
+        lightBlack: "#1E1E1E",
       },
     },
   },

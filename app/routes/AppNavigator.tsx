@@ -9,6 +9,7 @@ import ChangePassword from "../pages/admin/ChangePassword";
 import Configuracoes from "../pages/configuration";
 import Warning from "../pages/admin/ForgotPassword/Warning";
 import ListagemFuncionarios from "../pages/admin/CadastroFuncionario";
+import MapaPateo from "../pages/admin/Pateo";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -30,6 +31,7 @@ export function AppNavigator() {
 
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
       <Stack.Screen name="Warning" component={Warning} />
+      <Stack.Screen name="MapaPateo" component={MapaPateo} />
     </Stack.Navigator>
   );
 }

@@ -13,4 +13,5 @@ export type RootStackParamList = {
   // ForgotPassword: undefined;
   FuncionarioConfig: undefined;
   CadastrarFuncionario: undefined;
+  MapaPateo: undefined;
 };

@@ -5,12 +5,17 @@ import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
 import { getAdminFromToken } from "../../../services/auth/session";
 import { useNavigation } from "@react-navigation/native";
 import QuickActionCard from "../../../components/QuickCard";
+import { useTranslation } from "react-i18next";
+import { useColorScheme } from "nativewind";
 
 export default function HomeAdmScreen() {
   const navigation = useNavigation<any>();
-
+  const { t } = useTranslation("homeAdm");
   const [adminName, setAdminName] = useState("Administrador");
   const [loading, setLoading] = useState(true);
+  const { colorScheme } = useColorScheme();
+
+  const isDarkMode = colorScheme === "dark";
 
   useEffect(() => {
     (async () => {
@@ -29,24 +34,32 @@ export default function HomeAdmScreen() {
         {/* Header */}
         <View className="flex-row justify-between items-center mb-6">
           <View>
-            <Text className="text-gray-500 dark:text-gray-300 text-xl">
-              Olá,
+            <Text className="text-black dark:text-white text-xl">
+              {t("hello")}
             </Text>
             <Text className="text-2xl font-bold dark:text-white">
               {adminName}
             </Text>
           </View>
           <View className="flex-row items-center gap-3">
-            <TouchableOpacity className="bg-gray-200 dark:bg-darkBlue p-2 rounded-full">
-              <Ionicons name="notifications-outline" size={22} color="#555" />
+            <TouchableOpacity className="bg-lightGray dark:bg-darkBlue p-2 rounded-full">
+              <Ionicons
+                name="notifications-outline"
+                size={22}
+                color={isDarkMode ? "#FFF" : "#555"}
+              />
             </TouchableOpacity>
             <TouchableOpacity
-              className="bg-gray-200 dark:bg-darkBlue p-2 rounded-full"
+              className="bg-lightGray dark:bg-darkBlue p-2 rounded-full"
               onPress={() => {
                 navigation.navigate("Configuration");
               }}
             >
-              <Ionicons name="settings-outline" size={22} color="#555" />
+              <Ionicons
+                name="settings-outline"
+                size={22}
+                color={isDarkMode ? "#FFF" : "#555"}
+              />
             </TouchableOpacity>
             <Image
               source={{
@@ -83,21 +96,21 @@ export default function HomeAdmScreen() {
         <Text className="text-lg font-bold mb-3 dark:text-white">
           Ações Rápidas
         </Text>
-        <View className="flex-row justify-between mb-8">
+        <View className="flex-row justify-between mb-8 gap-2">
           <QuickActionCard
             icon="person"
-            title="Funcionários"
-            subtitle="Cadastrar novos"
+            title={t("employees")}
+            subtitle={t("registerNew")}
             onPress={() => navigation.navigate("CadastrarFuncionario")}
-            variant="filled" // primeiro card azul preenchido
+            variant="filled"
           />
 
           <QuickActionCard
             icon="map"
-            title="Ver Pátio"
+            title={t("see_patio")}
             subtitle="Localizar motos"
-            onPress={() => navigation.navigate("Zonas")}
-            variant="outlined" // segundo card com borda azul
+            onPress={() => navigation.navigate("MapaPateo")}
+            variant="outlined"
           />
         </View>
 
@@ -166,15 +179,15 @@ export default function HomeAdmScreen() {
 }
 
 const MetricCard = ({ icon, title, value, color }: any) => (
-  <View className="bg-white dark:bg-[#1E1E1E] rounded-2xl flex-1 items-center justify-center py-3 mx-1 shadow-sm">
+  <View className="bg-white dark:bg-lightBlack rounded-2xl flex-1 items-center justify-center py-3 mx-1 shadow-md">
     <Ionicons name={icon} size={24} color={color} />
     <Text className="text-lg font-bold mt-2 dark:text-white">{value}</Text>
-    <Text className="text-xs text-gray-500 dark:text-gray-300">{title}</Text>
+    <Text className="text-xs text-gray-500 dark:text-white">{title}</Text>
   </View>
 );
 
 const ActivityItem = ({ icon, plate, desc, time, color }: any) => (
-  <View className="flex-row justify-between items-center bg-white dark:bg-[#1E1E1E] rounded-xl p-4 mb-3 shadow-sm">
+  <View className="flex-row justify-between items-center bg-white dark:bg-lightBlack rounded-xl p-4 mb-3 shadow-sm">
     <View className="flex-row items-center gap-3">
       <Ionicons name={icon} size={22} color={color} />
       <View>
