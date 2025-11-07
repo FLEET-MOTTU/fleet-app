@@ -1,7 +1,9 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "class",
   content: [
     "./App.{js,jsx,ts,tsx}",
+    "./index.{js,jsx,ts,tsx}",
     "./app/**/*.{js,jsx,ts,tsx}",
     "./components/**/*.{js,jsx,ts,tsx}",
   ],
@@ -21,6 +23,15 @@ module.exports = {
         black50: "#000000C5",
         borderIcon: "#FFFFFF36",
         lightBlack: "#1E1E1E",
+      },
+      fontFamily: {
+        // atalhos via utilities padrão do Tailwind:
+        inter: ["Inter_400Regular"],
+        "inter-300": ["Inter_300Light"],
+        "inter-500": ["Inter_500Medium"],
+        "inter-600": ["Inter_600SemiBold"],
+        "inter-700": ["Inter_700Bold"],
+        "inter-800": ["Inter_800ExtraBold"],
       },
     },
   },

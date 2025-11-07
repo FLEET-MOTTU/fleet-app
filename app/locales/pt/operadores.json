@@ -1,0 +1,14 @@
+{
+  "title": "Funcionários",
+  "search": "Buscar funcionários...",
+  "none": "Nenhum funcionário",
+  "id": "ID",
+  "active": "Ativo",
+  "inactive": "Inativo",
+  "add": "Adicionar",
+  "edit": "Editar",
+  "delete": "Excluir",
+  "confirm_delete": "Deseja excluir este funcionário?",
+  "saving": "Salvando...",
+  "saved": "Salvo com sucesso"
+}

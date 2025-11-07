@@ -35,7 +35,7 @@ O **Fleet** tem como objetivo otimizar o **controle, alocação e manutenção d
 - **Administrador**: `pateo.admin@mottu.com` / `mottu123`
 - **Funcionário**: acesso direto via Magic Link
 
-### 👨‍💼 Administrador
+### 👨💼 Administrador
 
 - 📋 Cadastro de funcionários
 - 👥 Listagem e edição de funcionários

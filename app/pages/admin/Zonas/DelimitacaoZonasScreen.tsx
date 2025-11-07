@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+// app/pages/admin/Zonas/DelimitacaoZonasScreen.tsx
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Dimensions,
@@ -28,14 +29,13 @@ import {
 } from "./services/zonaService";
 import { getAdminFromToken } from "../../../services/auth/session";
 import InputField from "../../../components/Input";
-import ActivityItem from "../../../components/ActiveItem";
+import ActiveItem from "../../../components/ActiveItem";
 import Button from "../../../components/Button";
 import { useTranslation } from "react-i18next";
-import { t } from "i18next";
 
 const screenWidth = Dimensions.get("window").width;
-const H_PADDING = 16; // padding horizontal do layout
-const CANVAS_MARGIN = 12; // respiro do card
+const H_PADDING = 16;
+const CANVAS_MARGIN = 12;
 const CARD_W = Math.round(screenWidth - H_PADDING * 2);
 
 const PALETTE = [
@@ -54,13 +54,17 @@ function polygonToPoints(wkt: string, w: number, h: number): string {
     .replace("))", "")
     .split(", ")
     .map((pair: string) => {
-      const [nx, ny]: number[] = pair.split(" ").map(Number);
+      const [nx, ny] = pair.split(" ").map(Number);
       return `${nx * w},${ny * h}`;
     })
     .join(" ");
 }
 
-function pointsToWKT(pts: { x: number; y: number }[], w: number, h: number) {
+function pointsToWKT(
+  pts: { x: number; y: number }[],
+  w: number,
+  h: number
+): string {
   if (pts.length < 3) throw new Error("Desenhe pelo menos 3 pontos.");
   const coords = pts.map((p) => {
     const nx = (p.x / w).toFixed(6);
@@ -71,24 +75,20 @@ function pointsToWKT(pts: { x: number; y: number }[], w: number, h: number) {
   return `POLYGON ((${coords.join(", ")}))`;
 }
 
-export default function DelimitacaoZonasProScreen() {
+export default function DelimitacaoZonasScreen() {
   const { t } = useTranslation("zonas");
-
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === "dark";
 
-  // data
   const [pateoId, setPateoId] = useState<string | null>(null);
   const [pateo, setPateo] = useState<PateoDetailResponse | null>(null);
   const [zonas, setZonas] = useState<ZonaUI[]>([]);
 
-  // draw/form
   const [mode, setMode] = useState<"idle" | "draw">("idle");
   const [pontos, setPontos] = useState<{ x: number; y: number }[]>([]);
   const [nomeZona, setNomeZona] = useState("");
   const [corZona, setCorZona] = useState(PALETTE[0].value);
 
-  // ui
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState("");
@@ -96,7 +96,6 @@ export default function DelimitacaoZonasProScreen() {
   const [novoNome, setNovoNome] = useState("");
   const [novaCor, setNovaCor] = useState(PALETTE[0].value);
 
-  // sizes
   const viewWidth = useMemo(() => CARD_W - CANVAS_MARGIN * 2, []);
   const viewHeight = useMemo(() => {
     if (!pateo) return 260;
@@ -116,13 +115,17 @@ export default function DelimitacaoZonasProScreen() {
 
       const data = await getPateoDetalhes(admin.pateoId);
       setPateo(data);
+
+      // >>> Tipagem explícita do map (corrige implicit any em 'z' e 'i')
       setZonas(
-        (data.zonas || []).map((z: any, i: any) => ({
-          ...z,
-          cor: PALETTE[i % PALETTE.length].value,
-        }))
+        (data.zonas ?? []).map(
+          (z: ZonaResponse, i: number): ZonaUI => ({
+            ...z,
+            cor: PALETTE[i % PALETTE.length].value,
+          })
+        )
       );
-    } catch (e) {
+    } catch {
       Alert.alert(t("error"), t("not_possible"));
     } finally {
       setLoading(false);
@@ -161,7 +164,6 @@ export default function DelimitacaoZonasProScreen() {
 
       await carregar();
 
-      // limpa o estado
       setNomeZona("");
       setPontos([]);
       setMode("idle");
@@ -212,7 +214,8 @@ export default function DelimitacaoZonasProScreen() {
     ]);
   }
 
-  const zonasFiltradas = zonas.filter((z) =>
+  // >>> Tipagem explícita do filter (opcional, deixa o arquivo silencioso)
+  const zonasFiltradas: ZonaUI[] = zonas.filter((z: ZonaUI) =>
     z.nome.toLowerCase().includes(search.toLowerCase().trim())
   );
 
@@ -221,10 +224,8 @@ export default function DelimitacaoZonasProScreen() {
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <AppHeader title={t("title")} showBack />
 
-        {/* MAPA + TOOLBAR */}
         <View className="px-4 py-12">
           <View className="rounded-3xl dark:border-zinc-800 bg-white dark:bg-[#151515] shadow-lg overflow-hidden">
-            {/* Header do card */}
             <View className="flex-row items-center justify-between px-4 py-3 border-b border-zinc-100 dark:border-zinc-800">
               <View>
                 <Text className="text-[#130F26] text-xl dark:text-white font-semibold">
@@ -235,18 +236,21 @@ export default function DelimitacaoZonasProScreen() {
                 </Text>
               </View>
 
-              {/* Chips de status */}
               <View className="flex-row gap-2">
                 <Chip icon="map" label={`${zonas.length} ${t("zone")}`} />
               </View>
             </View>
 
-            {/* Campo de busca */}
             <View className="px-4 pt-3">
               <View
-                className={`flex-row items-center rounded-2xl px-3 ${
-                  isDark ? "bg-[#0F0F0F]" : "bg-gray-100"
-                }`}
+                className={[
+                  "flex-row items-center rounded-2xl mt-3 mb-4 px-4 py-1 gap-2",
+                  isDark ? "bg-[#0D0D0D]" : "bg-white",
+                  isDark
+                    ? "border border-[#2A2A2A]"
+                    : "border border-[#E5E7EB]",
+                  !isDark ? "shadow-sm" : "",
+                ].join(" ")}
               >
                 <Ionicons
                   name="search-outline"
@@ -265,7 +269,6 @@ export default function DelimitacaoZonasProScreen() {
               </View>
             </View>
 
-            {/* Canvas */}
             <View className="px-3 py-3">
               {loading || !pateo ? (
                 <View className="h-64 items-center justify-center">
@@ -289,7 +292,7 @@ export default function DelimitacaoZonasProScreen() {
                     resizeMode="contain"
                   >
                     <Svg height={viewHeight} width={viewWidth}>
-                      {zonasFiltradas.map((z) => (
+                      {zonasFiltradas.map((z: ZonaUI) => (
                         <Polygon
                           key={z.id}
                           points={polygonToPoints(
@@ -327,7 +330,6 @@ export default function DelimitacaoZonasProScreen() {
                     </Svg>
                   </ImageBackground>
 
-                  {/* Toolbar flutuante */}
                   <View className="absolute right-3 top-6 gap-2">
                     <ToolbarBtn
                       active={mode === "draw"}
@@ -346,7 +348,6 @@ export default function DelimitacaoZonasProScreen() {
                     />
                   </View>
 
-                  {/* Legenda */}
                   <View className="absolute left-3 bottom-3 rounded-xl px-3 py-2 bg-black/40">
                     <Text className="text-white text-[11px]">
                       {mode === "draw" ? t("add_vertex") : t("start_drawing")}
@@ -358,9 +359,8 @@ export default function DelimitacaoZonasProScreen() {
           </View>
         </View>
 
-        {/* FORM */}
         <View className="px-4 mt-4">
-          <View className="rounded-3xl  dark:border-zinc-800 bg-white dark:bg-[#151515] shadow-md p-4">
+          <View className="rounded-3xl dark:border-zinc-800 bg-white dark:bg-[#151515] shadow-md p-4">
             <InputField
               label={t("new_zone")}
               value={nomeZona}
@@ -402,7 +402,6 @@ export default function DelimitacaoZonasProScreen() {
           </View>
         </View>
 
-        {/* LISTA */}
         <View className="px-4 mt-5 mb-10">
           <Text
             className={`text-lg font-bold mb-3 ${
@@ -415,8 +414,8 @@ export default function DelimitacaoZonasProScreen() {
           {zonasFiltradas.length === 0 ? (
             <EmptyState />
           ) : (
-            zonasFiltradas.map((z) => (
-              <ActivityItem
+            zonasFiltradas.map((z: ZonaUI) => (
+              <ActiveItem
                 key={z.id}
                 plate={z.nome}
                 desc={`ID: ${z.id}`}
@@ -439,7 +438,6 @@ export default function DelimitacaoZonasProScreen() {
           )}
         </View>
 
-        {/* MODAL EDIÇÃO */}
         <Modal visible={!!editModal} animationType="fade" transparent>
           <View className="flex-1 bg-black/40 justify-center items-center">
             <View
@@ -516,6 +514,8 @@ export default function DelimitacaoZonasProScreen() {
   );
 }
 
+/* -------- helpers -------- */
+
 function Chip({
   icon,
   label,
@@ -534,6 +534,7 @@ function Chip({
       ? "text-blue-700 dark:text-blue-200"
       : "text-gray-700 dark:text-white";
   const ic = tone === "blue" ? "#2563EB" : "#9CA3AF";
+
   return (
     <View
       className={`px-2.5 py-1 rounded-xl flex-row items-center gap-1.5 ${bg}`}
@@ -564,13 +565,24 @@ function ToolbarBtn({
     : tone === "danger"
     ? "bg-red-500"
     : "bg-black/60";
+
+  const className = [
+    "rounded-2xl",
+    "px-3",
+    "py-2",
+    "items-center",
+    "shadow-lg",
+    bg,
+    disabled ? "opacity-40" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      className={`rounded-2xl px-3 py-2 items-center shadow-lg ${bg} ${
-        disabled ? "opacity-40" : ""
-      }`}
+      className={className}
       activeOpacity={0.85}
     >
       <View className="flex-row items-center gap-2">
@@ -582,13 +594,18 @@ function ToolbarBtn({
 }
 
 function EmptyState() {
+  const { colorScheme } = useColorScheme();
+  const { t } = useTranslation("zonas");
+  const isDark = colorScheme === "dark";
   return (
     <View className="items-center justify-center py-10 rounded-3xl border border-dashed border-gray-300 dark:border-zinc-700 bg-gray-50 dark:bg-[#111111]">
       <Ionicons name="layers-outline" size={28} color="#94A3B8" />
-      <Text className="mt-2 text-gray-500 dark:text-white text-sm">
+      <Text
+        className={`mt-2 text-sm ${isDark ? "text-white" : "text-gray-500"}`}
+      >
         {t("none_found")}
       </Text>
-      <Text className="text-gray-400 dark:text-white text-xs">
+      <Text className={`text-xs ${isDark ? "text-white" : "text-gray-400"}`}>
         {t("first_zone")}
       </Text>
     </View>

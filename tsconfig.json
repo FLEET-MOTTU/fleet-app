@@ -2,7 +2,9 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
-    "lib": ["esnext"],
+    "lib": [
+      "esnext"
+    ],
     "jsx": "react-native",
     "allowJs": true,
     "noEmit": true,
@@ -13,7 +15,10 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["react", "react-native"]
+    "types": [
+      "react",
+      "react-native"
+    ]
   },
   "include": [
     "src",
@@ -25,7 +30,8 @@
     "types/assets.d.ts",
     "app/pages/admin/Home/index.tsx"
   ],
-
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules"
+  ],
   "extends": "expo/tsconfig.base"
 }

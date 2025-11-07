@@ -2,27 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global font setup */
-* {
-  font-family: Inter_400Regular;
-}
-
-.text-medium {
-  font-family: Inter_500Medium;
-}
-
-.text-semibold {
-  font-family: Inter_600SemiBold;
-}
-
-.text-bold {
-  font-family: Inter_700Bold;
-}
-
-.text-extrabold {
-  font-family: Inter_800ExtraBold;
-}
-
-.text-light {
-  font-family: Inter_300Light;
+/* Crie utilities específicas para RN (não use seletores globais como *) */
+@layer utilities {
+  .text-light {
+    font-family: Inter_300Light;
+  }
+  .text-medium {
+    font-family: Inter_500Medium;
+  }
+  .text-semibold {
+    font-family: Inter_600SemiBold;
+  }
+  .text-bold {
+    font-family: Inter_700Bold;
+  }
+  .text-extrabold {
+    font-family: Inter_800ExtraBold;
+  }
+  .font-inter {
+    font-family: Inter_400Regular;
+  }
 }
