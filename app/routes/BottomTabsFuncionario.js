@@ -5,6 +5,7 @@ import { useColorScheme } from "react-native";
 
 import HomeFuncionarioScreen from "../pages/funcionarios/Home";
 import CadastroMotoStack from "./CadastroMotoStack";
+import Scanner from "../pages/funcionarios/Scanner";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,6 +50,11 @@ export default function BottomTabsFuncionario() {
         name="HomeFuncionario"
         component={HomeFuncionarioScreen}
         options={{ title: "Início" }}
+      />
+      <Tab.Screen
+        name="Scanner"
+        component={Scanner}
+        options={{ title: "Scanner" }}
       />
       <Tab.Screen
         name="CadastroMoto"

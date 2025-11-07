@@ -311,7 +311,7 @@ export default function ListagemFuncionarios() {
   /** Mensagem quando o filtro não tem resultados (mantém a tela) */
   const ListEmptyComponent = (
     <View className="items-center py-10">
-      <Text className="text-sm text-gray-500 dark:text-gray-300">
+      <Text className="text-sm text-gray-500 dark:text-white">
         {t("empty_filter")}
       </Text>
     </View>

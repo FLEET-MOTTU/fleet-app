@@ -1,4 +1,3 @@
-// components/FuncionarioFrom.tsx
 import React, { useMemo, useState } from "react";
 import {
   View,
@@ -147,7 +146,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
       </View>
 
       {/* Foto */}
-      <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
+      <Text className="text-xs text-gray-500 dark:text-white mb-2">
         {t("photo_label")}
       </Text>
       <View className="flex-row items-center gap-3 mb-4">
@@ -193,7 +192,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
       </View>
 
       {/* Nome */}
-      <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
+      <Text className="text-xs text-gray-500 dark:text-white mb-2">
         {t("name_label")}
       </Text>
       <TextInput
@@ -206,7 +205,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
       />
 
       {/* E-mail */}
-      <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
+      <Text className="text-xs text-gray-500 dark:text-white mb-2">
         {t("email_label")}
       </Text>
       <TextInput
@@ -221,7 +220,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
       />
 
       {/* Telefone */}
-      <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
+      <Text className="text-xs text-gray-500 dark:text-white mb-2">
         {t("phone_label")}
       </Text>
       <TextInput
@@ -235,7 +234,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
       />
 
       {/* Cargo */}
-      <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
+      <Text className="text-xs text-gray-500 dark:text-white mb-2">
         {t("role_label")}
       </Text>
       <View className="flex-row gap-2 mb-4">
@@ -267,7 +266,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
       </View>
 
       {/* Status (somente ATIVO / SUSPENSO) */}
-      <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
+      <Text className="text-xs text-gray-500 dark:text-white mb-2">
         {t("status_label")}
       </Text>
       <View className="flex-row gap-2 mb-6">
