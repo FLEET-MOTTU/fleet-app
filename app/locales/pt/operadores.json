@@ -1,14 +1,74 @@
 {
   "title": "Funcionários",
-  "search": "Buscar funcionários...",
-  "none": "Nenhum funcionário",
-  "id": "ID",
-  "active": "Ativo",
-  "inactive": "Inativo",
-  "add": "Adicionar",
-  "edit": "Editar",
-  "delete": "Excluir",
-  "confirm_delete": "Deseja excluir este funcionário?",
+  "chips_all": "Todos",
+  "chips_active": "Ativos",
+  "chips_suspended": "Suspensos",
+  "chips_removed": "Removidos",
+
+  "status_active": "Ativo",
+  "status_suspended": "Suspenso",
+  "status_removed": "Removido",
+
+  "search_placeholder": "Buscar funcionários...",
+  "id_label": "ID:",
+  "empty_filter": "Nenhum funcionário para o filtro selecionado.",
+  "empty_global_title": "Nenhum funcionário",
+  "empty_global_subtitle": "Você ainda não adicionou nenhum funcionário neste pátio.",
+  "actions_add": "+ Adicionar",
+
+  "confirm_remove_title": "Confirmação",
+  "confirm_remove_message": "Deseja remover este funcionário?",
+  "actions_cancel": "Cancelar",
+  "actions_remove": "Remover",
+
+  "error_title": "Erro",
+  "error_load": "Não foi possível carregar os funcionários.",
+  "error_remove": "Não foi possível remover.",
+  "error_save": "Falha ao salvar.",
+
+  "attention_title": "Atenção",
+  "photo_permission_denied": "Precisamos do acesso às fotos.",
+  "val_name": "Informe o nome.",
+  "val_phone": "Informe o telefone.",
+  "val_email": "Informe o e-mail.",
+  "val_role": "Informe o cargo.",
+
+  "form_title_edit": "Editar Funcionário",
+  "form_title_new": "Novo Funcionário",
+
+  "photo_label": "Foto do funcionário",
+  "photo_pick": "Escolher foto",
+  "photo_remove": "Remover",
+
+  "name_label": "Nome",
+  "name_placeholder": "Nome completo",
+
+  "email_label": "E-mail",
+  "email_placeholder": "email@exemplo.com",
+
+  "phone_label": "Telefone",
+  "phone_placeholder": "(11) 99999-9999",
+
+  "role_label": "Cargo",
+  "status_label": "Status",
+
   "saving": "Salvando...",
-  "saved": "Salvo com sucesso"
+  "save": "Salvar",
+
+  "a11y_employee_photo": "Foto do funcionário",
+  "a11y_employee_photo_placeholder": "Funcionário sem foto",
+  "a11y_edit_employee": "Editar funcionário",
+  "a11y_delete_employee": "Remover funcionário",
+  "a11y_search_input": "Campo de busca de funcionários",
+  "a11y_filter_chip": "Filtro: {{label}}",
+  "a11y_add_employee": "Adicionar novo funcionário",
+  "a11y_fab_add": "Abrir formulário para adicionar funcionário",
+  "a11y_close_modal": "Fechar modal",
+  "a11y_pick_photo": "Selecionar foto do funcionário",
+  "a11y_remove_photo": "Remover foto do funcionário",
+  "a11y_name_input": "Campo de nome do funcionário",
+  "a11y_email_input": "Campo de e-mail do funcionário",
+  "a11y_phone_input": "Campo de telefone do funcionário",
+  "a11y_role_chip": "Selecionar cargo: {{role}}",
+  "a11y_status_chip": "Selecionar status: {{status}}"
 }

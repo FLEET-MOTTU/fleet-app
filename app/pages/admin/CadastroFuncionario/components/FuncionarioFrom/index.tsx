@@ -1,3 +1,4 @@
+// components/FuncionarioFrom.tsx
 import React, { useMemo, useState } from "react";
 import {
   View,
@@ -19,6 +20,7 @@ import {
   atualizarFotoFuncionario,
   CargoFuncionario,
 } from "../../services/funcionarioService";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   funcionario: FuncionarioResponse | null;
@@ -27,13 +29,14 @@ type Props = {
 };
 
 export default function FuncionarioForm({ funcionario, onClose }: Props) {
+  const { t } = useTranslation("operadores");
   const editing = !!funcionario?.id;
 
   const [nome, setNome] = useState(funcionario?.nome ?? "");
   const [email, setEmail] = useState(funcionario?.email ?? "");
   const [telefone, setTelefone] = useState(funcionario?.telefone ?? "");
   const [cargo, setCargo] = useState<CargoFuncionario>(
-    funcionario?.cargo ?? "OPERACIONAL"
+    (funcionario?.cargo as CargoFuncionario) ?? "OPERACIONAL"
   );
 
   // no form: só ATIVO/SUSPENSO; “REMOVIDO” não aparece
@@ -49,15 +52,15 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
   const [saving, setSaving] = useState(false);
 
   const titulo = useMemo(
-    () => (editing ? "Editar Funcionário" : "Novo Funcionário"),
-    [editing]
+    () => (editing ? t("form_title_edit") : t("form_title_new")),
+    [editing, t]
   );
 
   async function pickPhoto() {
     const { status: perm } =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (perm !== "granted") {
-      Alert.alert("Permissão negada", "Precisamos do acesso às fotos.");
+      Alert.alert(t("attention_title"), t("photo_permission_denied"));
       return;
     }
     const r = await ImagePicker.launchImageLibraryAsync({
@@ -72,10 +75,11 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
   }
 
   async function handleSave() {
-    if (!nome.trim()) return Alert.alert("Atenção", "Informe o nome.");
-    if (!telefone.trim()) return Alert.alert("Atenção", "Informe o telefone.");
-    if (!email.trim()) return Alert.alert("Atenção", "Informe o e-mail.");
-    if (!cargo) return Alert.alert("Atenção", "Informe o cargo.");
+    if (!nome.trim()) return Alert.alert(t("attention_title"), t("val_name"));
+    if (!telefone.trim())
+      return Alert.alert(t("attention_title"), t("val_phone"));
+    if (!email.trim()) return Alert.alert(t("attention_title"), t("val_email"));
+    if (!cargo) return Alert.alert(t("attention_title"), t("val_role"));
 
     const telefoneLimpo = telefone.replace(/\D/g, "");
 
@@ -88,7 +92,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
           email: email.trim() || undefined,
           telefone: telefoneLimpo,
           cargo,
-          status, // pode alternar ATIVO <-> SUSPENSO aqui
+          status, // alterna ATIVO <-> SUSPENSO
         });
 
         if (localPhoto) {
@@ -99,8 +103,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
           } as any);
         }
       } else {
-        // create: nasce ATIVO por padrão
-        const created = await cadastrarFuncionario(
+        await cadastrarFuncionario(
           {
             nome: nome.trim(),
             telefone: telefoneLimpo,
@@ -120,22 +123,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
 
       onClose();
     } catch (e: any) {
-      console.log("ERRO CADASTRAR/ATUALIZAR FUNCIONARIO:", {
-        message: e?.message,
-        code: e?.code,
-        url: e?.config?.baseURL + e?.config?.url,
-        method: e?.config?.method,
-        status: e?.response?.status,
-        data: e?.response?.data,
-      });
-      Alert.alert(
-        `Erro ${e?.response?.status ?? ""}`.trim(),
-        typeof e?.response?.data === "string"
-          ? e.response.data
-          : e?.response?.data?.message ||
-              JSON.stringify(e?.response?.data) ||
-              "Falha ao salvar."
-      );
+      Alert.alert(t("error_title"), t("error_save"));
     } finally {
       setSaving(false);
     }
@@ -149,23 +137,32 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
     >
       <View className="flex-row items-center justify-between mb-4">
         <Text className="text-xl font-bold dark:text-white">{titulo}</Text>
-        <TouchableOpacity onPress={onClose} className="p-2">
+        <TouchableOpacity
+          onPress={onClose}
+          className="p-2"
+          accessibilityLabel={t("a11y_close_modal")}
+        >
           <Ionicons name="close" size={22} color="#666" />
         </TouchableOpacity>
       </View>
 
       {/* Foto */}
       <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
-        Foto do funcionário
+        {t("photo_label")}
       </Text>
       <View className="flex-row items-center gap-3 mb-4">
         <View className="w-16 h-16 rounded-full bg-darkBlue/30 dark:bg-zinc-800 overflow-hidden">
           {localPhoto ? (
-            <Image source={{ uri: localPhoto.uri }} className="w-16 h-16" />
+            <Image
+              source={{ uri: localPhoto.uri }}
+              className="w-16 h-16"
+              accessibilityLabel={t("a11y_employee_photo")}
+            />
           ) : funcionario?.fotoUrl ? (
             <Image
               source={{ uri: funcionario.fotoUrl }}
               className="w-16 h-16"
+              accessibilityLabel={t("a11y_employee_photo")}
             />
           ) : null}
         </View>
@@ -173,17 +170,23 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
           <TouchableOpacity
             onPress={pickPhoto}
             className="flex-row items-center gap-2 rounded-2xl px-3 py-2 bg-white border border-gray-200 dark:bg-[#0F0F0F] dark:border-zinc-700"
+            accessibilityLabel={t("a11y_pick_photo")}
           >
             <Ionicons name="image-outline" size={18} color="#666" />
-            <Text className="text-gray-700 dark:text-white">Escolher foto</Text>
+            <Text className="text-gray-700 dark:text-white">
+              {t("photo_pick")}
+            </Text>
           </TouchableOpacity>
           {localPhoto && (
             <TouchableOpacity
               onPress={() => setLocalPhoto(null)}
               className="flex-row items-center gap-2 rounded-2xl px-3 py-2 bg-white border border-gray-200 dark:bg-[#0F0F0F] dark:border-zinc-700"
+              accessibilityLabel={t("a11y_remove_photo")}
             >
               <Ionicons name="close-circle-outline" size={18} color="#666" />
-              <Text className="text-gray-700 dark:text-white">Remover</Text>
+              <Text className="text-gray-700 dark:text-white">
+                {t("photo_remove")}
+              </Text>
             </TouchableOpacity>
           )}
         </View>
@@ -191,46 +194,49 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
 
       {/* Nome */}
       <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
-        Nome
+        {t("name_label")}
       </Text>
       <TextInput
         value={nome}
         onChangeText={setNome}
-        placeholder="Nome completo"
+        placeholder={t("name_placeholder")}
         className="rounded-2xl px-4 py-3 mb-4 border bg-white border-gray-200 dark:bg-[#0F0F0F] dark:border-zinc-800 dark:text-white"
         placeholderTextColor="#9CA3AF"
+        accessibilityLabel={t("a11y_name_input")}
       />
 
       {/* E-mail */}
       <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
-        E-mail
+        {t("email_label")}
       </Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
-        placeholder="email@exemplo.com"
+        placeholder={t("email_placeholder")}
         keyboardType="email-address"
         autoCapitalize="none"
         className="rounded-2xl px-4 py-3 mb-4 border bg-white border-gray-200 dark:bg-[#0F0F0F] dark:border-zinc-800 dark:text-white"
         placeholderTextColor="#9CA3AF"
+        accessibilityLabel={t("a11y_email_input")}
       />
 
       {/* Telefone */}
       <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
-        Telefone
+        {t("phone_label")}
       </Text>
       <TextInput
         value={telefone}
         onChangeText={setTelefone}
-        placeholder="(11) 99999-9999"
+        placeholder={t("phone_placeholder")}
         keyboardType="phone-pad"
         className="rounded-2xl px-4 py-3 mb-4 border bg-white border-gray-200 dark:bg-[#0F0F0F] dark:border-zinc-800 dark:text-white"
         placeholderTextColor="#9CA3AF"
+        accessibilityLabel={t("a11y_phone_input")}
       />
 
       {/* Cargo */}
       <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
-        Cargo
+        {t("role_label")}
       </Text>
       <View className="flex-row gap-2 mb-4">
         {(
@@ -246,6 +252,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
                   ? "bg-[#130F26] border-[#130F26]"
                   : "bg-white border-gray-300 dark:bg-[#0F0F0F] dark:border-zinc-700"
               }`}
+              accessibilityLabel={t("a11y_role_chip", { role: c })}
             >
               <Text
                 className={`${
@@ -261,11 +268,13 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
 
       {/* Status (somente ATIVO / SUSPENSO) */}
       <Text className="text-xs text-gray-500 dark:text-gray-300 mb-2">
-        Status
+        {t("status_label")}
       </Text>
       <View className="flex-row gap-2 mb-6">
         {(["ATIVO", "SUSPENSO"] as StatusFuncionario[]).map((s) => {
           const active = status === s;
+          const label =
+            s === "ATIVO" ? t("status_active") : t("status_suspended");
           return (
             <TouchableOpacity
               key={s}
@@ -275,13 +284,14 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
                   ? "bg-[#130F26] border-[#130F26]"
                   : "bg-white border-gray-300 dark:bg-[#0F0F0F] dark:border-zinc-700"
               }`}
+              accessibilityLabel={t("a11y_status_chip", { status: label })}
             >
               <Text
                 className={`${
                   active ? "text-white" : "text-gray-700 dark:text-white"
                 }`}
               >
-                {s}
+                {label}
               </Text>
             </TouchableOpacity>
           );
@@ -294,9 +304,10 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
         className={`rounded-2xl py-3 items-center ${
           saving ? "opacity-60" : ""
         } bg-[#130F26]`}
+        accessibilityLabel={t("a11y_save_button")}
       >
         <Text className="text-white font-semibold">
-          {saving ? "Salvando..." : "Salvar"}
+          {saving ? t("saving") : t("save")}
         </Text>
       </TouchableOpacity>
     </ScrollView>

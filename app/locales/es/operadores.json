@@ -1,14 +1,74 @@
 {
   "title": "Empleados",
-  "search": "Buscar empleados...",
-  "none": "Ningún empleado",
-  "id": "ID",
-  "active": "Activo",
-  "inactive": "Inactivo",
-  "add": "Agregar",
-  "edit": "Editar",
-  "delete": "Eliminar",
-  "confirm_delete": "¿Deseas eliminar este empleado?",
+  "chips_all": "Todos",
+  "chips_active": "Activos",
+  "chips_suspended": "Suspendidos",
+  "chips_removed": "Eliminados",
+
+  "status_active": "Activo",
+  "status_suspended": "Suspendido",
+  "status_removed": "Eliminado",
+
+  "search_placeholder": "Buscar empleados...",
+  "id_label": "ID:",
+  "empty_filter": "Ningún empleado para el filtro seleccionado.",
+  "empty_global_title": "Ningún empleado",
+  "empty_global_subtitle": "Todavía no has añadido empleados en este patio.",
+  "actions_add": "+ Añadir",
+
+  "confirm_remove_title": "Confirmación",
+  "confirm_remove_message": "¿Deseas eliminar a este empleado?",
+  "actions_cancel": "Cancelar",
+  "actions_remove": "Eliminar",
+
+  "error_title": "Error",
+  "error_load": "No fue posible cargar los empleados.",
+  "error_remove": "No fue posible eliminar.",
+  "error_save": "Error al guardar.",
+
+  "attention_title": "Atención",
+  "photo_permission_denied": "Necesitamos acceso a las fotos.",
+  "val_name": "Informe el nombre.",
+  "val_phone": "Informe el teléfono.",
+  "val_email": "Informe el e-mail.",
+  "val_role": "Informe el cargo.",
+
+  "form_title_edit": "Editar Empleado",
+  "form_title_new": "Nuevo Empleado",
+
+  "photo_label": "Foto del empleado",
+  "photo_pick": "Elegir foto",
+  "photo_remove": "Quitar",
+
+  "name_label": "Nombre",
+  "name_placeholder": "Nombre completo",
+
+  "email_label": "E-mail",
+  "email_placeholder": "email@ejemplo.com",
+
+  "phone_label": "Teléfono",
+  "phone_placeholder": "(11) 99999-9999",
+
+  "role_label": "Cargo",
+  "status_label": "Estado",
+
   "saving": "Guardando...",
-  "saved": "Guardado con éxito"
+  "save": "Guardar",
+
+  "a11y_employee_photo": "Foto del empleado",
+  "a11y_employee_photo_placeholder": "Empleado sin foto",
+  "a11y_edit_employee": "Editar empleado",
+  "a11y_delete_employee": "Eliminar empleado",
+  "a11y_search_input": "Campo de búsqueda de empleados",
+  "a11y_filter_chip": "Filtro: {{label}}",
+  "a11y_add_employee": "Añadir nuevo empleado",
+  "a11y_fab_add": "Abrir formulario para añadir empleado",
+  "a11y_close_modal": "Cerrar modal",
+  "a11y_pick_photo": "Seleccionar foto del empleado",
+  "a11y_remove_photo": "Quitar foto del empleado",
+  "a11y_name_input": "Campo de nombre del empleado",
+  "a11y_email_input": "Campo de e-mail del empleado",
+  "a11y_phone_input": "Campo de teléfono del empleado",
+  "a11y_role_chip": "Seleccionar cargo: {{role}}",
+  "a11y_status_chip": "Seleccionar estado: {{status}}"
 }

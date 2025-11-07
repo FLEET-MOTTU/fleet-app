@@ -62,12 +62,6 @@ export default function HomeAdmScreen() {
                 color={isDarkMode ? "#FFF" : "#555"}
               />
             </TouchableOpacity>
-            <Image
-              source={{
-                uri: "https://i.pravatar.cc/100",
-              }}
-              className="w-10 h-10 rounded-full"
-            />
           </View>
         </View>
 

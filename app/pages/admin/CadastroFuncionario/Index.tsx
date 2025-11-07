@@ -1,3 +1,4 @@
+// ListagemFuncionarios.tsx
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   View,
@@ -23,43 +24,45 @@ import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
 import { useColorScheme } from "nativewind";
 import Operadores from "../assets/img_operadores.svg";
 import AppHeader from "../../../components/AppHeader";
+import { useTranslation } from "react-i18next";
 
 /** Chips de filtro: ATIVO | SUSPENSO | REMOVIDO */
 type Filtro = "TODOS" | "ATIVO" | "SUSPENSO" | "REMOVIDO";
 
-const chips: { k: Filtro; label: string }[] = [
-  { k: "TODOS", label: "Todos" },
-  { k: "ATIVO", label: "Ativos" },
-  { k: "SUSPENSO", label: "Suspensos" },
-  { k: "REMOVIDO", label: "Removidos" },
-];
-
-function statusVisual(st: StatusFuncionario) {
-  switch (st) {
-    case "ATIVO":
-      return {
-        bg: "bg-green-100 dark:bg-green-800/40",
-        text: "text-green-700 dark:text-green-400",
-        label: "Ativo",
-      };
-    case "SUSPENSO":
-      return {
-        bg: "bg-amber-100 dark:bg-amber-800/40",
-        text: "text-amber-700 dark:text-amber-300",
-        label: "Suspenso",
-      };
-    case "REMOVIDO":
-      return {
-        bg: "bg-red-100 dark:bg-red-800/40",
-        text: "text-red-700 dark:text-red-400",
-        label: "Removido",
-      };
-  }
-}
-
 export default function ListagemFuncionarios() {
+  const { t } = useTranslation("operadores");
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === "dark";
+
+  const chips: { k: Filtro; label: string }[] = [
+    { k: "TODOS", label: t("chips_all") },
+    { k: "ATIVO", label: t("chips_active") },
+    { k: "SUSPENSO", label: t("chips_suspended") },
+    { k: "REMOVIDO", label: t("chips_removed") },
+  ];
+
+  function statusVisual(st: StatusFuncionario) {
+    switch (st) {
+      case "ATIVO":
+        return {
+          bg: "bg-green-100 dark:bg-green-800/40",
+          text: "text-green-700 dark:text-green-400",
+          label: t("status_active"),
+        };
+      case "SUSPENSO":
+        return {
+          bg: "bg-amber-100 dark:bg-amber-800/40",
+          text: "text-amber-700 dark:text-amber-300",
+          label: t("status_suspended"),
+        };
+      case "REMOVIDO":
+        return {
+          bg: "bg-red-100 dark:bg-red-800/40",
+          text: "text-red-700 dark:text-red-400",
+          label: t("status_removed"),
+        };
+    }
+  }
 
   const [funcionarios, setFuncionarios] = useState<FuncionarioResponse[]>([]);
   const [search, setSearch] = useState("");
@@ -86,9 +89,9 @@ export default function ListagemFuncionarios() {
 
       setFuncionarios(normalizados);
     } catch {
-      Alert.alert("Erro", "Não foi possível carregar os funcionários.");
+      Alert.alert(t("error_title"), t("error_load"));
     }
-  }, [filtro]);
+  }, [filtro, t]);
 
   useEffect(() => {
     carregarFuncionarios();
@@ -102,23 +105,23 @@ export default function ListagemFuncionarios() {
 
   const handleDelete = useCallback(
     (id: string) => {
-      Alert.alert("Confirmação", "Deseja remover este funcionário?", [
-        { text: "Cancelar", style: "cancel" },
+      Alert.alert(t("confirm_remove_title"), t("confirm_remove_message"), [
+        { text: t("actions_cancel"), style: "cancel" },
         {
-          text: "Remover",
+          text: t("actions_remove"),
           style: "destructive",
           onPress: async () => {
             try {
               await deletarFuncionario(id); // soft delete -> vira REMOVIDO
               carregarFuncionarios();
             } catch {
-              Alert.alert("Erro", "Não foi possível remover.");
+              Alert.alert(t("error_title"), t("error_remove"));
             }
           },
         },
       ]);
     },
-    [carregarFuncionarios]
+    [carregarFuncionarios, t]
   );
 
   /** Busca (client-side) */
@@ -135,7 +138,6 @@ export default function ListagemFuncionarios() {
       const st = (item.status as StatusFuncionario) ?? "ATIVO";
       const vis = statusVisual(st);
 
-      // dentro do renderFuncionario
       const isRemovido = st === "REMOVIDO" || filtro === "REMOVIDO";
 
       return (
@@ -149,17 +151,21 @@ export default function ListagemFuncionarios() {
               <Image
                 source={{ uri: item.fotoUrl }}
                 className="w-12 h-12 rounded-full"
+                accessibilityLabel={t("a11y_employee_photo")}
               />
             ) : (
-              <View className="w-12 h-12 rounded-3xl bg-darkBlue/30 dark:bg-zinc-700" />
+              <View
+                className="w-12 h-12 rounded-3xl bg-darkBlue/30 dark:bg-zinc-700"
+                accessibilityLabel={t("a11y_employee_photo_placeholder")}
+              />
             )}
 
             <View className="flex-1">
               <Text className="text-base font-semibold dark:text-white">
                 {item.nome}
               </Text>
-              <Text className="text-[11px] text-gray-400 dark:text-gray-500">
-                ID: {item.id?.slice(0, 6)}
+              <Text className="text-[11px] text-gray-400 dark:text-lightGray">
+                {t("id_label")} {item.id?.slice(0, 6)}
               </Text>
             </View>
 
@@ -178,6 +184,7 @@ export default function ListagemFuncionarios() {
                       setModalVisible(true);
                     }}
                     className="p-2"
+                    accessibilityLabel={t("a11y_edit_employee")}
                   >
                     <Ionicons
                       name="create-outline"
@@ -189,6 +196,7 @@ export default function ListagemFuncionarios() {
                   <TouchableOpacity
                     onPress={() => handleDelete(item.id)}
                     className="p-2"
+                    accessibilityLabel={t("a11y_delete_employee")}
                   >
                     <Ionicons
                       name="trash-outline"
@@ -203,7 +211,7 @@ export default function ListagemFuncionarios() {
         </View>
       );
     },
-    [handleDelete, isDark]
+    [handleDelete, isDark, filtro, t]
   );
 
   /** HEADER: busca + chips */
@@ -224,11 +232,12 @@ export default function ListagemFuncionarios() {
         />
 
         <TextInput
-          placeholder="Buscar funcionários..."
+          placeholder={t("search_placeholder")}
           placeholderTextColor={isDark ? "#9CA3AF" : "#9CA3AF"}
           value={search}
           onChangeText={setSearch}
           className={`flex-1 ${isDark ? "text-white" : "text-gray-800"}`}
+          accessibilityLabel={t("a11y_search_input")}
         />
       </View>
 
@@ -246,13 +255,14 @@ export default function ListagemFuncionarios() {
                   ? "bg-[#0F0F0F] border-zinc-800"
                   : "bg-white border-gray-200"
               }`}
+              accessibilityLabel={t("a11y_filter_chip", { label: c.label })}
             >
               <Text
                 className={`text-xs font-semibold ${
                   active
                     ? "text-white"
                     : isDark
-                    ? "text-gray-200"
+                    ? "text-white"
                     : "text-gray-700"
                 }`}
               >
@@ -278,20 +288,21 @@ export default function ListagemFuncionarios() {
       }
       showsVerticalScrollIndicator={false}
     >
-      <AppHeader title="Funcionários" />
+      <AppHeader title={t("title")} />
       <View className="items-center mt-6">
         <Operadores width={180} height={180} />
         <Text className="text-lg font-bold mt-4 dark:text-white">
-          Nenhum funcionário
+          {t("empty_global_title")}
         </Text>
         <Text className="text-gray-500 text-center mb-6 dark:text-gray-300">
-          Você ainda não adicionou nenhum funcionário neste pátio.
+          {t("empty_global_subtitle")}
         </Text>
         <TouchableOpacity
           className="bg-[#130F26] px-6 py-3 rounded-xl"
           onPress={() => setModalVisible(true)}
+          accessibilityLabel={t("a11y_add_employee")}
         >
-          <Text className="text-white font-semibold">+ Adicionar</Text>
+          <Text className="text-white font-semibold">{t("actions_add")}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -301,7 +312,7 @@ export default function ListagemFuncionarios() {
   const ListEmptyComponent = (
     <View className="items-center py-10">
       <Text className="text-sm text-gray-500 dark:text-gray-300">
-        Nenhum funcionário para o filtro selecionado.
+        {t("empty_filter")}
       </Text>
     </View>
   );
@@ -315,7 +326,7 @@ export default function ListagemFuncionarios() {
         EmptyState
       ) : (
         <>
-          <AppHeader title="Funcionários" showBack />
+          <AppHeader title={t("title")} showBack />
           <FlatList
             data={funcionariosFiltrados}
             keyExtractor={(item) => item.id}
@@ -339,6 +350,7 @@ export default function ListagemFuncionarios() {
               setSelectedFuncionario(null);
               setModalVisible(true);
             }}
+            accessibilityLabel={t("a11y_fab_add")}
           >
             <Ionicons name="add" size={28} color="white" />
           </TouchableOpacity>
