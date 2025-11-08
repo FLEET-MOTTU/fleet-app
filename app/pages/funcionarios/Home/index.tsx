@@ -109,7 +109,7 @@ export default function HomeFuncionarioScreen() {
             icon="map"
             title="Mapa Pátio"
             subtitle="Localização"
-            onPress={() => navigation.navigate("MapaPatioFunc")}
+            onPress={() => navigation.navigate("MapaPateo")}
             variant="outlined"
           />
         </View>
