@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useColorScheme } from "nativewind";
 import QuickActionCard from "../../../components/QuickCard";
 import ActivityItem from "../../../components/ActiveItem";
+import { setMockFuncionario } from "../../../services/loginMock";
 
 export default function HomeFuncionarioScreen() {
   const navigation = useNavigation<any>();
@@ -16,9 +17,12 @@ export default function HomeFuncionarioScreen() {
   const [nome, setNome] = useState("Funcionário");
 
   useEffect(() => {
+    setMockFuncionario("FUNC-001", "Udyr");
+  }, []);
+
+  useEffect(() => {
     (async () => {
-      const n =
-        (await AsyncStorage.getItem("nomeFuncionario")) || "Funcionário";
+      const n = (await AsyncStorage.getItem("nomeFuncionario")) || "Amanda";
       setNome(n);
     })();
   }, []);
@@ -97,7 +101,7 @@ export default function HomeFuncionarioScreen() {
             icon="list"
             title="Ver Motos"
             subtitle="Lista coletadas"
-            onPress={() => navigation.navigate("ListarMotos")}
+            onPress={() => navigation.navigate("MotosDoFuncionario")}
             variant={isDark ? "outlined" : "filled"}
           />
 
@@ -105,7 +109,7 @@ export default function HomeFuncionarioScreen() {
             icon="map"
             title="Mapa Pátio"
             subtitle="Localização"
-            onPress={() => navigation.navigate("MapaPateoFuncionario")}
+            onPress={() => navigation.navigate("MapaPatioFunc")}
             variant="outlined"
           />
         </View>

@@ -14,4 +14,7 @@ export type RootStackParamList = {
   FuncionarioConfig: undefined;
   CadastrarFuncionario: undefined;
   MapaPateo: undefined;
+  ZonaDestinada: undefined;
+  MotosDoFuncionario: undefined;
+  MapaPatioFunc: undefined;
 };

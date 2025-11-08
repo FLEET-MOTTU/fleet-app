@@ -52,11 +52,6 @@ export default function BottomTabsFuncionario() {
         options={{ title: "Início" }}
       />
       <Tab.Screen
-        name="Scanner"
-        component={Scanner}
-        options={{ title: "Scanner" }}
-      />
-      <Tab.Screen
         name="CadastroMoto"
         component={CadastroMotoStack}
         options={{ title: "Cadastrar Moto" }}

@@ -4,4 +4,7 @@ declare module "@env" {
   export const API_JAVA_URL: string;
   export const USE_ADMIN_TOKEN: string;
   export const ADMIN_TOKEN: string;
+  export const API_CS_URL: string;
+  export const USE_CS_MOCK: string;
+  export const FUNC_TOKEN: string;
 }
