@@ -3,5 +3,17 @@
   "employees": "Funcionários",
   "registerNew": "Cadastrar novos",
   "see_patio": "Ver pátio",
-  "localize": "Localizar motos"
+  "localize": "Localizar motos",
+  "colected": "Coletadas hoje",
+  "in_maintenance": "Em manutenção",
+  "finished": "Finalizadas",
+  "quick_actions": "Ações rápidas",
+  "recent_activities": "Atividades Recentes",
+  "see_all": "Ver todas",
+  "registered_motor_defective": "Cadastrada • Motor defeituoso",
+  "moved_to_maintenance_zone": "Movida • Zona Manutenção",
+  "daily_statistics": "Estatísticas do Dia",
+  "patio_efficiency": "Eficiência do Pátio",
+  "ready_bikes": "Motos prontas",
+  "bikes_in_patio": "Motos no pátio"
 }

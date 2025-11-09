@@ -52,6 +52,7 @@ export default function InputField({
             editable={editable}
             onChangeText={onChangeText}
             secureTextEntry={secureTextEntry}
+            keyboardType="default"
           />
         </View>
         {/* renderiza children (ex: Switch ou ícone) */}

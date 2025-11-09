@@ -43,13 +43,6 @@ export default function HomeAdmScreen() {
             </Text>
           </View>
           <View className="flex-row items-center gap-3">
-            <TouchableOpacity className="bg-lightGray dark:bg-darkBlue p-2 rounded-full">
-              <Ionicons
-                name="notifications-outline"
-                size={22}
-                color={isDarkMode ? "#FFF" : "#555"}
-              />
-            </TouchableOpacity>
             <TouchableOpacity
               className="bg-lightGray dark:bg-darkBlue p-2 rounded-full"
               onPress={() => {
@@ -69,19 +62,19 @@ export default function HomeAdmScreen() {
         <View className="flex-row justify-between mb-8">
           <MetricCard
             icon="bicycle"
-            title="Coletadas Hoje"
+            title={t("colected")}
             value="24"
             color="#10B981"
           />
           <MetricCard
             icon="build-outline"
-            title="Em Manutenção"
+            title={t("in_maintenance")}
             value="12"
             color="#3B82F6"
           />
           <MetricCard
             icon="checkmark-circle-outline"
-            title="Finalizadas"
+            title={t("finished")}
             value="8"
             color="#22C55E"
           />
@@ -89,7 +82,7 @@ export default function HomeAdmScreen() {
 
         {/* Ações rápidas */}
         <Text className="text-lg font-bold mb-3 dark:text-white">
-          Ações Rápidas
+          {t("quick_actions")}
         </Text>
         <View className="flex-row justify-between mb-8 gap-2">
           <QuickActionCard
@@ -113,31 +106,31 @@ export default function HomeAdmScreen() {
         <View className="mb-8">
           <View className="flex-row justify-between items-center mb-2">
             <Text className="text-lg font-bold dark:text-white">
-              Atividades Recentes
+              {t("recent_activities")}
             </Text>
             <Text className="text-sm text-blue-600 dark:text-blue-400">
-              Ver todas
+              {t("see_all")}
             </Text>
           </View>
 
           <ActivityItem
             icon="add-circle-outline"
             plate="ABC-1234"
-            desc="Cadastrada • Motor defeituoso"
+            desc={t("registered_motor_defective")}
             time="2min"
             color="#22C55E"
           />
           <ActivityItem
             icon="arrow-forward-outline"
             plate="XYZ-5678"
-            desc="Movida • Zona Manutenção"
+            desc={t("moved_to_maintenance_zone")}
             time="8min"
             color="#3B82F6"
           />
           <ActivityItem
             icon="checkmark-circle-outline"
             plate="DEF-9012"
-            desc="Finalizada • Pronta para rua"
+            desc={t("registered_motor_defective")}
             time="15min"
             color="#22C55E"
           />
@@ -146,18 +139,18 @@ export default function HomeAdmScreen() {
         {/* Estatísticas */}
         <View className="mb-16">
           <Text className="text-lg font-bold mb-3 dark:text-white">
-            Estatísticas do Dia
+            {t("daily_statistics")}
           </Text>
           <View className="bg-darkBlue rounded-2xl p-5">
             <Text className="text-white text-lg mb-2 font-semibold">
-              Eficiência do Pátio
+              {t("patio_efficiency")}
             </Text>
             <View className="flex-row justify-between mb-2">
-              <Text className="text-white">Motos prontas</Text>
+              <Text className="text-white">{t("ready_bikes")}</Text>
               <Text className="text-white font-bold">74</Text>
             </View>
             <View className="flex-row justify-between mb-4">
-              <Text className="text-white">Motos no pátio</Text>
+              <Text className="text-white">{t("bikes_in_patio")}</Text>
               <Text className="text-white font-bold">80</Text>
             </View>
             <View className="w-full bg-white/20 h-2 rounded-full">

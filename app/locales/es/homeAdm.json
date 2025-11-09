@@ -4,5 +4,17 @@
   "registerNew": "Registrar nuevos",
   "see_map": "Ver en el mapa",
   "see_patio": "Ver en el patio",
-  "localize": "Localizar motocicletas"
+  "localize": "Localizar motocicletas",
+  "colected": "Recogido hoy",
+  "in_maintenance": "En mantenimiento",
+  "finished": "Finalizado",
+  "quick_actions": "Acciones rápidas",
+  "recent_activities": "Actividades recientes",
+  "see_all": "Ver todo",
+  "registered_motor_defective": "Registrado • Motor defectuoso",
+  "moved_to_maintenance_zone": "Movido • Zona de mantenimiento",
+  "daily_statistics": "Estadísticas diarias",
+  "patio_efficiency": "Eficiencia del patio",
+  "ready_bikes": "Motocicletas listas",
+  "bikes_in_patio": "Motocicletas en el patio"
 }

@@ -35,12 +35,14 @@ export default function DevLoginMock() {
           onChangeText={setId}
           placeholder="ID do funcionário"
           className="border rounded-xl px-4 py-3"
+          keyboardType="default"
         />
         <TextInput
           value={nome}
           onChangeText={setNome}
           placeholder="Nome do funcionário"
           className="border rounded-xl px-4 py-3"
+          keyboardType="default"
         />
         <TouchableOpacity
           onPress={salvar}

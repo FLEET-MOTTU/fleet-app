@@ -1,4 +1,18 @@
 {
   "title": "Mapa del Patio",
-  "statistics": "Estadísticas"
+  "statistics": "Estadísticas",
+  "noPateoIdWarning": "No se encontró pateoId en el token del administrador",
+  "loadError": "Error al cargar el patio",
+  "loadingPateo": "Cargando el patio...",
+  "zones": "Zonas del Patio",
+  "hide": "Ocultar",
+  "ready_bikes": "Total de Motos",
+  "in_maintenance": "En Mantenimien",
+  "waiting": "Esperando",
+  "in_inspection": "En Inspección",
+  "recent_activities": "Actividades Recientes",
+  "view_all": "Ver todo",
+  "added_maintenance": "Registrada • Motor defectuoso",
+  "moved_maintenance": "Movida • Zona de Mantenimiento",
+  "completed_inspection": "Completada • Lista para la calle"
 }

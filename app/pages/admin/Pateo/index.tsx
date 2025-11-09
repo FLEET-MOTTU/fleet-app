@@ -50,7 +50,7 @@ export default function MapaPateo() {
       const admin = await getAdminFromToken();
 
       if (!admin?.pateoId) {
-        console.warn("Nenhum pateoId encontrado no token do admin");
+        console.warn(t("noPateoIdWarning"));
         setLoading(false);
         return;
       }
@@ -59,7 +59,7 @@ export default function MapaPateo() {
       setPateo(data);
       setZonas(data.zonas || []);
     } catch (err) {
-      console.error("Erro ao carregar pátio:", err);
+      console.error(t("loadError"), err);
     } finally {
       setLoading(false);
     }
@@ -86,7 +86,7 @@ export default function MapaPateo() {
             <View className="h-72 justify-center items-center">
               <ActivityIndicator size="large" color="#130F26" />
               <Text className="text-gray-500 dark:text-gray-300 mt-3">
-                Carregando pátio...
+                {t("loadingPateo")}
               </Text>
             </View>
           ) : (
@@ -132,9 +132,9 @@ export default function MapaPateo() {
         <View className="rounded-2xl mb-8 p-4 shadow-sm bg-darkBlue">
           <View className="flex-row justify-between items-center mb-3">
             <Text className="text-base font-semibold text-white">
-              Zonas do Pátio
+              {t("zones")}
             </Text>
-            <Text className="text-xs text-white">Ocultar</Text>
+            <Text className="text-xs text-white">{t("hide")}</Text>
           </View>
 
           <View className="flex-row justify-around">
@@ -158,25 +158,25 @@ export default function MapaPateo() {
         <View className="flex-row justify-between mb-8">
           <MetricCard
             icon="bicycle"
-            title="Total de Motos"
+            title={t("ready_bikes")}
             value="24"
             color="#10B981"
           />
           <MetricCard
             icon="build-outline"
-            title="Em Manutenção"
+            title={t("in_maintenance")}
             value="12"
             color="#3B82F6"
           />
           <MetricCard
             icon="checkmark-circle-outline"
-            title="Aguardando"
+            title={t("waiting")}
             value="8"
             color="#22C55E"
           />
           <MetricCard
             icon="time-outline"
-            title="Em Inspeção"
+            title={t("in_inspection")}
             value="4"
             color="#F59E0B"
           />
@@ -190,31 +190,31 @@ export default function MapaPateo() {
                 isDark ? "text-white" : "text-[#130F26]"
               }`}
             >
-              Atividades Recentes
+              {t("recent_activities")}
             </Text>
             <Text className="text-sm text-blue-600 dark:text-blue-400">
-              Ver todas
+              {t("view_all")}
             </Text>
           </View>
 
           <ActivityItem
             icon="add-circle-outline"
             plate="ABC-1234"
-            desc="Cadastrada • Motor defeituoso"
+            desc={t("added_maintenance")}
             time="2min"
             color="#22C55E"
           />
           <ActivityItem
             icon="arrow-forward-outline"
             plate="XYZ-5678"
-            desc="Movida • Zona Manutenção"
+            desc={t("moved_maintenance")}
             time="8min"
             color="#3B82F6"
           />
           <ActivityItem
             icon="checkmark-circle-outline"
             plate="DEF-9012"
-            desc="Finalizada • Pronta para rua"
+            desc={t("completed_inspection")}
             time="15min"
             color="#22C55E"
           />

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,13 +10,13 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import * as Notifications from "expo-notifications"; // ✅ Importa notificações
 import {
   FuncionarioResponse,
-  FuncionarioPayload,
   cadastrarFuncionario,
   atualizarFuncionario,
-  StatusFuncionario,
   atualizarFotoFuncionario,
+  StatusFuncionario,
   CargoFuncionario,
 } from "../../services/funcionarioService";
 import { useTranslation } from "react-i18next";
@@ -24,7 +24,7 @@ import { useTranslation } from "react-i18next";
 type Props = {
   funcionario: FuncionarioResponse | null;
   funcionariosExistentes: FuncionarioResponse[];
-  onClose: () => void;
+  onClose: (novoFuncionarioNome?: string) => void;
 };
 
 export default function FuncionarioForm({ funcionario, onClose }: Props) {
@@ -54,6 +54,19 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
     () => (editing ? t("form_title_edit") : t("form_title_new")),
     [editing, t]
   );
+
+  // ✅ pede permissão para exibir notificações (uma vez)
+  useEffect(() => {
+    (async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert(
+          "Permissão negada",
+          "Ative as notificações nas configurações do sistema."
+        );
+      }
+    })();
+  }, []);
 
   async function pickPhoto() {
     const { status: perm } =
@@ -86,6 +99,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
       setSaving(true);
 
       if (editing && funcionario) {
+        // Atualiza funcionário existente
         await atualizarFuncionario(funcionario.id, {
           nome: nome.trim(),
           email: email.trim() || undefined,
@@ -101,14 +115,16 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
             fileName: localPhoto.fileName || "foto.jpg",
           } as any);
         }
+
+        onClose(); // fecha modal sem disparar notificação
       } else {
-        await cadastrarFuncionario(
+        // Cria novo funcionário
+        const novo = await cadastrarFuncionario(
           {
             nome: nome.trim(),
             telefone: telefoneLimpo,
             cargo,
             email: email.trim() || undefined,
-            status: "ATIVO",
           },
           localPhoto
             ? {
@@ -118,10 +134,11 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
               }
             : undefined
         );
-      }
 
-      onClose();
+        onClose(novo.nome); // fecha modal
+      }
     } catch (e: any) {
+      console.error("Erro ao salvar funcionário:", e);
       Alert.alert(t("error_title"), t("error_save"));
     } finally {
       setSaving(false);
@@ -137,7 +154,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
       <View className="flex-row items-center justify-between mb-4">
         <Text className="text-xl font-bold dark:text-white">{titulo}</Text>
         <TouchableOpacity
-          onPress={onClose}
+          onPress={() => onClose()}
           className="p-2"
           accessibilityLabel={t("a11y_close_modal")}
         >
@@ -201,7 +218,6 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
         placeholder={t("name_placeholder")}
         className="rounded-2xl px-4 py-3 mb-4 border bg-white border-gray-200 dark:bg-[#0F0F0F] dark:border-zinc-800 dark:text-white"
         placeholderTextColor="#9CA3AF"
-        accessibilityLabel={t("a11y_name_input")}
       />
 
       {/* E-mail */}
@@ -216,7 +232,6 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
         autoCapitalize="none"
         className="rounded-2xl px-4 py-3 mb-4 border bg-white border-gray-200 dark:bg-[#0F0F0F] dark:border-zinc-800 dark:text-white"
         placeholderTextColor="#9CA3AF"
-        accessibilityLabel={t("a11y_email_input")}
       />
 
       {/* Telefone */}
@@ -230,7 +245,6 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
         keyboardType="phone-pad"
         className="rounded-2xl px-4 py-3 mb-4 border bg-white border-gray-200 dark:bg-[#0F0F0F] dark:border-zinc-800 dark:text-white"
         placeholderTextColor="#9CA3AF"
-        accessibilityLabel={t("a11y_phone_input")}
       />
 
       {/* Cargo */}
@@ -251,7 +265,6 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
                   ? "bg-[#130F26] border-[#130F26]"
                   : "bg-white border-gray-300 dark:bg-[#0F0F0F] dark:border-zinc-700"
               }`}
-              accessibilityLabel={t("a11y_role_chip", { role: c })}
             >
               <Text
                 className={`${
@@ -265,7 +278,7 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
         })}
       </View>
 
-      {/* Status (somente ATIVO / SUSPENSO) */}
+      {/* Status */}
       <Text className="text-xs text-gray-500 dark:text-white mb-2">
         {t("status_label")}
       </Text>
@@ -283,7 +296,6 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
                   ? "bg-[#130F26] border-[#130F26]"
                   : "bg-white border-gray-300 dark:bg-[#0F0F0F] dark:border-zinc-700"
               }`}
-              accessibilityLabel={t("a11y_status_chip", { status: label })}
             >
               <Text
                 className={`${
@@ -297,13 +309,13 @@ export default function FuncionarioForm({ funcionario, onClose }: Props) {
         })}
       </View>
 
+      {/* Botão Salvar */}
       <TouchableOpacity
         disabled={saving}
         onPress={handleSave}
         className={`rounded-2xl py-3 items-center ${
           saving ? "opacity-60" : ""
         } bg-[#130F26]`}
-        accessibilityLabel={t("a11y_save_button")}
       >
         <Text className="text-white font-semibold">
           {saving ? t("saving") : t("save")}

@@ -1,4 +1,18 @@
 {
   "title": "Mapa do Pátio",
-  "statistics": "Estatísticas"
+  "statistics": "Estatísticas",
+  "noPateoIdWarning": "Nenhum pateoId encontrado no token do admin",
+  "loadError": "Erro ao carregar pátio",
+  "loadingPateo": "Carregando pátio...",
+  "zones": "Zonas do Pátio",
+  "hide": "Ocultar",
+  "ready_bikes": "Total de Motos",
+  "in_maintenance": "Em Manutenção",
+  "waiting": "Aguardando",
+  "in_inspection": "Em Inspeção",
+  "recent_activities": "Atividades Recentes",
+  "view_all": "Ver todas",
+  "added_maintenance": "Cadastrada • Motor defeituoso",
+  "moved_maintenance": "Movida • Zona Manutenção",
+  "completed_inspection": "Finalizada • Pronta para rua"
 }

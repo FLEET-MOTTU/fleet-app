@@ -25,9 +25,21 @@ import { useColorScheme } from "nativewind";
 import Operadores from "../assets/img_operadores.svg";
 import AppHeader from "../../../components/AppHeader";
 import { useTranslation } from "react-i18next";
+import * as Notifications from "expo-notifications"; // ✅ Import notifications
 
 /** Chips de filtro: ATIVO | SUSPENSO | REMOVIDO */
 type Filtro = "TODOS" | "ATIVO" | "SUSPENSO" | "REMOVIDO";
+
+// ✅ Handler configurado (SDK 53+ exige banner e list)
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
 
 export default function ListagemFuncionarios() {
   const { t } = useTranslation("operadores");
@@ -72,6 +84,19 @@ export default function ListagemFuncionarios() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedFuncionario, setSelectedFuncionario] =
     useState<FuncionarioResponse | null>(null);
+
+  /** 🔔 Envia uma notificação local */
+  async function sendLocalNotification(titulo: string, corpo: string) {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: titulo,
+        body: corpo,
+        sound: false,
+        priority: Notifications.AndroidNotificationPriority.HIGH,
+      },
+      trigger: null, // dispara imediatamente
+    });
+  }
 
   const carregarFuncionarios = useCallback(async () => {
     try {
@@ -137,7 +162,6 @@ export default function ListagemFuncionarios() {
     ({ item }: { item: FuncionarioResponse }) => {
       const st = (item.status as StatusFuncionario) ?? "ATIVO";
       const vis = statusVisual(st);
-
       const isRemovido = st === "REMOVIDO" || filtro === "REMOVIDO";
 
       return (
@@ -308,7 +332,7 @@ export default function ListagemFuncionarios() {
     </ScrollView>
   );
 
-  /** Mensagem quando o filtro não tem resultados (mantém a tela) */
+  /** Mensagem quando o filtro não tem resultados */
   const ListEmptyComponent = (
     <View className="items-center py-10">
       <Text className="text-sm text-gray-500 dark:text-white">
@@ -343,6 +367,7 @@ export default function ListagemFuncionarios() {
             }
             showsVerticalScrollIndicator={false}
           />
+
           {/* FAB */}
           <TouchableOpacity
             className="absolute bottom-8 right-8 bg-[#130F26] w-14 h-14 rounded-full justify-center items-center shadow-lg"
@@ -362,9 +387,17 @@ export default function ListagemFuncionarios() {
         <FuncionarioForm
           funcionario={selectedFuncionario}
           funcionariosExistentes={funcionarios}
-          onClose={() => {
+          onClose={async (novoFuncionarioNome?: string) => {
             setModalVisible(false);
-            carregarFuncionarios();
+            await carregarFuncionarios();
+
+            // ✅ dispara notificação local se veio um novo nome
+            if (novoFuncionarioNome) {
+              await sendLocalNotification(
+                "Novo funcionário cadastrado!",
+                `${novoFuncionarioNome} foi adicionado com sucesso.`
+              );
+            }
           }}
         />
       </Modal>

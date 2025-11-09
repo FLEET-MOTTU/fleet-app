@@ -38,17 +38,8 @@ export async function listarFuncionarios(
 
 /** Helper: adiciona @RequestPart("dados") como JSON real; fallback para string se necessário */
 function appendDados(form: FormData, payload: FuncionarioPayload) {
-  try {
-    // @ts-ignore Blob existe no RN/Expo moderno
-    const blob = new Blob([JSON.stringify(payload)], {
-      type: "application/json",
-    });
-    (form as any).append("dados", blob, "dados.json");
-  } catch {
-    // Fallback se Blob não existir nesse runtime
-    // @ts-ignore RN aceita string como 'any'
-    form.append("dados", JSON.stringify(payload));
-  }
+  // React Native NÃO envia Blob corretamente para multipart (diferente do browser)
+  form.append("dados", JSON.stringify(payload) as any);
 }
 
 /** POST multipart/form-data com 'dados' e 'foto' */
@@ -57,7 +48,9 @@ export async function cadastrarFuncionario(
   foto?: { uri: string; type?: string; fileName?: string }
 ): Promise<FuncionarioResponse> {
   const form = new FormData();
-  appendDados(form, payload);
+
+  // 👇 envia o JSON puro, sem Blob, sem base64
+  form.append("dados", JSON.stringify(payload) as any);
 
   if (foto) {
     form.append("foto", {
@@ -65,12 +58,25 @@ export async function cadastrarFuncionario(
       type: foto.type || "image/jpeg",
       name: foto.fileName || "foto.jpg",
     } as any);
+  } else {
+    // o backend espera sempre o campo `foto`
+    form.append("foto", "" as any);
   }
 
-  const { data } = await apiJava.post("/funcionarios", form, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-  return data;
+  try {
+    const { data } = await apiJava.post("/funcionarios", form, {
+      headers: { "Content-Type": "multipart/form-data" },
+      transformRequest: (data) => data, // evita transformações do axios
+    });
+    return data;
+  } catch (error: any) {
+    console.log(
+      "❌ Erro no cadastro:",
+      error.response?.status,
+      error.response?.data
+    );
+    throw error;
+  }
 }
 
 /** PUT: não force fallback de status pra não sobrescrever sem querer */
