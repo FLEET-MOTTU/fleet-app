@@ -17,4 +17,5 @@ export type RootStackParamList = {
   ZonaDestinada: undefined;
   MotosDoFuncionario: undefined;
   MapaPatioFunc: undefined;
+  SobreApp: undefined;
 };

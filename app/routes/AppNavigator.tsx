@@ -13,6 +13,7 @@ import MapaPateo from "../pages/admin/Pateo";
 import ZonaDestinada from "../pages/funcionarios/ZonaDestinada";
 import HomeFuncionarioScreen from "../pages/funcionarios/Home";
 import MotosDoFuncionario from "../pages/funcionarios/Motos";
+import SobreAppScreen from "../pages/admin/About/SobreAppScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -37,6 +38,7 @@ export function AppNavigator() {
       <Stack.Screen name="MapaPateo" component={MapaPateo} />
       <Stack.Screen name="ZonaDestinada" component={ZonaDestinada} />
       <Stack.Screen name="MotosDoFuncionario" component={MotosDoFuncionario} />
+      <Stack.Screen name="SobreApp" component={SobreAppScreen} />
     </Stack.Navigator>
   );
 }

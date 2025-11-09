@@ -7,4 +7,8 @@ declare module "@env" {
   export const API_CS_URL: string;
   export const USE_CS_MOCK: string;
   export const FUNC_TOKEN: string;
+  export const USE_FUNC_TOKEN: string;
+  export const APP_NAME: string;
+  export const APP_VERSION: string;
+  export const COMMIT_HASH: string;
 }
