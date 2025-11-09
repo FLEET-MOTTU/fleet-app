@@ -188,7 +188,7 @@ git checkout fleet-sprint4
 
 ## 🌐 Configuração de Ambiente
 
-Crie o arquivo `.env.local`:
+Crie o arquivo `.env`:
 
 ```env
 # === Deep Links ===
