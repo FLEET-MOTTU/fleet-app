@@ -11,4 +11,5 @@ declare module "@env" {
   export const APP_NAME: string;
   export const APP_VERSION: string;
   export const COMMIT_HASH: string;
+  export const COMMIT_RESUMIDO: string;
 }

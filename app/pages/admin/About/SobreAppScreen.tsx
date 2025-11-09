@@ -10,7 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
 import AppHeader from "../../../components/AppHeader";
 import { useColorScheme } from "nativewind";
-import { APP_NAME, APP_VERSION, COMMIT_HASH } from "@env";
+import { APP_NAME, APP_VERSION, COMMIT_HASH, COMMIT_RESUMIDO } from "@env";
 
 export default function SobreAppScreen() {
   const { colorScheme } = useColorScheme();
@@ -48,6 +48,12 @@ export default function SobreAppScreen() {
             <Text className="font-semibold">Commit:</Text>{" "}
             <Text selectable className="font-mono">
               {COMMIT_HASH || "N/A"}
+            </Text>
+          </Text>
+          <Text>
+            <Text>Hash resumido:</Text>{" "}
+            <Text selectable className="font-mono">
+              {COMMIT_RESUMIDO || "N/A"}
             </Text>
           </Text>
         </View>
