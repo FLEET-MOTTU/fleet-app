@@ -8,6 +8,7 @@ import homeAdmPT from "./pt/homeAdm.json";
 import pateoPT from "./pt/pateo.json";
 import zonasPT from "./pt/zonas.json";
 import operadoresPT from "./pt/operadores.json";
+import homeFuncPT from "./pt/homeFuncionario.json";
 
 import configES from "./es/config.json";
 import changePasswordES from "./es/changePassword.json";
@@ -16,6 +17,7 @@ import homeAdmES from "./es/homeAdm.json";
 import pateoES from "./es/pateo.json";
 import zonasES from "./es/zonas.json";
 import operadoresES from "./es/operadores.json";
+import homeFuncES from "./es/homeFuncionario.json";
 
 i18n.use(initReactI18next).init({
   lng: "pt",
@@ -30,6 +32,7 @@ i18n.use(initReactI18next).init({
       pateo: pateoPT,
       zonas: zonasPT,
       operadores: operadoresPT,
+      homeFunc: homeFuncPT,
     },
     es: {
       config: configES,
@@ -39,6 +42,7 @@ i18n.use(initReactI18next).init({
       pateo: pateoES,
       zonas: zonasES,
       operadores: operadoresES,
+      homeFunc: homeFuncES,
     },
   },
 });

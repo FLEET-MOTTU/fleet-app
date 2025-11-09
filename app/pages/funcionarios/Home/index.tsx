@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SafeAreaWrapper from "../../../utils/safeAreaWrapper";
@@ -8,8 +8,10 @@ import { useColorScheme } from "nativewind";
 import QuickActionCard from "../../../components/QuickCard";
 import ActivityItem from "../../../components/ActiveItem";
 import { setMockFuncionario } from "../../../services/loginMock";
+import { useTranslation } from "react-i18next";
 
 export default function HomeFuncionarioScreen() {
+  const { t } = useTranslation("homeFunc");
   const navigation = useNavigation<any>();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === "dark";
@@ -36,19 +38,13 @@ export default function HomeFuncionarioScreen() {
         {/* Header */}
         <View className="flex-row justify-between items-center mb-6">
           <View>
-            <Text className="text-black dark:text-white text-xl">Olá,</Text>
+            <Text className="text-black dark:text-white text-xl">
+              {t("greeting")}
+            </Text>
             <Text className="text-2xl font-bold dark:text-white">{nome}</Text>
           </View>
 
           <View className="flex-row items-center gap-3">
-            <TouchableOpacity className="bg-lightGray dark:bg-darkBlue p-2 rounded-full">
-              <Ionicons
-                name="notifications-outline"
-                size={22}
-                color={isDark ? "#FFF" : "#555"}
-              />
-            </TouchableOpacity>
-
             <TouchableOpacity
               className="bg-lightGray dark:bg-darkBlue p-2 rounded-full"
               onPress={() => navigation.navigate("Configuration")}
@@ -59,25 +55,20 @@ export default function HomeFuncionarioScreen() {
                 color={isDark ? "#FFF" : "#555"}
               />
             </TouchableOpacity>
-
-            {/* <Image
-              source={{ uri: "https://i.pravatar.cc/100?img=15" }}
-              className="w-10 h-10 rounded-full"
-            /> */}
           </View>
         </View>
 
-        {/* Métricas (cards pequenos) */}
+        {/* Métricas */}
         <View className="flex-row justify-between mb-8">
           <MetricCard
             icon="add-circle-outline"
-            title="Coletadas Hoje"
+            title={t("metrics_collected_today")}
             value="12"
             color="#2563EB"
           />
           <MetricCard
             icon="checkmark-done-outline"
-            title="Entregues"
+            title={t("metrics_delivered")}
             value="8"
             color="#22C55E"
           />
@@ -85,13 +76,13 @@ export default function HomeFuncionarioScreen() {
 
         {/* Ações Principais */}
         <Text className="text-lg font-bold mb-3 dark:text-white">
-          Ações Principais
+          {t("main_actions")}
         </Text>
 
         <PrimaryActionCard
-          title="Cadastrar Nova Moto"
-          subtitle="Escaneie a tag BLE da moto"
-          cta="Iniciar Scanner"
+          title={t("register_bike_title")}
+          subtitle={t("register_bike_subtitle")}
+          cta={t("register_bike_cta")}
           onPress={() => navigation.navigate("Scanner")}
         />
 
@@ -99,54 +90,54 @@ export default function HomeFuncionarioScreen() {
         <View className="flex-row justify-between mb-8 gap-2">
           <QuickActionCard
             icon="list"
-            title="Ver Motos"
-            subtitle="Lista coletadas"
+            title={t("shortcuts_view_bikes_title")}
+            subtitle={t("shortcuts_view_bikes_subtitle")}
             onPress={() => navigation.navigate("MotosDoFuncionario")}
             variant={isDark ? "outlined" : "filled"}
           />
 
           <QuickActionCard
             icon="map"
-            title="Mapa Pátio"
-            subtitle="Localização"
+            title={t("shortcuts_map_title")}
+            subtitle={t("shortcuts_map_subtitle")}
             onPress={() => navigation.navigate("MapaPateo")}
             variant="outlined"
           />
         </View>
 
-        {/* Atividade recente */}
+        {/* Atividade Recente */}
         <View className="mb-16">
           <View className="flex-row justify-between items-center mb-2">
             <Text className="text-lg font-bold dark:text-white">
-              Atividade Recente
+              {t("recent_activity")}
             </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("HistoricoAtividades")}
             >
               <Text className="text-sm text-blue-600 dark:text-blue-400">
-                Ver todas
+                {t("view_all")}
               </Text>
             </TouchableOpacity>
           </View>
 
           <ActivityItem
             icon="add-circle-outline"
-            plate="Moto ABC-1234 coletada"
-            desc="Zona: Reparo Rápido • 13:45"
+            plate={t("activity_collected", { plate: "ABC-1234" })}
+            desc={t("activity_collected_desc")}
             time=""
             color="#22C55E"
           />
           <ActivityItem
             icon="arrow-forward-outline"
-            plate="Moto XYZ-5678 movida"
-            desc="Para: Manutenção Pesada • 13:20"
+            plate={t("activity_moved", { plate: "XYZ-5678" })}
+            desc={t("activity_moved_desc")}
             time=""
             color="#2563EB"
           />
           <ActivityItem
             icon="checkmark-circle-outline"
-            plate="Moto DEF-9012 finalizada"
-            desc="Pronta para aluguel • 12:55"
+            plate={t("activity_finished", { plate: "DEF-9012" })}
+            desc={t("activity_finished_desc")}
             time=""
             color="#EA580C"
           />
