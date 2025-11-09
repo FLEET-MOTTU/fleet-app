@@ -1,0 +1,7 @@
+{
+  "title": "Sobre o App",
+  "version": "Versão",
+  "commit": "Commit",
+  "short_hash": "Hash resumido",
+  "description": "Este aplicativo foi desenvolvido como parte da solução FLEET para gerenciamento e operação de frotas. O hash do commit indica a referência exata do código-fonte utilizado nesta versão."
+}
