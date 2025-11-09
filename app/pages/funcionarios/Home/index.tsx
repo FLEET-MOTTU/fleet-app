@@ -24,7 +24,8 @@ export default function HomeFuncionarioScreen() {
 
   useEffect(() => {
     (async () => {
-      const n = (await AsyncStorage.getItem("nomeFuncionario")) || "Amanda";
+      const n =
+        (await AsyncStorage.getItem("nomeFuncionario")) || "Funcionario";
       setNome(n);
     })();
   }, []);

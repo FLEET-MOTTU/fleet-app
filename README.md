@@ -34,7 +34,7 @@ O **Fleet** tem como objetivo otimizar o **controle, alocação e manutenção d
 
 ### 🔐 Login
 
-- **Administrador**: `clarice@email.com.br` / `teste123`
+- **Administrador**: `clarice@email.com.br` / `teste1234`
 - **Funcionário**: acesso direto
 
 ### 👨💼 Administrador
