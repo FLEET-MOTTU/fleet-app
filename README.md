@@ -1,7 +1,7 @@
 # 🚀 Fleet - Sistema de Gestão de Frotas (Mottu)
 
 > Aplicativo mobile desenvolvido em **React Native + Expo**, com perfis diferenciados de **Administrador** e **Funcionário**, para auxiliar na **gestão de frotas de motos** nos pátios da Mottu.  
-> A solução foi criada como parte da **Sprint 3** do curso de Análise e Desenvolvimento de Sistemas e está disponivel na branch **fleet-sprint3**
+> A solução foi criada como parte da **Sprint 4** do curso de Análise e Desenvolvimento de Sistemas e está disponivel na branch **fleet-sprint4**
 
 ---
 
@@ -14,7 +14,9 @@ O **Fleet** tem como objetivo otimizar o **controle, alocação e manutenção d
 - ✅ **Mapeamento do pátio** em zonas delimitadas
 - ✅ **Fluxo de registro via BLE (simulado com timer)** para aproximar a experiência real
 - ✅ **Persistência de dados local via AsyncStorage**
-- ✅ Integração com **API em JAVA** para cadastro e listagem de motos
+- ✅ Integração com **API em JAVA** para administrador
+- ✅ Integração com **API em C#** para funcionario
+-
 
 - Link do video: https://drive.google.com/file/d/1M2q1p-xtA0cGrwAtzhxfdF0dnpEYws9e/view?usp=sharing
 
@@ -32,8 +34,8 @@ O **Fleet** tem como objetivo otimizar o **controle, alocação e manutenção d
 
 ### 🔐 Login
 
-- **Administrador**: `pateo.admin@mottu.com` / `mottu123`
-- **Funcionário**: acesso direto via Magic Link
+- **Administrador**: `clarice@email.com.br` / `teste123`
+- **Funcionário**: acesso direto
 
 ### 👨💼 Administrador
 
@@ -51,39 +53,94 @@ O **Fleet** tem como objetivo otimizar o **controle, alocação e manutenção d
 
 ---
 
-## 📂 Estrutura de Pastas
+## 📂 Estrutura de Pastas (atualizada)
+
+Abaixo está a árvore de diretórios atual do projeto, com descrições rápidas de cada pasta/arquivo relevante.
 
 ```
 fleet-app/
-├── assets/               # Imagens, ícones e mockups
-├── components/           # Componentes reutilizáveis (AppHeader, BackButton, Button, etc.)
-│   └── common/           # Componentes genéricos compartilhados
-├── contexts/             # Contextos globais (ex: ThemeContext)
-├── hooks/                # Hooks customizados (ex: useMagicLink)
-├── pages/                # Telas principais divididas por perfil
-│   ├── admin/            # Telas do administrador
-│   │   ├── Login.tsx
-│   │   ├── Zonas/        # Delimitação e gestão de zonas
-│   │   └── Funcionarios/ # Cadastro e listagem de funcionários
-│   └── funcionarios/     # Telas do funcionário
-│       ├── Home.tsx
-│       ├── Scanner.tsx
-│       ├── Registro.tsx
-│       ├── ResumoCadastro.tsx
-│       └── ListagemMotosScreen.tsx
-├── routes/               # Navegação (BottomTabs, Stack Navigators)
+├── App.tsx                      # Entrada principal do aplicativo (Expo)
+├── app/                         # Código da aplicação organizado por domínio
+│   ├── components/              # Componentes reutilizáveis
+│   │   ├── ActiveItem/
+│   │   │   └── index.tsx
+│   │   ├── AppHeader/
+│   │   │   └── index.tsx
+│   │   ├── BackButton/
+│   │   │   └── index.tsx
+│   │   ├── Button/
+│   │   │   └── index.tsx
+│   │   ├── Input/
+│   │   │   └── index.tsx
+│   │   ├── QuickCard/
+│   │   │   └── index.tsx
+│   │   └── common/               # Componentes genéricos compartilhados
+│   │       └── HeaderMenu/
+│   │           └── index.tsx
+│   ├── contexts/                 # Contextos (ThemeContext, etc.)
+│   │   └── ThemeContext.tsx
+│   ├── hooks/                    # Hooks customizados (useMagicLink)
+│   │   └── useMagicLink.ts
+│   ├── locales/                  # Traduções e i18n
+│   │   ├── i18n.ts
+│   │   ├── es/
+│   │   └── pt/
+│   ├── pages/                    # Telas organizadas por área/perfil
+│   │   ├── admin/
+│   │   │   ├── About/
+│   │   │   │   └── SobreAppScreen.tsx
+│   │   │   ├── CadastroFuncionario/
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── components/
+│   │   │   │       ├── FuncionarioFrom/
+│   │   │   │       └── UploadPhoto/
+│   │   │   ├── ChangePassword/
+│   │   │   ├── ForgotPassword/
+│   │   │   ├── Home/
+│   │   │   ├── Login/
+│   │   │   ├── Pateo/
+│   │   │   └── Zonas/
+│   │   │       └── DelimitacaoZonasScreen.tsx
+│   │   └── funcionarios/
+│   │       ├── Home/
+│   │       ├── Login/
+│   │       ├── LoginMagicLink/
+│   │       ├── Motos/
+│   │       ├── Registro/
+│   │       ├── ResumoCadastro/
+│   │       ├── Scanner/
+│   │       └── ZonaDestinada/
+│   ├── routes/                    # Arquivos de navegação
+│   │   └── (vinculados da raiz: see /routes)
+│   └── services/                  # Serviços de nível de app (p.ex. wrappers locais)
+├── assets/                        # Imagens, ícones e assets estáticos
+├── routes/                        # Navegação e stacks compartilhados
 │   ├── AppNavigator.tsx
 │   ├── BottomTabsAdm.js
 │   ├── BottomTabsFuncionario.js
 │   ├── CadastroMotoStack.tsx
 │   └── navigation.ts
-├── services/             # Integração com APIs (Java e C#)
-│   ├── apiJava.tsx
+├── services/                      # Integração com APIs e mocks
+│   ├── apiCsharp.ts
+│   ├── apiCSharpMock.ts
+│   ├── apiJava.jsx
+│   ├── loginMock.ts
+│   ├── mockDb.ts
+│   ├── motoMockService.ts
 │   └── motoService.ts
-├── types/                # Definições TypeScript (ex: assets.d.ts)
-├── utils/                # Helpers (SafeAreaWrapper, jwtUtils, etc.)
-├── App.tsx               # Entrada principal do aplicativo
-└── README.md             # Documentação do projeto
+│   └── auth/
+│       └── session.ts
+├── contexts/                      # (também sob app/) contexto global do app
+├── types/                         # Tipos TypeScript e declarações (assets.d.ts)
+├── utils/                         # Utilitários e helpers (env.ts, notificationService.ts, safeAreaWrapper.tsx)
+├── env.d.ts                       # Tipagens de variáveis de ambiente
+├── babel.config.js
+├── metro.config.js
+├── tailwind.config.js
+├── tsconfig.json
+├── package.json
+├── README.md                      # Documentação do projeto (este arquivo)
+└── global.css                      # Estilos globais / utilitários
 
 ```
 
@@ -97,7 +154,6 @@ fleet-app/
 - **[AsyncStorage](https://github.com/react-native-async-storage/async-storage)**
 - **[NativeWind (Tailwind CSS)](https://www.nativewind.dev/)**
 - **[React Native SVG](https://github.com/software-mansion/react-native-svg)**
-- **API em Java** para gestão de funcionários e zonas
 
 ---
 
@@ -135,23 +191,29 @@ git checkout fleet-sprint4
 Crie o arquivo `.env.local`:
 
 ```env
-API_JAVA_URL=http://10.0.2.2:8080/api
-USE_ADMIN_TOKEN=true
-ADMIN_TOKEN=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUEFURU9fQURNSU4iLCJub21lIjoiQWRtaW4gUMOhdGlvIFRlc3RlIiwicGF0ZW9JZCI6ImVmMGNkZGNiLTdkODMtNGRkNC1iZjNkLWI3M2Q2OGFmMmIzNyIsInN1YiI6InBhdGVvLmFkbWluQG1vdHR1LmNvbSIsImlhdCI6MTc1OTM1NjY0NCwiZXhwIjoxNzU5NDQzMDQ0fQ.ryxThd5oaKcPRnNVy5nodP0fqpVI-30C_nXisUQtU6U-1h0O1IlTEeM3uPPOm_0uYuO849taiwoDKDr95Wld4A
-```
+# === Deep Links ===
+DEEPLINK_BASE_URL_DEV=exp://192.168.15.21:8081/--/
+DEEPLINK_BASE_URL_PROD=fleetapp://
 
-- `10.0.2.2` é o equivalente a `localhost` em emuladores Android.
+# === API Java ===
+API_JAVA_URL=http://fleet-app-journeytiago7.westus2.azurecontainer.io:8080/api
 
-```
+# === API C# ===
+API_CS_URL=http://mottu-csharp-api-tiago.westus2.azurecontainer.io/api
 
-## 🔗 Integrações
+# === Configurações de debug ===
+USE_ADMIN_TOKEN=false
+ADMIN_TOKEN=
 
-| Funcionalidade        | API  | Endpoint             | Método |
-| --------------------- | ---- | -------------------- | ------ |
-| Login Administrador   | Java | `/auth/login-adm`    | POST   |
-| Cadastro Funcionário  | Java | `/funcionarios`      | POST   |
-| Listagem Funcionários | Java | `/usuarios`          | GET    |
-| Delimitação de Zonas  | Java | `/pateos/{id}/zonas` | POST   |
+USE_CS_MOCK=true
+# === Mock para funcionário (para evitar erro 401) ===
+USE_FUNC_TOKEN=true
+FUNC_TOKEN=eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiT1BFUkFDSU9OQUwiLCJub21lIjoiVWR5ciIsInBhdGVvSWQiOiIyODg4YjBjZC04MDhkLTQ2YmQtODhmNS05NjczZDI0NzdiYzAiLCJzdWIiOiIxMTk4NzY1NDMzMSIsImlhdCI6MTc2MjU3MzUyNiwiZXhwIjoxNzYyNjU5OTI2fQ.Km92T-xyjkSNziDaADPUALSRm5sOgCvzTBft-euPKk4EvDjgSsR_H7x4ZpzazaM0HeHUuawvN_p_erz0A5Z5pw
 
----
+
+APP_NAME=Fleet
+APP_VERSION=1.0.0
+COMMIT_RESUMIDO=2f95984
+COMMIT_HASH=2f95984125aed809581664ce44e9647b9004a84d
+
 ```
