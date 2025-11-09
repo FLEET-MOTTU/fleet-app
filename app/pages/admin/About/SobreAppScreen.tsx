@@ -51,7 +51,7 @@ export default function SobreAppScreen() {
             </Text>
           </Text>
           <Text>
-            <Text>Hash resumido:</Text>{" "}
+            <Text className="font-semibold">Hash resumido:</Text>{" "}
             <Text selectable className="font-mono">
               {COMMIT_RESUMIDO || "N/A"}
             </Text>
