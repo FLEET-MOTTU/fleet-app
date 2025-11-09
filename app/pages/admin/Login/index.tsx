@@ -138,11 +138,10 @@ export default function LoginAdmScreen() {
               <Text className="text-black50 text-lg dark:text-white">
                 {t("no_account")}
               </Text>
-              <TouchableOpacity>
-                <Text className="text-black font-semibold text-lg dark:text-white">
-                  {t("contact_support")}
-                </Text>
-              </TouchableOpacity>
+
+              <Text className="text-black font-semibold text-lg dark:text-white">
+                {t("contact_support")}
+              </Text>
             </View>
           </View>
         </View>
